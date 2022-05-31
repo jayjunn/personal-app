@@ -1,0 +1,21 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px 60px;
+}
+
+.name__container {
+  display: flex;
+}
+
+.first__name {
+  padding-right: 30px;
+}
+
+.role_container {
+  display: flex;
+}
+
+.front {
+  padding-right: 30px;
+}
