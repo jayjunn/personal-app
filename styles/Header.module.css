@@ -68,3 +68,33 @@
   font-size: 40px;
   text-decoration: underline;
 }
+
+@media screen and (max-width: 1023px) {
+  /* 모바일 */
+  .header {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .find__me {
+    display: none;
+  }
+
+  .socials {
+    margin: 10px 0px;
+    justify-content: space-around;
+  }
+  .second__header {
+    flex-direction: column;
+  }
+  .find__arrows {
+    display: none;
+    /* width: 100%;
+    white-space: nowrap;
+    overflow: hidden; */
+  }
+
+  .socials {
+    padding: 0;
+  }
+}

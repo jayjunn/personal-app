@@ -14,7 +14,13 @@ const Profile = () => {
           </p>
           <div className={styles.about__container}>
             <div className={styles.about__title}>
-              <Image src={anglesRight} alt="home" width="40px" height="40px" />
+              <Image
+                className={styles.arrow}
+                src={anglesRight}
+                alt="icon"
+                width="40px"
+                height="40px"
+              />
               <span className={styles.about__span}>ABOUT</span>
             </div>
             <p className={styles.about__p}>
@@ -29,9 +35,9 @@ const Profile = () => {
           <div className={styles.skill__first}>
             <div className={styles.skills__header}>
               <Image
-                className={styles.arrows}
+                className={(styles.arrows, styles.icon)}
                 src={anglesRight}
-                alt="home"
+                alt="icon"
                 width="40px"
                 height="40px"
               />

@@ -3,6 +3,7 @@
   justify-content: flex-start;
   align-items: flex-start;
   border-bottom: 3px solid black;
+  max-width: 100%;
 }
 
 .left__row {
@@ -54,9 +55,11 @@
   padding: 0px 30px;
 }
 
-.arrows {
+.icon {
   filter: invert(93%) sepia(8%) saturate(339%) hue-rotate(10deg) brightness(98%)
     contrast(90%);
+  width: 20px;
+  height: 20px;
 }
 
 .skills__title {
@@ -88,4 +91,37 @@
   transform: rotate(45deg);
   width: 40px;
   height: 40px;
+}
+
+@media screen and (max-width: 767px) {
+  /* 모바일 */
+
+  .about__p {
+    font-size: 16px;
+    font-weight: lighter;
+    padding: 20px;
+  }
+
+  .skills__content {
+    padding: 0px;
+    border-bottom: 3px solid black;
+  }
+  .skills__p {
+    font-size: 16px;
+    font-weight: lighter;
+    padding: 20px;
+  }
+  .about__headLine {
+    padding: 20px;
+  }
+
+  .skill__first {
+    padding: 0px 10px;
+  }
+
+  .arrows {
+    /* width: 20px; */
+    /* height: 20px; */
+    /* display: none; */
+  }
 }

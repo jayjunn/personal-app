@@ -24,8 +24,10 @@ const Header = () => (
     <nav className={styles.second__header}>
       <section className={styles.contact}>
         <span className={styles.find__me}>FIND ME</span>
-        <span className={styles.find__arrows}>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>></span>
       </section>
+      <div className={styles.find__arrows}>
+        <span> >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>></span>
+      </div>
       <ul className={styles.socials}>
         <li className={styles.social}>
           <Link href="https://github.com/jayjunn">
