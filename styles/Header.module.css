@@ -24,6 +24,7 @@
   display: flex;
   justify-content: space-between;
   padding: 0px 60px 0px 60px;
+  border-bottom: 3px solid black;
 }
 
 .contact {
@@ -35,16 +36,23 @@
   font-family: Arial, Helvetica, sans-serif;
   font-weight: 500;
   font-size: 40px;
-  text-decoration: underline;
 }
 
 .socials {
   list-style-type: none;
   display: flex;
+  margin: 0px;
+  padding-left: 12px;
 }
 
 .social {
   margin-right: 10px;
+  transition: all 400ms;
+}
+
+.social:hover {
+  filter: invert(42%) sepia(43%) saturate(557%) hue-rotate(12deg)
+    brightness(94%) contrast(92%);
 }
 
 .button {

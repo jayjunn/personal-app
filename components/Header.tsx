@@ -24,36 +24,35 @@ const Header = () => (
     <nav className={styles.second__header}>
       <section className={styles.contact}>
         <span className={styles.find__me}>FIND ME</span>
-        <ul className={styles.socials}>
-          <li>
-            <Link href="https://github.com/jayjunn">
-              <a target="_blank">
-                <Image
-                  src={github} //
-                  alt="home"
-                  width="40px"
-                  height="40px"
-                />
-              </a>
-            </Link>
-          </li>
-          <li>
-            <Link href="https://www.linkedin.com/in/younggeun">
-              <a target="_blank">
-                <Image src={linkedin} alt="home" width="40px" height="40px" />
-              </a>
-            </Link>
-          </li>
-          <li>
-            <Link href="mailto:jayjunn@outlook.com">
-              <a>
-                <Image src={envelope} alt="home" width="40px" height="40px" />
-              </a>
-            </Link>
-          </li>
-        </ul>
       </section>
-      <button className={styles.button}>DARK MODE</button>
+      <ul className={styles.socials}>
+        <li className={styles.social}>
+          <Link href="https://github.com/jayjunn">
+            <a target="_blank">
+              <Image
+                src={github} //
+                alt="home"
+                width="40px"
+                height="40px"
+              />
+            </a>
+          </Link>
+        </li>
+        <li className={styles.social}>
+          <Link href="https://www.linkedin.com/in/younggeun">
+            <a target="_blank">
+              <Image src={linkedin} alt="home" width="40px" height="40px" />
+            </a>
+          </Link>
+        </li>
+        <li className={styles.social}>
+          <Link href="mailto:jayjunn@outlook.com">
+            <a>
+              <Image src={envelope} alt="home" width="40px" height="40px" />
+            </a>
+          </Link>
+        </li>
+      </ul>
     </nav>
   </div>
 );
