@@ -24,12 +24,14 @@ const Header = () => (
     <nav className={styles.second__header}>
       <section className={styles.contact}>
         <span className={styles.find__me}>FIND ME</span>
+        <span className={styles.find__arrows}>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>></span>
       </section>
       <ul className={styles.socials}>
         <li className={styles.social}>
           <Link href="https://github.com/jayjunn">
             <a target="_blank">
               <Image
+                className={styles.social}
                 src={github} //
                 alt="home"
                 width="40px"
@@ -41,14 +43,26 @@ const Header = () => (
         <li className={styles.social}>
           <Link href="https://www.linkedin.com/in/younggeun">
             <a target="_blank">
-              <Image src={linkedin} alt="home" width="40px" height="40px" />
+              <Image
+                className={styles.social}
+                src={linkedin}
+                alt="home"
+                width="40px"
+                height="40px"
+              />
             </a>
           </Link>
         </li>
-        <li className={styles.social}>
+        <li className={styles.email}>
           <Link href="mailto:jayjunn@outlook.com">
             <a>
-              <Image src={envelope} alt="home" width="40px" height="40px" />
+              <Image
+                className={styles.social}
+                src={envelope}
+                alt="home"
+                width="40px"
+                height="40px"
+              />
             </a>
           </Link>
         </li>

@@ -1,0 +1,91 @@
+.container {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  border-bottom: 3px solid black;
+}
+
+.left__row {
+  flex: 1;
+  border-right: 3px solid black;
+}
+
+.about__container {
+  border-top: 3px solid black;
+}
+
+.about__headLine {
+  padding: 30px;
+}
+
+.about__title {
+  margin: 0;
+  border-bottom: 3px solid black;
+  padding: 30px;
+  display: flex;
+  align-items: center;
+}
+
+.about__span {
+  margin-left: 10px;
+}
+
+.about__p {
+  font-size: 24px;
+  font-weight: lighter;
+  padding: 30px;
+}
+
+.right__row {
+  flex: 1;
+  padding: 30px 0px;
+}
+
+.skills__header {
+  background-color: rgb(12, 12, 12);
+  color: #e7e2d0;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  height: 70px;
+}
+
+.skill__first {
+  padding: 0px 30px;
+}
+
+.arrows {
+  filter: invert(93%) sepia(8%) saturate(339%) hue-rotate(10deg) brightness(98%)
+    contrast(90%);
+}
+
+.skills__title {
+  margin: 10px;
+}
+
+.skills__content {
+  padding: 0px 30px;
+  border-bottom: 3px solid black;
+}
+
+.skills__p {
+  padding: 30px 0px;
+  font-size: 24px;
+  font-weight: lighter;
+  padding: 30px;
+}
+
+.arrow__container {
+  padding-top: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.down__arrow {
+  filter: invert(0%) sepia(0%) saturate(7500%) hue-rotate(211deg)
+    brightness(102%) contrast(90%);
+  transform: rotate(45deg);
+  width: 40px;
+  height: 40px;
+}

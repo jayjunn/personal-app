@@ -1,7 +1,7 @@
 .header {
   display: flex;
   justify-content: space-between;
-  padding: 20px 60px 0px 60px;
+  padding: 20px 30px 0px 30px;
 }
 
 .name__container {
@@ -23,7 +23,7 @@
 .second__header {
   display: flex;
   justify-content: space-between;
-  padding: 0px 60px 0px 60px;
+  padding: 0px 30px 0px 30px;
   border-bottom: 3px solid black;
 }
 
@@ -32,10 +32,8 @@
   align-items: center;
 }
 
-.find__me {
-  font-family: Arial, Helvetica, sans-serif;
-  font-weight: 500;
-  font-size: 40px;
+.find__arrows {
+  margin-left: 20px;
 }
 
 .socials {
@@ -50,9 +48,14 @@
   transition: all 400ms;
 }
 
-.social:hover {
-  filter: invert(42%) sepia(43%) saturate(557%) hue-rotate(12deg)
-    brightness(94%) contrast(92%);
+.social :hover {
+  filter: invert(100%) sepia(0%) saturate(2%) hue-rotate(135deg)
+    brightness(105%) contrast(100%);
+}
+
+.email :hover {
+  filter: invert(100%) sepia(0%) saturate(2%) hue-rotate(135deg)
+    brightness(105%) contrast(100%);
 }
 
 .button {
