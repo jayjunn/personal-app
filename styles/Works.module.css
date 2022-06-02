@@ -1,0 +1,13 @@
+.container {
+  /* border-bottom: 3px solid black; */
+}
+
+.work__box {
+  display: flex;
+  align-items: center;
+  padding: 15px 30px;
+}
+
+.title {
+  margin-left: 10px;
+}

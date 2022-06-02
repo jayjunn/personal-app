@@ -102,6 +102,17 @@
     padding: 20px;
   }
 
+  .skills__header {
+    background-color: rgb(12, 12, 12);
+    color: #e7e2d0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 60px;
+    font-size: 24px;
+    /* padding-left: 14px; */
+  }
+
   .skills__content {
     padding: 0px;
     border-bottom: 3px solid black;
@@ -117,11 +128,5 @@
 
   .skill__first {
     padding: 0px 10px;
-  }
-
-  .arrows {
-    /* width: 20px; */
-    /* height: 20px; */
-    /* display: none; */
   }
 }

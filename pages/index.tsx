@@ -2,7 +2,9 @@ import type { NextPage } from "next";
 import Head from "next/head";
 import Header from "../components/Header";
 import Profile from "../components/Profile";
+import Works from "../components/Works";
 import Work from "../components/Work";
+
 const Home: NextPage = () => {
   return (
     <div>
@@ -13,6 +15,7 @@ const Home: NextPage = () => {
       </Head>
       <Header />
       <Profile />
+      <Works />
       <Work />
     </div>
   );
