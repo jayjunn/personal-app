@@ -5,26 +5,9 @@ import humble from "../public/image/humble_bank.png";
 import styles from "../styles/Work.module.css";
 import Link from "next/link";
 
-const Work = () => { 
+const Work = () => {
   return (
     <main className={styles.projects}>
-      <div className={styles.project__container}>
-        <h1 className={styles.project__name}>GLUE</h1>
-        <div className={styles.project__img}>
-          <Link href="https://github.com/jayjunn/">
-            <Image src={glue} alt="icon" layout="responsive" />
-          </Link>
-        </div>
-        <div className={styles.project__details}>
-          <p className={styles.project__des}>
-            An ongoing digital sketch series exploring generative art, WebGL and
-            machine learning.
-          </p>
-          <p className={styles.project__p}>
-            REACT, NEXT.JS, GRAPH QL, POSTGRES QL
-          </p>
-        </div>
-      </div>
       <div className={styles.project__container}>
         <h1 className={styles.project__name}>HUMBLE BANK</h1>
         <div className={styles.project__img}>
@@ -39,6 +22,28 @@ const Work = () => {
           </p>
           <p className={styles.project__p}>
             REACT NATIVE, EXPO, EXPRESS, MONGODB
+          </p>
+        </div>
+      </div>
+      <div className={styles.project__container}>
+        <h1 className={styles.project__name}>GLUE</h1>
+        <div className={styles.project__img}>
+          <Link href="https://github.com/jayjunn/">
+            <Image
+              className={styles.img}
+              src={glue}
+              alt="icon"
+              layout="responsive"
+            />
+          </Link>
+        </div>
+        <div className={styles.project__details}>
+          <p className={styles.project__des}>
+            An ongoing digital sketch series exploring generative art, WebGL and
+            machine learning.
+          </p>
+          <p className={styles.project__p}>
+            REACT, NEXT.JS, GRAPH QL, POSTGRES QL
           </p>
         </div>
       </div>
