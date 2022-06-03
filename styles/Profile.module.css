@@ -93,13 +93,18 @@
   height: 40px;
 }
 
-@media screen and (max-width: 767px) {
+@media screen and (max-width: 1023px) {
   /* 모바일 */
 
   .about__p {
     font-size: 16px;
     font-weight: lighter;
     padding: 20px;
+  }
+
+  .about__title {
+    padding: 20px 10px;
+    font-size: 24px;
   }
 
   .skills__header {
@@ -110,7 +115,6 @@
     align-items: center;
     height: 60px;
     font-size: 24px;
-    /* padding-left: 14px; */
   }
 
   .skills__content {

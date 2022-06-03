@@ -11,3 +11,10 @@
 .title {
   margin-left: 10px;
 }
+
+@media screen and (max-width: 1023px) {
+  .work__box {
+    padding: 20px 10px;
+    font-size: 24px;
+  }
+}

@@ -89,12 +89,15 @@
   }
   .find__arrows {
     display: none;
-    /* width: 100%;
-    white-space: nowrap;
-    overflow: hidden; */
   }
 
   .socials {
     padding: 0;
+  }
+}
+
+@media screen and (max-width: 1300px) {
+  .find__arrows {
+    display: none;
   }
 }
