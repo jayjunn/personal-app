@@ -24,8 +24,8 @@ const Profile = () => {
               <span className={styles.about__span}>ABOUT</span>
             </div>
             <p className={styles.about__p}>
-              I'm a Creative Software Developer who enjoys interaction design,
-              creative coding, full-stack web development.
+              {`I'm a Creative Software Developer who enjoys interaction design,
+              creative coding, full-stack web development.`}
             </p>
           </div>
         </section>
