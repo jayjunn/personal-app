@@ -10,7 +10,7 @@ const Profile = () => {
         {/* second colum */}
         <section className={styles.left__row}>
           <p className={styles.about__headLine}>
-            I BUILD SOMETHING THAT DISPLAYED ON DIGITAL SCREEN.
+            I BUILD SOMETHING THAT DISPLAYS ON DIGITAL SCREENS.
           </p>
           <div className={styles.about__container}>
             <div className={styles.about__title}>
@@ -24,8 +24,7 @@ const Profile = () => {
               <span className={styles.about__span}>ABOUT</span>
             </div>
             <p className={styles.about__p}>
-              {`I'm a Creative Software Developer who enjoys interaction design,
-              creative coding, full-stack web development.`}
+              {` I'm a Creative Software Developer who enjoys interactive design, creative coding and full-stack web development. `}
             </p>
           </div>
         </section>

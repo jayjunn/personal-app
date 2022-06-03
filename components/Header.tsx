@@ -15,7 +15,7 @@ const Header = () => (
           <h1>JUN</h1>
         </div>
         <div className={styles.role_container}>
-          <h1 className={styles.front}>FRONTEND</h1>
+          <h1 className={styles.front}>FRONT-END</h1>
           <h1>DEVELOPER</h1>
         </div>
       </div>

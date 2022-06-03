@@ -12,7 +12,7 @@ const Work = () => {
         <h1 className={styles.project__name}>HUMBLE BANK</h1>
         <div className={styles.project__img}>
           <Link href="https://github.com/jayjunn/humble-bank">
-            <Image src={humble} alt="icon" layout="responsive" />
+            <Image src={humble} alt="icon" layout="intrinsic" />
           </Link>
         </div>
         <div className={styles.project__details}>
@@ -33,17 +33,17 @@ const Work = () => {
               className={styles.img}
               src={glue}
               alt="icon"
-              layout="responsive"
+              layout="intrinsic"
             />
           </Link>
         </div>
         <div className={styles.project__details}>
           <p className={styles.project__des}>
-            An ongoing digital sketch series exploring generative art, WebGL and
-            machine learning.
+            Glue is a knowledge marketplace where you can find interesting and
+            smart people with a skill to offer.
           </p>
           <p className={styles.project__p}>
-            REACT, NEXT.JS, GRAPH QL, POSTGRES QL
+            REACT, TYPESCRIPT, NEXT.JS, GRAPH QL, POSTGRES QL
           </p>
         </div>
       </div>

@@ -39,7 +39,8 @@
 
 .right__row {
   flex: 1;
-  padding: 30px 0px;
+  padding: 20px 0px;
+  /* border-left: 3px solid black; */
 }
 
 .skills__header {
@@ -93,7 +94,7 @@
   height: 40px;
 }
 
-@media screen and (max-width: 1023px) {
+@media screen and (max-width: 767px) {
   /* 모바일 */
 
   .about__p {
