@@ -36,8 +36,8 @@
 }
 
 .project__img {
-  min-height: 500px;
-  width: 600px;
+  min-height: 400px;
+  width: 70%;
   -webkit-filter: grayscale(1.07);
   transition: all 1s;
 }
