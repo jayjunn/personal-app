@@ -26,7 +26,7 @@ const Header = () => (
         <span className={styles.find__me}>FIND ME</span>
       </section>
       <div className={styles.find__arrows}>
-        <span> >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>></span>
+        <span> {`>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>`}</span>
       </div>
       <ul className={styles.socials}>
         <li className={styles.social}>

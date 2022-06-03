@@ -36,8 +36,21 @@
 }
 
 .project__img {
-  width: 90%;
-  margin: 40px;
+  min-height: 370px;
+  max-height: 370px;
+  width: 80%;
+  /* margin: 20px; */
+  -webkit-filter: grayscale(1.07);
+  transition: all 1s;
+}
+
+.project__img:hover {
+  -webkit-filter: grayscale(0);
+  filter: none;
+  transform: scale(1.1);
+}
+.img {
+  width: 20%;
 }
 
 .project__des {
@@ -67,6 +80,9 @@
     width: 95%;
   }
 
+  .project__img {
+    min-height: auto;
+  }
   .project__name {
     margin: 0;
     background-color: black;
