@@ -16,8 +16,8 @@ const Work = (props: Work) => {
     <li className={styles.project__container}>
       <span className={styles.project__name}>{name}</span>
       <div className={styles.project__img}>
-        <a href={link} target="_blank">
-          <Image src={img} width={1000} height={750} />
+        <a href={link} target="_blank" rel="noreferrer">
+          <Image src={img} alt="project image" width={1000} height={750} />
         </a>
       </div>
       <div className={styles.project__details}>
