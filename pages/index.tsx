@@ -4,6 +4,7 @@ import Header from "../components/Header";
 import Profile from "../components/Profile";
 import Works from "../components/Works";
 import Work from "../components/Work";
+import data from "../data.js";
 
 const Home: NextPage = () => {
   return (
@@ -15,8 +16,20 @@ const Home: NextPage = () => {
       </Head>
       <Header />
       <Profile />
-      <Works />
-      <Work />
+      <Works>
+        {/* {data.map((item) => {
+          return (
+            <Work
+              key={item.id}
+              name={item.name}
+              img={item.img}
+              description={item.description}
+              stacks={item.stacks}
+              link={item.link}
+            />
+          );
+        })} */}
+      </Works>
     </div>
   );
 };

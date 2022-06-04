@@ -7,8 +7,8 @@ import envelope from "../public/image/envelope.svg";
 import Link from "next/link";
 
 const Header = () => (
-  <div>
-    <header>
+  <header>
+    <section>
       <div className={styles.header}>
         <div className={styles.name__container}>
           <h1 className={styles.first__name}>YOUNGGEUN</h1>
@@ -19,12 +19,12 @@ const Header = () => (
           <h1>DEVELOPER</h1>
         </div>
       </div>
-    </header>
+    </section>
 
-    <nav className={styles.second__header}>
-      <section className={styles.contact}>
+    <section className={styles.second__header}>
+      <div className={styles.contact}>
         <span className={styles.find__me}>FIND ME</span>
-      </section>
+      </div>
       <div className={styles.find__arrows}>
         <span> {`>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>`}</span>
       </div>
@@ -69,8 +69,8 @@ const Header = () => (
           </Link>
         </li>
       </ul>
-    </nav>
-  </div>
+    </section>
+  </header>
 );
 
 export default Header;

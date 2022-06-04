@@ -6,9 +6,9 @@ import Image from "next/image";
 const Profile = () => {
   return (
     <>
-      <main className={styles.container}>
+      <section className={styles.container}>
         {/* second colum */}
-        <section className={styles.left__row}>
+        <div className={styles.left__row}>
           <p className={styles.about__headLine}>
             I BUILD SOMETHING THAT DISPLAYS ON DIGITAL SCREENS.
           </p>
@@ -27,10 +27,10 @@ const Profile = () => {
               {` I'm a Creative Software Developer who enjoys interactive design, creative coding and full-stack web development. `}
             </p>
           </div>
-        </section>
+        </div>
         <div className={styles.line}></div>
         {/* second colum */}
-        <section className={styles.right__row}>
+        <div className={styles.right__row}>
           <div className={styles.skill__first}>
             <div className={styles.skills__header}>
               <Image
@@ -61,8 +61,8 @@ const Profile = () => {
               />
             </div>
           </div>
-        </section>
-      </main>
+        </div>
+      </section>
     </>
   );
 };

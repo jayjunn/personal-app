@@ -1,19 +1,27 @@
 .container {
-  /* border-bottom: 3px solid black; */
-}
-
-.work__box {
   display: flex;
-  align-items: center;
-  padding: 15px 30px;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 30px 30px;
 }
 
 .title {
   margin-left: 10px;
 }
 
+.list {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  margin-bottom: 100px;
+  flex-wrap: wrap;
+  gap: 2em;
+  padding: 20px;
+}
+
 @media screen and (max-width: 1023px) {
-  .work__box {
+  .container {
     padding: 20px 10px;
     font-size: 24px;
   }
