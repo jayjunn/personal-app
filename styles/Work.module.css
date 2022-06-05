@@ -66,6 +66,7 @@
   .project__container {
     margin-bottom: 20px;
     width: 95%;
+    min-height: 0px;
   }
 
   .project__img {
