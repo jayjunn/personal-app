@@ -33,3 +33,10 @@ yarn-error.log*
 
 # typescript
 *.tsbuildinfo
+
+
+#mock data
+/data.js
+
+#gitattributes
+/.gitattributes
