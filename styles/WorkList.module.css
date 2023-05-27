@@ -4,6 +4,13 @@
   padding: 30px 30px;
 }
 
+.container:hover .arrow {
+  transform: rotate(90deg);
+}
+.arrow {
+  transition: 0.4s ease-out;
+}
+
 .header {
   display: flex;
   align-items: center;

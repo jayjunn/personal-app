@@ -3,20 +3,34 @@
   justify-content: flex-start;
   align-items: flex-start;
   border-bottom: 3px solid black;
-  max-width: 100%;
 }
 
 .left__row {
   flex: 1;
+  padding: 20px 0px;
+
   border-right: 3px solid black;
+}
+
+.left__row:hover .about__arrow {
+  transform: rotate(90deg);
+}
+.about__arrow {
+  transition: 0.4s ease-out;
+}
+
+.about__headLine {
+  padding: 30px;
 }
 
 .about__container {
   border-top: 3px solid black;
 }
 
-.about__headLine {
-  padding: 30px;
+.about__arrow {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .about__title {
@@ -40,16 +54,23 @@
 .right__row {
   flex: 1;
   padding: 20px 0px;
-  /* border-left: 3px solid black; */
 }
 
-.skills__header {
+.skills__container:hover .icon {
+  transform: rotate(90deg);
+}
+.icon {
+  transition: 0.4s ease-out;
+}
+
+.right__row .skills__header {
   background-color: rgb(12, 12, 12);
   color: #e7e2d0;
   display: flex;
   justify-content: flex-end;
   align-items: center;
   height: 70px;
+  gap: 12px;
 }
 
 .skill__first {
@@ -57,14 +78,9 @@
 }
 
 .icon {
-  filter: invert(93%) sepia(8%) saturate(339%) hue-rotate(10deg) brightness(98%)
-    contrast(90%);
+  filter: invert(93%) sepia(8%) saturate(339%) hue-rotate(10deg) brightness(98%) contrast(90%);
   width: 20px;
   height: 20px;
-}
-
-.skills__title {
-  margin: 10px;
 }
 
 .skills__content {
@@ -76,19 +92,19 @@
   padding: 30px 0px;
   font-size: 24px;
   font-weight: lighter;
-  padding: 30px;
 }
 
 .arrow__container {
   padding-top: 20px;
+  height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
 .down__arrow {
-  filter: invert(0%) sepia(0%) saturate(7500%) hue-rotate(211deg)
-    brightness(102%) contrast(90%);
+  height: 100%;
+  filter: invert(0%) sepia(0%) saturate(7500%) hue-rotate(211deg) brightness(102%) contrast(90%);
   transform: rotate(45deg);
   width: 40px;
   height: 40px;

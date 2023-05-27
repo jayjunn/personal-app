@@ -24,6 +24,14 @@ const data = [
     stacks: [`REACT`, `TYPESCRIPT`],
     link: `https://github.com/jayjunn/Customer-feedback`,
   },
+  {
+    id: 2,
+    name: `feedback`,
+    img: `https://res.cloudinary.com/dgmnoyv6u/image/upload/v1654311190/portfolio/feedback_jtx4kl.png`,
+    description: `A web platform where customers can leave reviews with star rating system.`,
+    stacks: [`REACT`, `TYPESCRIPT`],
+    link: `https://github.com/jayjunn/Customer-feedback`,
+  },
 ];
 
 export default data;
