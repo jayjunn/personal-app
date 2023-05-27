@@ -8,13 +8,13 @@
 .left__row {
   flex: 1;
   padding: 20px 0px;
-
   border-right: 3px solid black;
 }
 
 .left__row:hover .about__arrow {
   transform: rotate(90deg);
 }
+
 .about__arrow {
   transition: 0.4s ease-out;
 }
@@ -110,9 +110,13 @@
   height: 40px;
 }
 
-@media screen and (max-width: 767px) {
-  /* 모바일 */
+@media screen and (max-width: 1250px) {
+  .right__row .skills__header {
+    justify-content: center;
+  }
+}
 
+@media screen and (max-width: 767px) {
   .about__p {
     font-size: 16px;
     font-weight: lighter;

@@ -95,3 +95,19 @@
     font-size: 24px;
   }
 }
+
+@media screen and (max-width: 767px) {
+  .image__link {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+  }
+
+  .project__img__container {
+    width: 80%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}

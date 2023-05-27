@@ -12,21 +12,19 @@ type Work = {
 
 const Work = (props: Work) => {
   const { name, img, description, stacks, link } = props;
-  const imageStyle = {
-    borderRadius: '10px',
-  };
+
   return (
     <li className={styles.project__container}>
       <span className={styles.project__name}>{name}</span>
       {link ? (
-        <a href={link} target="_blank" rel="noreferrer">
+        <a href={link} target="_blank" rel="noreferrer" className={styles.image__link}>
           <button className={styles.project__img__container}>
-            <Image src={img} alt="project__image" className="project__image" width={'1000'} height={750} loading="lazy" />
+            <Image src={img} alt="project__image" className={styles.project__image} width={'1000'} height={750} loading="lazy" />
           </button>
         </a>
       ) : (
         <div className={styles.project__img__container}>
-          <Image src={img} alt="project__image" className="project__image" width={'1000'} height={750} style={imageStyle} />
+          <Image src={img} alt="project__image" className="project__image" width={'1000'} height={750} />
         </div>
       )}
       <div className={styles.project__details}>
