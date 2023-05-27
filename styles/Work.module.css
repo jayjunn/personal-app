@@ -30,16 +30,26 @@
   text-transform: uppercase;
 }
 
-.project__img {
-  width: 60%;
+.project__img__container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  max-width: 400px;
+  width: 100%;
   -webkit-filter: grayscale(1.07);
   transition: all 1s;
+  padding: 40px 0;
+  border-radius: 10px;
 }
-
-.project__img:hover {
+.project__img__container:hover {
   -webkit-filter: grayscale(0);
   filter: none;
   transform: scale(1.1);
+}
+
+.project__image {
+  max-width: 200px;
+  border-radius: 10px;
 }
 
 .project__des {
