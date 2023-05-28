@@ -28,6 +28,14 @@
   height: 70px;
   text-align: center;
   text-transform: uppercase;
+  display: flex;
+  flex-direction: column;
+}
+
+.project__company {
+  font-size: 0.2rem;
+  margin-top: 4px;
+  font-weight: 100;
 }
 
 .project__img__container {
@@ -53,7 +61,7 @@
 }
 
 .project__des {
-  font-size: 22px;
+  font-size: 0.4rem;
   text-align: center;
   font-weight: lighter;
   padding: 0px 10px;
@@ -62,7 +70,7 @@
 
 .project__stacks {
   padding: 10px 10px;
-  font-size: 22px;
+  font-size: 0.5rem;
   text-align: center;
   font-weight: lighter;
 }

@@ -8,14 +8,18 @@ type Work = {
   description: string;
   stacks: string[];
   link: string;
+  company?: string;
 };
 
 const Work = (props: Work) => {
-  const { name, img, description, stacks, link } = props;
+  const { name, img, description, stacks, link, company } = props;
 
   return (
-    <li className={styles.project__container}>
-      <span className={styles.project__name}>{name}</span>
+    <li className={styles.project__container} id={company ? company.toLocaleLowerCase() : name}>
+      <div className={styles.project__name}>
+        <p>{name}</p>
+        <p className={styles.project__company}>{company}</p>
+      </div>
       {link ? (
         <a href={link} target="_blank" rel="noreferrer" className={styles.image__link}>
           <button className={styles.project__img__container}>

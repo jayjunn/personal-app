@@ -5,7 +5,7 @@ import Image from 'next/image';
 
 const Profile = () => {
   const handleScrollDown = () => {
-    document.getElementById('work-list')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    document.getElementById('experiences')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   };
 
   return (
