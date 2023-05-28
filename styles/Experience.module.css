@@ -65,10 +65,7 @@
 
 @media screen and (max-width: 1250px) {
   .container {
-    padding: 30px 10px;
-  }
-  .title {
-    font-size: 24px;
+    padding: 30px 20px;
   }
 
   .experience__name {
@@ -82,5 +79,13 @@
     display: grid;
     grid-template-columns: 1fr;
     gap: 40px 20px;
+  }
+}
+@media screen and (max-width: 740px) {
+  .container {
+    padding: 30px 10px;
+  }
+  .title {
+    font-size: 24px;
   }
 }
