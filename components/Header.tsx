@@ -4,7 +4,7 @@ import Image from 'next/image';
 import linkedin from '../public/image/linkedin.svg';
 import github from '../public/image/github.svg';
 import envelope from '../public/image/envelope.svg';
-import Language from '../public/image/Language.svg';
+import Language from '../public/image/language.svg';
 
 import Link from 'next/link';
 import { motion } from 'framer-motion';
