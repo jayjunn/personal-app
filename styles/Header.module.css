@@ -33,16 +33,8 @@
   display: flex;
 }
 
-.first__name {
-  padding-right: 30px;
-}
-
 .role_container {
   display: flex;
-}
-
-.front {
-  padding-right: 30px;
 }
 
 .second__header {
