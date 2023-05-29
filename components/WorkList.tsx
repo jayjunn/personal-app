@@ -21,10 +21,10 @@ const WorkList = () => {
       <div className={styles.wrapper}>
         <section className={`${styles.list__container} ${isFolded ? styles.folded : styles.open}`}>
           <ul className={styles.list}>
-            {data.map((item) => {
+            {data.map((item, index) => {
               return (
                 <Work
-                  key={item.id}
+                  key={index}
                   name={item.name}
                   img={item.img}
                   description={item.description}

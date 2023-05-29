@@ -21,8 +21,8 @@ export default function Experience() {
         <h4 className={styles.title}>Experience</h4>
       </div>
       <ul className={`${styles.experience__list} ${isFolded ? styles.folded : styles.open}`}>
-        {data.map(({ role, company, description }) => (
-          <li className={styles.experience} key={company} onClick={() => handleExperienceClick(company)}>
+        {data.map(({ role, company, description }, index) => (
+          <li className={styles.experience} key={index} onClick={() => handleExperienceClick(company)}>
             <div className={styles.experience__name}>
               <h5 className={styles.role}>{role},</h5>
               <h5>{company}</h5>
@@ -59,7 +59,7 @@ const data = [
     description: [
       ' Worked in an agile team of 5 developers using Git workflow 2021',
       'Developed the front-end structure including app flow, logic and UX/UI Collaborated with back-end team on database structure and API design',
-      'Implemented Login-logic using Auth0',
+      'Implemented user authentication Auth0',
     ],
   },
   {

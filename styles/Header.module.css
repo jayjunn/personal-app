@@ -4,6 +4,31 @@
   padding: 20px 30px 0px 30px;
 }
 
+.select {
+  position: absolute;
+  box-shadow: 6px 7px 68px -15px rgba(0, 0, 0, 0.75);
+  -webkit-box-shadow: 6px 7px 68px -15px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 6px 7px 68px -15px rgba(0, 0, 0, 0.75);
+  left: 50%;
+  transform: rotate(-50%, -50%);
+  background-color: #e7e2d0;
+  z-index: 2;
+  border: 3px solid black;
+  border-radius: 8px;
+  padding: 20px 30px;
+  font-size: 18px;
+  gap: 10px;
+  display: flex;
+  flex-direction: column;
+}
+
+.option {
+  cursor: pointer;
+}
+.option:hover {
+  transition: 0.4s;
+  color: aliceblue;
+}
 .name__container {
   display: flex;
 }
@@ -37,25 +62,29 @@
 }
 
 .socials {
-  list-style-type: none;
   display: flex;
-  margin: 0px;
-  padding-left: 12px;
+  gap: 10px;
 }
 
 .social {
-  margin-right: 10px;
   transition: all 400ms;
 }
-
+.language__icon {
+  transition: all 400ms;
+}
+.language__icon:hover {
+  filter: invert(100%) sepia(0%) saturate(2%) hue-rotate(135deg) brightness(105%) contrast(100%);
+}
 .social :hover {
-  filter: invert(100%) sepia(0%) saturate(2%) hue-rotate(135deg)
-    brightness(105%) contrast(100%);
+  filter: invert(100%) sepia(0%) saturate(2%) hue-rotate(135deg) brightness(105%) contrast(100%);
 }
 
 .email :hover {
-  filter: invert(100%) sepia(0%) saturate(2%) hue-rotate(135deg)
-    brightness(105%) contrast(100%);
+  filter: invert(100%) sepia(0%) saturate(2%) hue-rotate(135deg) brightness(105%) contrast(100%);
+}
+
+.language {
+  position: relative;
 }
 
 .button {
