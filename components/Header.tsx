@@ -5,35 +5,32 @@ import linkedin from '../public/image/linkedin.svg';
 import github from '../public/image/github.svg';
 import envelope from '../public/image/envelope.svg';
 import Language from '../public/image/language.svg';
-
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { useUserContext } from '../context/userContext';
+import { profileData } from '../data';
 
 const Header = () => {
   const [selectOn, setSelectOn] = useState(false);
-  const { state, setState } = useUserContext();
-  const isEn = state.language === 'ENGLISH';
+  const { user, setUser, isEnglish } = useUserContext();
   const handleLanguageButton = () => {
     setSelectOn(!selectOn);
   };
   const handleLanguageSelect = (type: string) => {
-    setState({ ...state, language: type });
+    const newUser = { ...user, language: type };
+    localStorage.setItem('user', JSON.stringify(newUser));
+    setUser(newUser);
     setSelectOn(false);
   };
+
+  const profile = isEnglish ? profileData.en : profileData.kr;
 
   return (
     <header>
       <section>
         <div className={styles.header}>
-          <div className={styles.name__container}>
-            <h1 className={styles.first__name}>{isEn ? 'YOUNGGEUN' : '전영근'}</h1>
-            <h1>{isEn ? 'JUN' : ''}</h1>
-          </div>
-          <div className={styles.role_container}>
-            <h1 className={styles.front}>FRONT-END</h1>
-            <h1>DEVELOPER</h1>
-          </div>
+          <h1 className={styles.first__name}>{profile.name}</h1>
+          <h1 className={styles.front}>FRONT-END DEVELOPER</h1>
         </div>
       </section>
       <section className={styles.second__header}>

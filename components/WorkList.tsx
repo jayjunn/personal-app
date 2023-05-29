@@ -3,10 +3,12 @@ import Image from 'next/image';
 import styles from '../styles/WorkList.module.css';
 import anglesRight from '../public/image/anglesRight.svg';
 import Work from './Work';
-import data from '../data.js';
+import { workData } from '../data.js';
+import { useUserContext } from '../context/userContext';
 
 const WorkList = () => {
   const [isFolded, setIsFolded] = useState(false);
+  const { isEnglish } = useUserContext();
 
   const handleTitleClick = () => {
     setIsFolded(!isFolded);
@@ -21,13 +23,13 @@ const WorkList = () => {
       <div className={styles.wrapper}>
         <section className={`${styles.list__container} ${isFolded ? styles.folded : styles.open}`}>
           <ul className={styles.list}>
-            {data.map((item, index) => {
+            {workData.map((item, index) => {
               return (
                 <Work
                   key={index}
                   name={item.name}
                   img={item.img}
-                  description={item.description}
+                  description={isEnglish ? item.description.en : item.description.kr}
                   stacks={item.stacks}
                   link={item.link}
                   company={item.company}

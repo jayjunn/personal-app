@@ -2,18 +2,22 @@ import React from 'react';
 import styles from '../styles/Profile.module.css';
 import anglesRight from '../public/image/anglesRight.svg';
 import Image from 'next/image';
+import { useUserContext } from '../context/userContext';
+import { profileData as data } from '../data';
 
 const Profile = () => {
   const handleScrollDown = () => {
     document.getElementById('experiences')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   };
+  const { isEnglish } = useUserContext();
+  const profile = isEnglish ? data.en : data.kr;
 
   return (
     <>
       <section className={styles.container}>
         {/* second colum */}
         <div className={styles.left__row}>
-          <p className={styles.about__headLine}>I BUILD SOMETHING THAT DISPLAYS ON DIGITAL SCREENS.</p>
+          <p className={styles.about__headLine}>{profile.headLine}</p>
           <div className={styles.about__container}>
             <div className={styles.about__title}>
               <div className={styles.about__arrow}>
@@ -21,26 +25,20 @@ const Profile = () => {
               </div>
               <span className={styles.about__span}>ABOUT</span>
             </div>
-            <p className={styles.about__p}>
-              {` I'm a Creative Software Developer who enjoys interactive design, creative coding and full-stack web development. `}
-            </p>
+            <p className={styles.about__p}>{profile.about}</p>
           </div>
         </div>
         <div className={styles.line}></div>
-        {/* second colum */}
         <div className={styles.right__row}>
           <div className={styles.skills__container}>
             <div className={styles.skill__first}>
               <div className={styles.skills__header}>
                 <Image className={(styles.arrows, styles.icon)} src={anglesRight} alt="icon" width="40px" height="40px" />
-                <h3 className={styles.skills__title}> SKILLS</h3>
+                <h3 className={styles.skills__title}>{isEnglish ? 'SKILLS' : '기술 스택'}</h3>
               </div>
             </div>
             <div className={styles.skills__content}>
-              <p className={styles.skills__p}>
-                REACT, TYPESCRIPT, JAVASCRIPT, NEXT.JS, REACT QUERY, SCSS, NODE.JS, VUE.JS, GIT, GRAPH QL, REACT NATIVE, MONGO DB, A/B TEST, FIGAMA,
-                HTML, CSS,
-              </p>
+              <p className={styles.skills__p}>{data.en.skills}</p>
             </div>
           </div>
           <div className={styles.arrow__container}>

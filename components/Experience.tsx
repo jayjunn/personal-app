@@ -2,10 +2,13 @@ import React, { useState } from 'react';
 import styles from '../styles/Experience.module.css';
 import anglesRight from '../public/image/anglesRight.svg';
 import Image from 'next/image';
-import { faL } from '@fortawesome/free-solid-svg-icons';
+import { experienceData } from '../data';
+import { useUserContext } from '../context/userContext';
 
 export default function Experience() {
   const [isFolded, setIsFolded] = useState(false);
+  const { isEnglish } = useUserContext();
+
   const handleExperienceClick = (company: string) => {
     document.getElementById(`${company.toLocaleLowerCase()}`)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   };
@@ -14,6 +17,9 @@ export default function Experience() {
     setIsFolded(!isFolded);
   };
 
+  const languageSelector = (description: { en: string[]; kr: string[] }) => {
+    return isEnglish ? description.en : description.kr;
+  };
   return (
     <section className={styles.container}>
       <div className={styles.header} id="experiences" onClick={handleTitleClick}>
@@ -21,14 +27,14 @@ export default function Experience() {
         <h4 className={styles.title}>Experience</h4>
       </div>
       <ul className={`${styles.experience__list} ${isFolded ? styles.folded : styles.open}`}>
-        {data.map(({ role, company, description }, index) => (
+        {experienceData.map(({ role, company, description }, index) => (
           <li className={styles.experience} key={index} onClick={() => handleExperienceClick(company)}>
             <div className={styles.experience__name}>
               <h5 className={styles.role}>{role},</h5>
               <h5>{company}</h5>
             </div>
             <ul className={styles.descriptions}>
-              {description.map((item, index) => (
+              {languageSelector(description).map((item, index) => (
                 <li className={styles.description} key={index}>
                   <p>- {item}</p>
                 </li>

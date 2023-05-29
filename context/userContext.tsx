@@ -1,4 +1,5 @@
-import { createContext, useContext, useState, ReactElement, ReactNode } from 'react';
+import { createContext, useContext, useState, ReactElement, ReactNode, useEffect } from 'react';
+import { json } from 'stream/consumers';
 
 interface IUserContextProvider {
   children: ReactElement | ReactElement[] | ReactNode | ReactNode[];
@@ -7,20 +8,28 @@ interface IUserContextProvider {
 type LanguageContextState = { language: string };
 
 const languageDefaultValue = {
-  state: { language: 'ENGLISH' },
-  setState: (state: LanguageContextState) => {},
+  user: { language: 'ENGLISH' },
+  setUser: (user: LanguageContextState) => {},
+  isEnglish: true,
 };
 
 const userContext = createContext(languageDefaultValue);
 
 export function UserContextProvider({ children }: IUserContextProvider) {
-  const [state, setState] = useState(languageDefaultValue.state);
+  const [user, setUser] = useState(languageDefaultValue.user);
+  const isEnglish = user.language === 'ENGLISH';
+
+  useEffect(() => {
+    const localUser = JSON.parse(localStorage.getItem('user') as string);
+    setUser(localUser);
+  }, []);
 
   return (
     <userContext.Provider
       value={{
-        state,
-        setState,
+        user,
+        setUser,
+        isEnglish,
       }}>
       {children}
     </userContext.Provider>
