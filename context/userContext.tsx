@@ -17,11 +17,13 @@ const userContext = createContext(languageDefaultValue);
 
 export function UserContextProvider({ children }: IUserContextProvider) {
   const [user, setUser] = useState(languageDefaultValue.user);
-  const isEnglish = user.language === 'ENGLISH';
+  const isEnglish = user?.language === 'ENGLISH';
 
   useEffect(() => {
-    const localUser = JSON.parse(localStorage.getItem('user') as string);
-    setUser(localUser);
+    const localUser = localStorage.getItem('user');
+    if (localUser) {
+      setUser(JSON.parse(localUser));
+    }
   }, []);
 
   return (
