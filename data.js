@@ -7,7 +7,7 @@ const profileData = {
     name: 'YOUNGGEUN JUN',
   },
   kr: {
-    headLine: '디지털 기기 화면에 표시되는 무언가를 만드는걸 좋아하는 개발자',
+    headLine: '디지털 기기 화면에 표시되는 무언가를 만드는걸 좋아하는 개발자입니다.',
     about: `성장에서 즐거움을 찾고 뛰어난 사용자 경험을 제공하는 혁신적이고 신뢰할 수 있는 서비스를 만드는 데 열정을 쏟고 있는 개발자 전영근입니다.
     `,
     skills:
@@ -18,7 +18,19 @@ const profileData = {
 
 const workData = [
   {
-    id: 5,
+    id: 7,
+    name: `Airbnb Clone`,
+    company: 'Toy Project',
+    img: `https://res.cloudinary.com/dgmnoyv6u/image/upload/v1688622910/Screenshot_2023-07-06_at_2.54.03_PM_a8dssi.png`,
+    description: {
+      en: `This is a project for a Full Stack Airbnb Clone with Next.js 13 App Router: React, Tailwind, Prisma, MongoDB, NextAuth.`,
+      kr: `이 프로젝트는 Next.js 13를 사용한 Full Stack Airbnb 클론 프로젝트입니다.`,
+    },
+    stacks: ['Next.js', 'React', 'Tailwind', 'Prisma', 'MongoDB', 'NextAuth'],
+    link: `https://full-stack-arirbnb-jd65ilvto-jayjunn.vercel.app/`,
+  },
+  {
+    id: 6,
     name: `SILVER MINE`,
     company: 'Blocko',
     img: `https://res.cloudinary.com/dgmnoyv6u/image/upload/v1685156087/Screenshot_2023-05-27_at_11.54.27_AM_qviyp4.png`,

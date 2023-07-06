@@ -43,34 +43,28 @@ const Header = () => {
         <ul className={styles.socials}>
           <li className={styles.social}>
             <Link href="https://github.com/jayjunn">
-              <a target="_blank">
-                <Image
-                  className={styles.social}
-                  src={github} //
-                  alt="home"
-                  width="40px"
-                  height="40px"
-                />
-              </a>
+              <Image
+                className={styles.social}
+                src={github} //
+                alt="home"
+                width="40"
+                height="40"
+              />
             </Link>
           </li>
           <li className={styles.social}>
             <Link href="https://www.linkedin.com/in/younggeun">
-              <a target="_blank">
-                <Image className={styles.social} src={linkedin} alt="home" width="40px" height="40px" />
-              </a>
+              <Image className={styles.social} src={linkedin} alt="home" width="40" height="40" />
             </Link>
           </li>
           <li className={styles.email}>
             <Link href="mailto:jayjunn@outlook.com">
-              <a>
-                <Image className={styles.social} src={envelope} alt="home" width="40px" height="40px" />
-              </a>
+              <Image className={styles.social} src={envelope} alt="home" width="40" height="40" />
             </Link>
           </li>
           <li className={styles.language}>
             <button className={styles.language__icon} onClick={handleLanguageButton}>
-              <Image src={Language} alt="language" width="40px" height="40px" />
+              <Image src={Language} alt="language" width="40" height="40" />
             </button>
             {selectOn && (
               <motion.ul

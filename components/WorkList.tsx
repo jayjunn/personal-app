@@ -17,7 +17,7 @@ const WorkList = () => {
   return (
     <section className={styles.container}>
       <div className={styles.header} id="work-list" onClick={handleTitleClick}>
-        <Image className={styles.arrow} src={anglesRight} alt="icon" width="40px" height="40px" />
+        <Image className={styles.arrow} src={anglesRight} alt="icon" width="40" height="40" />
         <span className={styles.title}>WORKS</span>
       </div>
       <div className={styles.wrapper}>
