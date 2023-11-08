@@ -128,7 +128,7 @@ const experienceData = [
     },
   },
   {
-    role: 'Font-end Developer',
+    role: 'Front-end Developer',
     company: 'Glue',
     description: {
       en: [
