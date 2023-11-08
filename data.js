@@ -149,9 +149,9 @@ const experienceData = [
     company: 'COS',
     description: {
       en: [
-        'Optimize localization of social media activities in local markets',
+        'Optimized localization of social media activities in local markets',
         'Planned paid social, digital display advertising in line with commercial plan working with external agencies such as Google, Meta, Kakao and Naver.',
-        'Analyze social content including click through, conversion, traffic and report back results',
+        'Analyzed social content including click through, conversion, traffic and report back results',
         'Working closely with the digital experience team and launching the a/b test as a main key member of the project',
       ],
       kr: [
