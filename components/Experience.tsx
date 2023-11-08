@@ -1,12 +1,15 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from '../styles/Experience.module.css';
 import anglesRight from '../public/image/anglesRight.svg';
 import Image from 'next/image';
 import { experienceData } from '../data';
 import { useUserContext } from '../context/userContext';
+import { collection, addDoc, getDocs, DocumentData, getFirestore } from 'firebase/firestore';
+import db from '../api/firebase';
 
 export default function Experience() {
   const [isFolded, setIsFolded] = useState(false);
+  const [profileData, setProfileData] = useState<DocumentData | null>(null);
   const { isEnglish } = useUserContext();
 
   const handleExperienceClick = (company: string) => {
@@ -20,6 +23,19 @@ export default function Experience() {
   const languageSelector = (description: { en: string[]; kr: string[] }) => {
     return isEnglish ? description.en : description.kr;
   };
+
+  useEffect(() => {
+    const getProfileData = async () => {
+      const querySnapshot = await getDocs(collection(db, 'profileData'));
+      querySnapshot.forEach((doc) => {
+        console.log(`${doc.id} => ${doc.data()}`);
+      });
+      setProfileData(querySnapshot);
+    };
+    getProfileData();
+  }, []);
+  console.log(profileData);
+
   return (
     <section className={styles.container}>
       <div className={styles.header} id="experiences" onClick={handleTitleClick}>

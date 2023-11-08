@@ -7,7 +7,7 @@ const profileData = {
     name: 'YOUNGGEUN JUN',
   },
   kr: {
-    headLine: '디지털 기기 화면에 표시되는 무언가를 만드는걸 좋아하는 개발자입니다.',
+    headLine: '디지털 기기 화면에 표시되는 무언가를 만드는걸 좋아하는 프론트엔드 개발자 입니다.',
     about: `성장에서 즐거움을 찾고 뛰어난 사용자 경험을 제공하는 혁신적이고 신뢰할 수 있는 서비스를 만드는 데 열정을 쏟고 있는 개발자 전영근입니다.
     `,
     skills:
@@ -108,7 +108,7 @@ const workData = [
 
 const experienceData = [
   {
-    role: 'Font-end Developer',
+    role: 'Front-end Developer',
     company: 'Blocko',
     description: {
       en: [
