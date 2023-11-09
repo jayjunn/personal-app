@@ -76,7 +76,7 @@ const workData = [
       `,
     },
     stacks: [`REACT`, `TYPESCRIPT`, `NEXT.JS`, `GRAPH QL`, `POSTGRES QL`],
-    link: ``,
+    link: `/`,
   },
   {
     id: 2,

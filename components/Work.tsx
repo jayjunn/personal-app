@@ -20,17 +20,11 @@ const Work = (props: Work) => {
         <p>{name}</p>
         <p className={styles.project__company}>{company}</p>
       </div>
-      {link ? (
-        <a href={link} target="_blank" rel="noreferrer" className={styles.image__link}>
-          <button className={styles.project__img__container}>
-            <Image src={img} alt="project__image" className={styles.project__image} width={'700'} height={'450'} loading="lazy" />
-          </button>
-        </a>
-      ) : (
-        <div className={styles.project__img__container}>
-          <Image src={img} alt="project__image" className={styles.project__image} width={'1000'} height={'750'} />
-        </div>
-      )}
+      <a href={link} target="_blank" rel="noreferrer" className={styles.image__link}>
+        <button className={styles.project__img__container}>
+          <Image src={img} alt="project__image" className={styles.project__image} width={'700'} height={'450'} loading="lazy" />
+        </button>
+      </a>
       <div className={styles.project__details}>
         <p className={styles.project__des}>{description}</p>
         <p className={styles.project__stacks}>
