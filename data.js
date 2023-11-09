@@ -18,7 +18,7 @@ const profileData = {
 
 const workData = [
   {
-    id: 7,
+    id: 6,
     name: `Airbnb Clone`,
     company: 'Toy Project',
     img: `https://res.cloudinary.com/dgmnoyv6u/image/upload/v1688622910/Screenshot_2023-07-06_at_2.54.03_PM_a8dssi.png`,
@@ -30,28 +30,15 @@ const workData = [
     link: `https://full-stack-arirbnb-jd65ilvto-jayjunn.vercel.app/`,
   },
   {
-    id: 6,
-    name: `SILVER MINE`,
-    company: 'Blocko',
-    img: `https://res.cloudinary.com/dgmnoyv6u/image/upload/v1685156087/Screenshot_2023-05-27_at_11.54.27_AM_qviyp4.png`,
+    id: 5,
+    name: `Blocko`,
+    img: `https://res.cloudinary.com/dgmnoyv6u/image/upload/v1699489523/Screenshot_2023-11-09_at_9.23.51_AM_oonqih.png`,
     description: {
-      en: `Token-issuing SaaS for a wide range of companies preparing for an open securities token (STO) market`,
-      kr: `공개 증권 토큰(STO) 시장을 준비하는 다양한 기업을 위한 토큰 발행 SaaS 형태의 서비스`,
+      en: `Blockchain platforms and services that help to utilize blockchain in a variety of ways, from the enterprise to the general public`,
+      kr: ` 엔터프라이즈부터 일반인까지 블록체인을 다양하게 활용할 수 있도록 돕는 블록체인 플랫폼 및 서비스를 전달합니다.`,
     },
     stacks: [`REACT`, `TYPESCRIPT`, `REACT QUERY`, `SCSS`],
     link: `https://beta.silvermine.me/`,
-  },
-  {
-    id: 5,
-    name: `CCCV NFT`,
-    company: 'Blocko',
-    img: `https://res.cloudinary.com/dgmnoyv6u/image/upload/v1685157442/Screenshot_2023-05-27_at_12.16.55_PM-removebg-preview_zygl4p.png`,
-    description: {
-      en: `A platform that allows you to conveniently issue NFTs without installing a separate wallet.`,
-      kr: `별도의 개인 지갑 설치 없이 편리하게 NFT 발급이 가능한 플랫폼입니다.`,
-    },
-    stacks: [`VUE.JS`, `VUEX`, `SCSS`],
-    link: `https://cccv.to/nft`,
   },
   {
     id: 4,
@@ -59,7 +46,7 @@ const workData = [
     img: `https://res.cloudinary.com/dgmnoyv6u/image/upload/v1685155499/Screenshot_2023-05-27_at_11.44.37_AM_u8no2c.png`,
     description: {
       en: `A global fashion ecommerce project.`,
-      kr: `글로벌 패션 브랜드 이커머스 프로젝트.      `,
+      kr: `글로벌 패션 브랜드 이커머스 프로젝트.`,
     },
     stacks: [`JAVASCRIPT`, `CSS`, 'HTML', 'ADOBE'],
     link: `https://www.cos.com/`,

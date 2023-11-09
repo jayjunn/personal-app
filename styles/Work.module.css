@@ -44,14 +44,14 @@
   justify-content: center;
   width: 100%;
   -webkit-filter: grayscale(1.07);
-  transition: all 1s;
-  padding: 40px 0;
+  transition: all 0.4s;
+  padding: 40px 3%;
   border-radius: 10px;
 }
 .project__img__container:hover {
   -webkit-filter: grayscale(0);
   filter: none;
-  transform: scale(1.1);
+  transform: scale(1.02);
 }
 
 .project__image {
@@ -73,6 +73,12 @@
   font-size: 0.5rem;
   text-align: center;
   font-weight: lighter;
+}
+.image__link {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
 }
 
 @media screen and (max-width: 1250px) {
