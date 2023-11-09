@@ -43,11 +43,12 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 100%;
-  max-height: 300px;
+  width: 80%;
+  height: 300px;
   -webkit-filter: grayscale(1.07);
   transition: all 0.4s;
   padding: 40px 3%;
+  margin: 20px;
   border-radius: 10px;
 }
 .project__img__container:hover {
@@ -57,8 +58,8 @@
 }
 
 .project__image {
-  max-width: 70%;
-  max-height: 300px;
+  max-width: 400px;
+  padding: 20px 0;
   border-radius: 10px;
 }
 
@@ -96,8 +97,8 @@
   }
 
   .project__image {
-    width: 90%;
-    height: auto;
+    width: 70%;
+    /* height: auto; */
   }
   .project__name {
     margin: 0;
@@ -119,6 +120,7 @@
     justify-content: center;
     align-items: center;
     width: 100%;
+    padding: 20px 0;
   }
 
   .project__img__container {

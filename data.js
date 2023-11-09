@@ -43,7 +43,7 @@ const workData = [
   {
     id: 4,
     name: `COS`,
-    img: `https://res.cloudinary.com/dgmnoyv6u/image/upload/v1685155499/Screenshot_2023-05-27_at_11.44.37_AM_u8no2c.png`,
+    img: `https://res.cloudinary.com/dgmnoyv6u/image/upload/v1699490958/Screenshot_2023-11-09_at_9.48.56_AM_j3tl6x.png`,
     description: {
       en: `A global fashion ecommerce project.`,
       kr: `글로벌 패션 브랜드 이커머스 프로젝트.`,
