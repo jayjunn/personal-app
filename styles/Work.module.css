@@ -50,6 +50,7 @@
   padding: 40px 3%;
   margin: 20px;
   border-radius: 10px;
+  position: relative;
 }
 .project__img__container:hover {
   -webkit-filter: grayscale(0);
@@ -58,7 +59,6 @@
 }
 
 .project__image {
-  max-width: 400px;
   padding: 20px 0;
   border-radius: 10px;
 }
