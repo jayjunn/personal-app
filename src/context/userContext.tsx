@@ -1,3 +1,5 @@
+'use client';
+
 import { createContext, useContext, useState, ReactElement, ReactNode, useEffect } from 'react';
 import { json } from 'stream/consumers';
 

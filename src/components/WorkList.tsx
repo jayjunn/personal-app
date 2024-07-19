@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
-import styles from '../styles/WorkList.module.css';
-import anglesRight from '../public/image/anglesRight.svg';
+import styles from '../app/styles/WorkList.module.css';
+import anglesRight from '../../public/image/anglesRight.svg';
 import Work from './Work';
-import { workData } from '../data.js';
+import { workData } from '../../data.js';
 import { useUserContext } from '../context/userContext';
 
 const WorkList = () => {

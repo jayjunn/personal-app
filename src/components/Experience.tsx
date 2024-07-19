@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import styles from '../styles/Experience.module.css';
-import anglesRight from '../public/image/anglesRight.svg';
+import styles from '../app/styles/Experience.module.css';
+import anglesRight from '../../public/image/anglesRight.svg';
 import Image from 'next/image';
-import { experienceData } from '../data';
+import { experienceData } from '../../data';
 import { useUserContext } from '../context/userContext';
 
 export default function Experience() {

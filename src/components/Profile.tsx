@@ -1,9 +1,9 @@
 import React from 'react';
-import styles from '../styles/Profile.module.css';
-import anglesRight from '../public/image/anglesRight.svg';
+import styles from '../app/styles/Profile.module.css';
+import anglesRight from '../../public/image/anglesRight.svg';
 import Image from 'next/image';
 import { useUserContext } from '../context/userContext';
-import { profileData as data } from '../data';
+import { profileData as data } from '../../data';
 
 const Profile = () => {
   const handleScrollDown = () => {
