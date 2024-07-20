@@ -1,21 +1,24 @@
+'use client';
+
 import React, { useState } from 'react';
 import styles from '../app/styles/Header.module.css';
-import Image from 'next/image';
-import linkedin from '../../public/image/linkedin.svg';
-import github from '../../public/image/github.svg';
-import envelope from '../../public/image/envelope.svg';
 import Language from '../../public/image/language.svg';
-import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { useUserContext } from '../context/userContext';
 import { profileData } from '../../data';
+import Image from 'next/image';
+import Link from 'next/link';
 
 const Header = () => {
   const [selectOn, setSelectOn] = useState(false);
   const { user, setUser, isEnglish } = useUserContext();
+
+  const profile = isEnglish ? profileData.en : profileData.kr;
+
   const handleLanguageButton = () => {
     setSelectOn(!selectOn);
   };
+
   const handleLanguageSelect = (type: string) => {
     const newUser = { ...user, language: type };
     localStorage.setItem('user', JSON.stringify(newUser));
@@ -23,48 +26,24 @@ const Header = () => {
     setSelectOn(false);
   };
 
-  const profile = isEnglish ? profileData.en : profileData.kr;
-
   return (
     <header>
       <section>
         <div className={styles.header}>
-          <h1 className={styles.first__name}>{profile.name}</h1>
-          <h1 className={styles.front}>FRONT-END DEVELOPER</h1>
+          <Link href={`/`}>
+            <h1 className={styles.first__name}>{profile.name}</h1>
+            <h1 className={styles.front}>FRONT-END DEVELOPER</h1>
+          </Link>
         </div>
       </section>
-      <section className={styles.second__header}>
-        <div className={styles.contact}>
-          <span className={styles.find__me}>FIND ME</span>
-        </div>
-        <div className={styles.find__arrows}>
-          <span> {`>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>`}</span>
-        </div>
-        <ul className={styles.socials}>
-          <li className={styles.social}>
-            <Link href="https://github.com/jayjunn">
-              <Image
-                className={styles.social}
-                src={github} //
-                alt="home"
-                width="40"
-                height="40"
-              />
-            </Link>
-          </li>
-          <li className={styles.social}>
-            <Link href="https://www.linkedin.com/in/younggeun">
-              <Image className={styles.social} src={linkedin} alt="home" width="40" height="40" />
-            </Link>
-          </li>
-          <li className={styles.email}>
-            <Link href="mailto:jayjunn@outlook.com">
-              <Image className={styles.social} src={envelope} alt="home" width="40" height="40" />
-            </Link>
-          </li>
+      <nav>
+        <ul className={styles.ul}>
+          <Link href={`/experience`}>Experience</Link>
+          <Link href={`/works`}>Works</Link>
+          <Link href={`/contact`}>Contact</Link>
           <li className={styles.language}>
             <button className={styles.language__icon} onClick={handleLanguageButton}>
-              <Image src={Language} alt="language" width="40" height="40" />
+              <Image src={Language} alt="language" width="30" height="30" />
             </button>
             {selectOn && (
               <motion.ul
@@ -89,7 +68,7 @@ const Header = () => {
             )}
           </li>
         </ul>
-      </section>
+      </nav>
     </header>
   );
 };

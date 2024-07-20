@@ -1,4 +1,6 @@
-import React, { useState } from 'react';
+'use client';
+
+import React from 'react';
 import Image from 'next/image';
 import styles from '../app/styles/WorkList.module.css';
 import anglesRight from '../../public/image/anglesRight.svg';
@@ -7,21 +9,16 @@ import { workData } from '../../data.js';
 import { useUserContext } from '../context/userContext';
 
 const WorkList = () => {
-  const [isFolded, setIsFolded] = useState(false);
   const { isEnglish } = useUserContext();
-
-  const handleTitleClick = () => {
-    setIsFolded(!isFolded);
-  };
 
   return (
     <section className={styles.container}>
-      <div className={styles.header} id="work-list" onClick={handleTitleClick}>
+      <div className={styles.header} id="work-list">
         <Image className={styles.arrow} src={anglesRight} alt="icon" width="40" height="40" />
         <span className={styles.title}>WORKS</span>
       </div>
       <div className={styles.wrapper}>
-        <section className={`${styles.list__container} ${isFolded ? styles.folded : styles.open}`}>
+        <section className={`${styles.list__container} ${styles.open}`}>
           <ul className={styles.list}>
             {workData.map((item, index) => {
               return (
