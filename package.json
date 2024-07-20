@@ -25,10 +25,10 @@
   },
   "devDependencies": {
     "@types/node": "17.0.36",
-    "@types/react": "18.0.9",
-    "@types/react-dom": "18.0.5",
+    "@types/react": "^18.3.3",
+    "@types/react-dom": "^18.3.0",
     "eslint": "8.16.0",
     "eslint-config-next": "^13.4.8",
-    "typescript": "4.7.2"
+    "typescript": "^5.5.3"
   }
 }
