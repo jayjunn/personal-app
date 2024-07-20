@@ -1,22 +1,17 @@
 'use client';
 
 import React from 'react';
-import Image from 'next/image';
 import styles from '../app/styles/WorkList.module.css';
-import anglesRight from '../../public/image/anglesRight.svg';
 import Work from './Work';
 import { workData } from '../../data.js';
 import { useUserContext } from '../context/userContext';
+import PageWrap from './common/PageWrap';
 
 const WorkList = () => {
   const { isEnglish } = useUserContext();
 
   return (
-    <section className={styles.container}>
-      <div className={styles.header} id="work-list">
-        <Image className={styles.arrow} src={anglesRight} alt="icon" width="40" height="40" />
-        <span className={styles.title}>WORKS</span>
-      </div>
+    <PageWrap title="Works">
       <div className={styles.wrapper}>
         <section className={`${styles.list__container} ${styles.open}`}>
           <ul className={styles.list}>
@@ -36,7 +31,7 @@ const WorkList = () => {
           </ul>
         </section>
       </div>
-    </section>
+    </PageWrap>
   );
 };
 

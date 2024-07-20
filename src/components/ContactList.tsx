@@ -17,7 +17,7 @@ export default function ContactList() {
       </div>
       <ul className={styles.socials}>
         <li className={styles.social}>
-          <Link href="https://github.com/jayjunn">
+          <Link href="https://github.com/jayjunn" target="_blank">
             <Image
               className={styles.social}
               src={github} //
@@ -28,7 +28,7 @@ export default function ContactList() {
           </Link>
         </li>
         <li className={styles.social}>
-          <Link href="https://www.linkedin.com/in/younggeun">
+          <Link href="https://www.linkedin.com/in/younggeun" target="_blank">
             <Image className={styles.social} src={linkedin} alt="home" width="40" height="40" />
           </Link>
         </li>

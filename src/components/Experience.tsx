@@ -2,10 +2,9 @@
 
 import React from 'react';
 import styles from '../app/styles/Experience.module.css';
-import anglesRight from '../../public/image/anglesRight.svg';
-import Image from 'next/image';
 import { experienceData } from '../../data';
 import { useUserContext } from '../context/userContext';
+import PageWrap from './common/PageWrap';
 
 export default function Experience() {
   const { isEnglish } = useUserContext();
@@ -19,11 +18,7 @@ export default function Experience() {
   };
 
   return (
-    <section className={styles.container}>
-      <div className={styles.header} id="experiences">
-        <Image className={styles.arrow} src={anglesRight} alt="icon" width="40" height="40" />
-        <h4 className={styles.title}>Experience</h4>
-      </div>
+    <PageWrap title="Experience">
       <ul className={`${styles.experience__list} ${styles.open}`}>
         {experienceData.map(({ role, company, description }, index) => (
           <li className={styles.experience} key={index} onClick={() => handleExperienceClick(company)}>
@@ -41,6 +36,6 @@ export default function Experience() {
           </li>
         ))}
       </ul>
-    </section>
+    </PageWrap>
   );
 }
