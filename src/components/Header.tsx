@@ -8,6 +8,7 @@ import { useUserContext } from '../context/userContext';
 import { profileData } from '../../data';
 import Image from 'next/image';
 import Link from 'next/link';
+import { faL } from '@fortawesome/free-solid-svg-icons';
 
 const Header = () => {
   const [selectOn, setSelectOn] = useState(false);
@@ -30,7 +31,7 @@ const Header = () => {
     <header>
       <section>
         <div className={styles.header}>
-          <Link href={`/`}>
+          <Link href={`/`} onClick={() => setSelectOn(false)}>
             <h1 className={styles.first__name}>{profile.name}</h1>
             <h1 className={styles.front}>FRONT-END DEVELOPER</h1>
           </Link>
@@ -38,12 +39,18 @@ const Header = () => {
       </section>
       <nav>
         <ul className={styles.ul}>
-          <Link href={`/experience`}>Experience</Link>
-          <Link href={`/works`}>Works</Link>
-          <Link href={`/contact`}>Contact</Link>
+          <Link href={`/experience`} onClick={() => setSelectOn(false)}>
+            Experience
+          </Link>
+          <Link href={`/works`} onClick={() => setSelectOn(false)}>
+            Works
+          </Link>
+          <Link href={`/contact`} onClick={() => setSelectOn(false)}>
+            Contact
+          </Link>
           <li className={styles.language}>
             <button className={styles.language__icon} onClick={handleLanguageButton}>
-              <Image src={Language} alt="language" width="30" height="30" />
+              <Image src={Language} className="w-[24px] md:w-[40px] lg:w-[50px]" alt="language" width="30" height="30" />
             </button>
             {selectOn && (
               <motion.ul

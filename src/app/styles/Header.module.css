@@ -39,6 +39,7 @@
 
 .second__header {
   display: flex;
+  padding: 24px 0px;
   justify-content: space-between;
   border-bottom: 3px solid black;
 }
@@ -76,6 +77,7 @@
 
 .language {
   position: relative;
+  display: flex;
 }
 
 .button {
@@ -110,7 +112,6 @@
   }
 
   .socials {
-    margin: 10px 0px;
     justify-content: space-around;
   }
   .second__header {
@@ -118,10 +119,6 @@
   }
   .find__arrows {
     display: none;
-  }
-
-  .socials {
-    padding: 0;
   }
 }
 
