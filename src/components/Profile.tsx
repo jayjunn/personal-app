@@ -1,16 +1,24 @@
+`use client`;
+
 import React from 'react';
 import styles from '../app/styles/Profile.module.css';
 import anglesRight from '../../public/image/anglesRight.svg';
 import Image from 'next/image';
 import { useUserContext } from '../context/userContext';
-import { profileData as data } from '../../data';
+import { profileData as profileData } from '../../data';
+import useSWR from 'swr';
 
 const Profile = () => {
+  const { data, isLoading, error } = useSWR(`/api/hello`);
+
+  console.log(data);
+
   const handleScrollDown = () => {
     document.getElementById('experiences')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   };
   const { isEnglish } = useUserContext();
-  const profile = isEnglish ? data.en : data.kr;
+
+  const profile = isEnglish ? profileData.en : profileData.kr;
 
   return (
     <section className={styles.container}>
@@ -36,7 +44,7 @@ const Profile = () => {
             </div>
           </div>
           <div className={styles.skills__content}>
-            <p className={styles.skills__p}>{data.en.skills}</p>
+            <p className={styles.skills__p}>{profile.skills}</p>
           </div>
         </div>
         <div className={styles.arrow__container}>

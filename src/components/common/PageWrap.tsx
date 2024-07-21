@@ -2,6 +2,7 @@ import React from 'react';
 import styles from '../../app/styles/PageWrap.module.css';
 import Image from 'next/image';
 import anglesRight from '../../../public/image/anglesRight.svg';
+import { SWRConfig } from 'swr';
 
 interface IPageWrap {
   title: string;
