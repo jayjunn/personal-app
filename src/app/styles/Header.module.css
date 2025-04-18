@@ -100,6 +100,34 @@
   border: 3px solid black;
 }
 
+.divider {
+  display: none;
+}
+
+.nav__list {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+@media screen and (max-width: 430px) {
+  .language {
+    position: absolute;
+    top: 33px;
+    right: 20px;
+  }
+  .ul a {
+    font-size: 0.8rem;
+  }
+  .select {
+    left: -150%;
+    top: 40px;
+  }
+}
+
 @media screen and (max-width: 1023px) {
   /* 모바일 */
   .header {
@@ -109,6 +137,11 @@
 
   .find__me {
     display: none;
+  }
+
+  .divider {
+    display: block;
+    margin-right: 4px;
   }
 
   .socials {

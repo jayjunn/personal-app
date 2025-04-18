@@ -22,7 +22,7 @@ const Work = (props: Work) => {
       </div>
       <a href={link} target="_blank" rel="noreferrer" className={styles.image__link}>
         <button className={styles.project__img__container}>
-          <Image src={img} alt="project__image" className={styles.project__image} layout="fill" />
+          <Image src={img} alt="project__image" className={styles.project__image} width={200} height={200} />
         </button>
       </a>
       <div className={styles.project__details}>

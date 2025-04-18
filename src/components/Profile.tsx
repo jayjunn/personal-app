@@ -11,8 +11,6 @@ import useSWR from 'swr';
 const Profile = () => {
   const { data, isLoading, error } = useSWR(`/api/hello`);
 
-  console.log(data);
-
   const handleScrollDown = () => {
     document.getElementById('experiences')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   };

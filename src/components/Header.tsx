@@ -8,7 +8,6 @@ import { useUserContext } from '../context/userContext';
 import { profileData } from '../../data';
 import Image from 'next/image';
 import Link from 'next/link';
-import { faL } from '@fortawesome/free-solid-svg-icons';
 
 const Header = () => {
   const [selectOn, setSelectOn] = useState(false);
@@ -27,6 +26,8 @@ const Header = () => {
     setSelectOn(false);
   };
 
+  const navList = ['Home', 'Experience', 'Works', 'Contact'];
+
   return (
     <header>
       <section>
@@ -39,16 +40,21 @@ const Header = () => {
       </section>
       <nav>
         <ul className={styles.ul}>
-          <Link href={`/experience`} onClick={() => setSelectOn(false)}>
-            Experience
-          </Link>
-          <Link href={`/works`} onClick={() => setSelectOn(false)}>
-            Works
-          </Link>
-          <Link href={`/contact`} onClick={() => setSelectOn(false)}>
-            Contact
-          </Link>
-          <li className={styles.language}>
+          {navList.map((label, index) => (
+            <React.Fragment key={`group-${label}`}>
+              <li className={styles.nav__list} key={`nav-${label}`}>
+                <Link href={`/${label.toLowerCase()}`} onClick={() => setSelectOn(false)}>
+                  {label}
+                </Link>
+              </li>
+              {index + 1 !== navList.length && (
+                <li key={`divider-${label}`} className={styles.nav__list}>
+                  <span className={styles.divider}>|</span>
+                </li>
+              )}
+            </React.Fragment>
+          ))}
+          <li className={styles.language} key={`button`}>
             <button className={styles.language__icon} onClick={handleLanguageButton}>
               <Image src={Language} className="w-[24px] md:w-[40px] lg:w-[50px]" alt="language" width="30" height="30" />
             </button>

@@ -1,45 +1,33 @@
 'use client';
 
-import { createContext, useContext, useState, ReactElement, ReactNode, useEffect } from 'react';
-import { json } from 'stream/consumers';
-
-interface IUserContextProvider {
-  children: ReactElement | ReactElement[] | ReactNode | ReactNode[];
-}
+import { createContext, useContext, useState, useEffect, useMemo, ReactNode } from 'react';
 
 type LanguageContextState = { language: string };
 
-const languageDefaultValue = {
-  user: { language: 'ENGLISH' },
-  setUser: (user: LanguageContextState) => {},
-  isEnglish: true,
+type UserContextType = {
+  user: LanguageContextState;
+  setUser: (user: LanguageContextState) => void;
+  isEnglish: boolean;
 };
 
-const userContext = createContext(languageDefaultValue);
+const UserContext = createContext<UserContextType>({
+  user: { language: 'ENGLISH' }, // fallback for outside-provider calls
+  setUser: () => {},
+  isEnglish: true,
+});
 
-export function UserContextProvider({ children }: IUserContextProvider) {
-  const [user, setUser] = useState(languageDefaultValue.user);
-  const isEnglish = user?.language === 'ENGLISH';
+export const UserContextProvider = ({ children }: { children: ReactNode }) => {
+  const [user, setUserState] = useState<LanguageContextState>({ language: 'KOREAN' });
 
-  useEffect(() => {
-    const localUser = localStorage.getItem('user');
-    if (localUser) {
-      setUser(JSON.parse(localUser));
-    }
-  }, []);
+  const setUser = (user: LanguageContextState) => {
+    setUserState(user);
+  };
 
-  return (
-    <userContext.Provider
-      value={{
-        user,
-        setUser,
-        isEnglish,
-      }}>
-      {children}
-    </userContext.Provider>
-  );
-}
+  const isEnglish = user.language === 'ENGLISH';
 
-export function useUserContext() {
-  return useContext(userContext);
-}
+  const contextValue = useMemo(() => ({ user, setUser, isEnglish }), [user, isEnglish]);
+
+  return <UserContext.Provider value={contextValue}>{children}</UserContext.Provider>;
+};
+
+export const useUserContext = () => useContext(UserContext);

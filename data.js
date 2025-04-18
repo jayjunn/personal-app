@@ -1,6 +1,6 @@
 const profileData = {
   en: {
-    headLine: 'I BUILD SOMETHING THAT DISPLAYS ON DIGITAL SCREENS.',
+    headLine: 'I make digital screens do cool stuff.',
     about: `I'm a Creative Software Developer who enjoys interactive design, creative coding and full-stack web development.`,
     skills:
       ' REACT, TYPESCRIPT, JAVASCRIPT, NEXT.JS, REACT QUERY, SCSS, NODE.JS, VUE.JS, GIT, GRAPH QL, REACT NATIVE, MONGO DB, A/B TEST, FIGAMA, HTML, CSS',
@@ -94,6 +94,26 @@ const workData = [
 ];
 
 const experienceData = [
+  {
+    role: 'Softwear Engineer',
+    company: 'eBay Japan',
+    description: {
+      en: [
+        'Implemented efficient HLS video ad integrations, ensuring smooth playback and minimal performance impact.',
+        'Migrated the build system from Webpack to Rspack, resulting in a 20% improvement in build speed, leading to faster development cycles and increased team productivity',
+        'Crafted a seamless user onboarding experience with intuitive UI flows and responsive design to boost engagement and retention.',
+        'Developed user profile configuration interfaces, enabling real-time updates and a personalized user experience..',
+        'Maintained and enhanced front-end components of the website, focusing on performance, cross-browser compatibility, and responsive design.',
+      ],
+      kr: [
+        'HLS 기반 영상 스트리밍을 구현하여 웹페이지내 비오 광고를 효율으로 원활한 재생과 성능 저하 없는 사용자 경험을 제공했습니다.',
+        'Webpack에서 Rspack으로 빌드 시스템을 마이그레이션, 빌드 속도를 약 20% 향상시켜 개발 주기 단축 및 팀 생산성 향상에 기여했습니다.',
+        '직관적인 UI 흐름을 적용한 회원가입 페이지를 설계하여 신규 사용자 유입과 전환율을 향상시켰습니다.',
+        '프로필 설정 변경 사항이 즉시 반영되는 인터페이스를 구현해 사용자 편의성과 맞춤형 경험을 향상시켰습니다.',
+        'qoo10.jp의 유지보수 및 개선을 담당하며, 로딩 속도 향상, 크로스 브라우저 호환성 확보, 반응형 UI 구현을 통해 사용자 경험을 최적화했습니다',
+      ],
+    },
+  },
   {
     role: 'Front-end Developer',
     company: 'Blocko',

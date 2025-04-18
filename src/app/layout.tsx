@@ -15,10 +15,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en">
       <body>
         <main className={styles.contents}>
-          <Header />
           <UserContextProvider>
-         
-              {children}
+            <Header />
+            {children}
           </UserContextProvider>
         </main>
       </body>

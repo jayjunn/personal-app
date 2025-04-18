@@ -21,6 +21,7 @@
 
 .about__headLine {
   padding: 30px;
+  text-transform: uppercase;
 }
 
 .about__container {
@@ -49,6 +50,7 @@
   font-size: 24px;
   font-weight: lighter;
   padding: 30px;
+  text-transform: uppercase;
 }
 
 .right__row {
