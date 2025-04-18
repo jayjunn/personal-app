@@ -43,7 +43,7 @@ const Header = () => {
           {navList.map((label, index) => (
             <React.Fragment key={`group-${label}`}>
               <li className={styles.nav__list} key={`nav-${label}`}>
-                <Link href={`/${label.toLowerCase()}`} onClick={() => setSelectOn(false)}>
+                <Link href={label === `Home` ? '/' : `/${label.toLowerCase()}`} onClick={() => setSelectOn(false)}>
                   {label}
                 </Link>
               </li>
