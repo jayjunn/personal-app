@@ -11,13 +11,21 @@ type UserContextType = {
 };
 
 const UserContext = createContext<UserContextType>({
-  user: { language: 'ENGLISH' }, // fallback for outside-provider calls
+  user: { language: 'ENGLISH' },
   setUser: () => {},
   isEnglish: true,
 });
 
+const getInitialLanguage = (): 'ENGLISH' | 'KOREAN' => {
+  if (typeof window !== 'undefined') {
+    const lang = navigator.language.toLowerCase();
+    if (lang.startsWith('ko')) return 'KOREAN';
+  }
+  return 'ENGLISH';
+};
+
 export const UserContextProvider = ({ children }: { children: ReactNode }) => {
-  const [user, setUserState] = useState<LanguageContextState>({ language: 'KOREAN' });
+  const [user, setUserState] = useState<LanguageContextState>({ language: getInitialLanguage() });
 
   const setUser = (user: LanguageContextState) => {
     setUserState(user);
