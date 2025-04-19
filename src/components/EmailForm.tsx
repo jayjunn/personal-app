@@ -51,7 +51,7 @@ export default function EmailForm() {
   return (
     <>
       {banner && <Toast message={banner.message} />}
-      <form className="px-4 flex flex-col gap-3 h-full justify-center items-center" onSubmit={handleSubmit} method="POST">
+      <form className="px-4 flex flex-col gap-3 h-full justify-start items-center" onSubmit={handleSubmit} method="POST">
         <div className="w-full max-w-[700px]">
           <label className="text-xs" htmlFor="email">
             Email Address

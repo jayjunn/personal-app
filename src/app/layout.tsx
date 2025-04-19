@@ -14,7 +14,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en">
       <body>
-        <main className={styles.contents}>
+        <main className={`${styles.contents} h-screen`}>
           <UserContextProvider>
             <Header />
             {children}
