@@ -26,7 +26,12 @@ const Header = () => {
     setSelectOn(false);
   };
 
-  const navList = ['Home', 'Experience', 'Works', 'Contact'];
+  const navList = [
+    { title: 'Home', link: `/` },
+    { title: 'Tech Blog', link: `https://velog.io/@jayjunn/posts` },
+    { title: 'CV', link: `cv` },
+    { title: 'Contact', link: `/contact` },
+  ];
 
   return (
     <header>
@@ -40,15 +45,21 @@ const Header = () => {
       </section>
       <nav>
         <ul className={styles.ul}>
-          {navList.map((label, index) => (
-            <React.Fragment key={`group-${label}`}>
-              <li className={styles.nav__list} key={`nav-${label}`}>
-                <Link href={label === `Home` ? '/' : `/${label.toLowerCase()}`} onClick={() => setSelectOn(false)}>
-                  {label}
-                </Link>
+          {navList.map((item, index) => (
+            <React.Fragment key={`group-${item.title}`}>
+              <li className={styles.nav__list} key={`nav-${item.title}`}>
+                {item.title === 'Tech Blog' ? (
+                  <a href={item.link} target="_blank" rel="noopener noreferrer" onClick={() => setSelectOn(false)}>
+                    {item.title}
+                  </a>
+                ) : (
+                  <Link href={item.link} onClick={() => setSelectOn(false)}>
+                    {item.title}
+                  </Link>
+                )}
               </li>
               {index + 1 !== navList.length && (
-                <li key={`divider-${label}`} className={styles.nav__list}>
+                <li key={`divider-${item.title}`} className={styles.nav__list}>
                   <span className={styles.divider}>|</span>
                 </li>
               )}

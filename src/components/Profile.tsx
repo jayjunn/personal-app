@@ -9,8 +9,6 @@ import { profileData as profileData } from '../../data';
 import useSWR from 'swr';
 
 const Profile = () => {
-  const { data, isLoading, error } = useSWR(`/api/hello`);
-
   const handleScrollDown = () => {
     document.getElementById('experiences')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   };
