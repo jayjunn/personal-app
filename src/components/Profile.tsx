@@ -6,7 +6,6 @@ import anglesRight from '../../public/image/anglesRight.svg';
 import Image from 'next/image';
 import { useUserContext } from '../context/userContext';
 import { profileData as profileData } from '../../data';
-import useSWR from 'swr';
 
 const Profile = () => {
   const handleScrollDown = () => {
@@ -27,7 +26,7 @@ const Profile = () => {
             </div>
             <span className={styles.about__span}>ABOUT</span>
           </div>
-          <p className={styles.about__p}>{profile.about}</p>
+          <ul className={`${styles.about__p}`}>{profile.about}</ul>
         </div>
       </div>
       <div className={styles.line}></div>
@@ -36,11 +35,17 @@ const Profile = () => {
           <div className={styles.skill__first}>
             <div className={styles.skills__header}>
               <Image className={(styles.arrows, styles.icon)} src={anglesRight} alt="icon" width="40" height="40" />
-              <h3 className={styles.skills__title}>{isEnglish ? 'SKILLS' : '기술 스택'}</h3>
+              <h3 className={`${styles.skills__title}`}>{isEnglish ? 'SKILLS' : '기술 스택'}</h3>
             </div>
           </div>
           <div className={styles.skills__content}>
-            <p className={styles.skills__p}>{profile.skills}</p>
+            <ul className={`${styles.skills__p} flex flex-wrap gap-4`}>
+              {profile.skills.map((skill) => (
+                <li key={skill} className="border-[2px] border-black rounded-[10px] p-1">
+                  {skill}
+                </li>
+              ))}
+            </ul>
           </div>
         </div>
         <div className={styles.arrow__container}>

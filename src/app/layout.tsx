@@ -3,7 +3,6 @@ import './styles/globals.css';
 import styles from './styles/app.module.css';
 import { UserContextProvider } from '../context/userContext';
 import Header from '../components/Header';
-import { SWRConfig } from 'swr';
 
 export const metadata: Metadata = {
   title: { default: `Younggeun Jun`, template: `Younggeun Jun | %s` },

@@ -10,7 +10,7 @@ interface IPageWrap {
 
 export default function PageWrap({ title, children }: IPageWrap) {
   return (
-    <section className={`${styles.container}`}>
+    <section className={`${styles.container} h-min`}>
       <div className={styles.header} id="experiences">
         <Image className={styles.arrow} src={anglesRight} alt="icon" width="40" height="40" />
         <h4 className={styles.title}>{title}</h4>

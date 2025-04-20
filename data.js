@@ -2,16 +2,14 @@ const profileData = {
   en: {
     headLine: 'I make digital screens do cool stuff.',
     about: `I'm a Creative Software Developer who enjoys interactive design, creative coding and full-stack web development.`,
-    skills:
-      ' REACT, TYPESCRIPT, JAVASCRIPT, NEXT.JS, REACT QUERY, SCSS, NODE.JS, VUE.JS, GIT, GRAPH QL, REACT NATIVE, MONGO DB, A/B TEST, FIGAMA, HTML, CSS',
+    skills: ['REACT', 'TYPESCRIPT', 'NEXT.JS', 'SCSS', 'NODE.JS', 'GIT', 'HTML'],
     name: 'YOUNGGEUN JUN',
   },
   kr: {
     headLine: '디지털 기기 화면에 표시되는 무언가를 만드는걸 좋아하는 프론트엔드 개발자 입니다.',
     about: `성장에서 즐거움을 찾고 뛰어난 사용자 경험을 제공하는 혁신적이고 신뢰할 수 있는 서비스를 만드는 데 열정을 쏟고 있는 개발자 전영근입니다.
-    `,
-    skills:
-      'REACT, TYPESCRIPT, JAVASCRIPT, NEXT.JS, REACT QUERY, SCSS, NODE.JS, VUE.JS, GIT, GRAPH QL, REACT NATIVE, MONGO DB, A/B TEST, FIGAMA, HTML, CSS',
+        `,
+    skills: ['REACT', 'TYPESCRIPT', 'NEXT.JS', 'SCSS', 'NODE.JS', 'GIT', 'HTML'],
     name: '전영근',
   },
 };
