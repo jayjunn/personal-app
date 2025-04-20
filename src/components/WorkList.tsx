@@ -23,14 +23,14 @@ const WorkList = () => {
           centeredSlides={true}
           spaceBetween={30}
           loop={true}
-          pagination={{
-            clickable: true,
-          }}
+          //   pagination={{
+          //     clickable: true,
+          //   }}
           autoplay={{
-            delay: 2500, // 지연 시간 (한 슬라이더에 머물르는 시간)
-            disableOnInteraction: false, // 마우스 제어 이후 자동 재생을 막을지 말지
+            delay: 2500,
+            disableOnInteraction: false,
           }}
-          modules={[Pagination, Autoplay]}
+          modules={[Autoplay]}
           className={styles.list}>
           {workData.map((item, index) => {
             return (
