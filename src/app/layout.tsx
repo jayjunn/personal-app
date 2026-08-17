@@ -21,7 +21,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Younggeun Jun | Software Engineer',
     description: 'Software Engineer Younggeun Jun',
-    url: 'https://younggeun-jun.vercel.app', 
+    url: 'https://younggeun-jun.vercel.app',
     siteName: 'Younggeun Jun',
     images: [
       {
@@ -44,7 +44,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               <LanguageInitializer />
               <div className="flex-1 flex flex-col">
                 <Header />
-                <div className="flex-1">{children}</div>
+                <div className="flex-1 mt-46">{children}</div>
               </div>
               <Footer />
               <LanguageModal />

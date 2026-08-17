@@ -64,7 +64,7 @@ const Header = () => {
   ];
 
   return (
-    <header className="w-full relative">
+    <header className="fixed top-0 left-0 right-0 z-[9990] w-full bg-[#e7e2d0]/95 backdrop-blur-md">
       {/* Top Brand Banner */}
       <section className="w-full flex justify-between items-center px-4 sm:px-8 pt-5 sm:pt-6 pb-3 sm:pb-4">
         <Link href="/" onClick={() => { setSelectOn(false); setIsMobileMenuOpen(false); }} className="cursor-pointer group">
@@ -115,11 +115,10 @@ const Header = () => {
                     <Link
                       href={item.link}
                       onClick={() => setSelectOn(false)}
-                      className={`px-3 py-1.5 font-black text-xs lg:text-sm uppercase tracking-wider transition-all ${
-                        isActive
-                          ? 'bg-black text-white'
-                          : 'text-black hover:bg-black hover:text-white'
-                      }`}>
+                      className={`px-3 py-1.5 font-black text-xs lg:text-sm uppercase tracking-wider transition-all ${isActive
+                        ? 'bg-black text-white'
+                        : 'text-black hover:bg-black hover:text-white'
+                        }`}>
                       {item.title}
                     </Link>
                   )}
@@ -158,21 +157,19 @@ const Header = () => {
                   transition={{ duration: 0.15 }}
                   className="absolute top-[calc(100%+8px)] right-0 bg-[#e7e2d0] border-[3px] border-black shadow-[4px_4px_0px_#000000] p-2.5 min-w-[145px] z-[100] flex flex-col gap-1.5 list-none m-0">
                   <li
-                    className={`px-3 py-1.5 text-xs font-extrabold cursor-pointer flex items-center gap-2 transition-colors ${
-                      language === 'ENGLISH'
-                        ? 'bg-black text-white'
-                        : 'text-black hover:bg-black hover:text-white'
-                    }`}
+                    className={`px-3 py-1.5 text-xs font-extrabold cursor-pointer flex items-center gap-2 transition-colors ${language === 'ENGLISH'
+                      ? 'bg-black text-white'
+                      : 'text-black hover:bg-black hover:text-white'
+                      }`}
                     onClick={() => handleLanguageSelect('ENGLISH')}>
                     <span>🇬🇧</span>
                     <span>English {language === 'ENGLISH' && '✓'}</span>
                   </li>
                   <li
-                    className={`px-3 py-1.5 text-xs font-extrabold cursor-pointer flex items-center gap-2 transition-colors ${
-                      language === 'KOREAN'
-                        ? 'bg-black text-white'
-                        : 'text-black hover:bg-black hover:text-white'
-                    }`}
+                    className={`px-3 py-1.5 text-xs font-extrabold cursor-pointer flex items-center gap-2 transition-colors ${language === 'KOREAN'
+                      ? 'bg-black text-white'
+                      : 'text-black hover:bg-black hover:text-white'
+                      }`}
                     onClick={() => handleLanguageSelect('KOREAN')}>
                     <span>🇰🇷</span>
                     <span>한국어 {language === 'KOREAN' && '✓'}</span>
@@ -242,11 +239,10 @@ const Header = () => {
                       <Link
                         href={item.link}
                         onClick={() => setIsMobileMenuOpen(false)}
-                        className={`flex items-center justify-center gap-2 text-2xl sm:text-3xl font-black uppercase tracking-tight active:scale-95 transition-transform ${
-                          isActive
-                            ? 'text-black underline underline-offset-8 decoration-2'
-                            : 'text-black'
-                        }`}>
+                        className={`flex items-center justify-center gap-2 text-2xl sm:text-3xl font-black uppercase tracking-tight active:scale-95 transition-transform ${isActive
+                          ? 'text-black underline underline-offset-8 decoration-2'
+                          : 'text-black'
+                          }`}>
                         <span className="font-mono text-xs font-bold text-neutral-500">
                           0{index + 1}.
                         </span>
@@ -269,21 +265,19 @@ const Header = () => {
                 <button
                   type="button"
                   onClick={() => setLanguage('KOREAN')}
-                  className={`px-3 py-1.5 text-[11px] font-mono font-black transition-colors ${
-                    language === 'KOREAN'
-                      ? 'bg-black text-white'
-                      : 'text-black hover:bg-[#d4ceb8]'
-                  }`}>
+                  className={`px-3 py-1.5 text-[11px] font-mono font-black transition-colors ${language === 'KOREAN'
+                    ? 'bg-black text-white'
+                    : 'text-black hover:bg-[#d4ceb8]'
+                    }`}>
                   🇰🇷 한국어
                 </button>
                 <button
                   type="button"
                   onClick={() => setLanguage('ENGLISH')}
-                  className={`px-3 py-1.5 text-[11px] font-mono font-black transition-colors ${
-                    language === 'ENGLISH'
-                      ? 'bg-black text-white'
-                      : 'text-black hover:bg-[#d4ceb8]'
-                  }`}>
+                  className={`px-3 py-1.5 text-[11px] font-mono font-black transition-colors ${language === 'ENGLISH'
+                    ? 'bg-black text-white'
+                    : 'text-black hover:bg-[#d4ceb8]'
+                    }`}>
                   🇬🇧 English
                 </button>
               </div>
