@@ -46,10 +46,21 @@ const AuthContext = createContext<AuthContextType>({
 });
 
 export const AuthContextProvider = ({ children }: { children: ReactNode }) => {
-  const [user, setUser] = useState<AdminUser | null>(() => getInitialUser());
-  const [loading, setLoading] = useState<boolean>(false);
+  const [user, setUser] = useState<AdminUser | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
+    // Read cached user on client mount
+    const cached = getInitialUser();
+    if (cached) {
+      setUser(cached);
+    }
+
+    if (!auth || !auth.app) {
+      setLoading(false);
+      return;
+    }
+
     try {
       const unsubscribe = onAuthStateChanged(
         auth,
@@ -64,6 +75,11 @@ export const AuthContextProvider = ({ children }: { children: ReactNode }) => {
             if (typeof window !== 'undefined') {
               localStorage.setItem(STORAGE_KEY, JSON.stringify(adminData));
             }
+          } else {
+            setUser(null);
+            if (typeof window !== 'undefined') {
+              localStorage.removeItem(STORAGE_KEY);
+            }
           }
           setLoading(false);
         },
@@ -76,10 +92,14 @@ export const AuthContextProvider = ({ children }: { children: ReactNode }) => {
       return () => unsubscribe();
     } catch (err) {
       console.warn('Firebase auth listener error:', err);
+      setLoading(false);
     }
   }, []);
 
   const loginWithEmail = async (email: string, pass: string): Promise<AdminUser> => {
+    if (!auth || !auth.app) {
+      throw new Error('Firebase Auth가 올바르게 초기화되지 않았습니다.');
+    }
     const cred = await signInWithEmailAndPassword(auth, email, pass);
     const adminData: AdminUser = {
       email: cred.user.email,
@@ -94,6 +114,9 @@ export const AuthContextProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const loginWithGoogle = async (): Promise<AdminUser> => {
+    if (!auth || !auth.app) {
+      throw new Error('Firebase Auth가 올바르게 초기화되지 않았습니다. 환경변수를 확인해주세요.');
+    }
     const provider = new GoogleAuthProvider();
     provider.setCustomParameters({ prompt: 'select_account' });
     const cred = await signInWithPopup(auth, provider);
@@ -111,7 +134,9 @@ export const AuthContextProvider = ({ children }: { children: ReactNode }) => {
 
   const logout = async () => {
     try {
-      await signOut(auth);
+      if (auth && auth.app) {
+        await signOut(auth);
+      }
     } catch (e) {
       console.warn('Sign out error:', e);
     }

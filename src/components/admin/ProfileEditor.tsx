@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { ProfileDataType, getProfile, updateProfile } from '@/service/portfolioService';
 import { profileData as defaultProfile } from '@/data/portfolioData';
+import styles from '@/app/styles/Admin.module.css';
 
 export default function ProfileEditor() {
   const [profile, setProfile] = useState<ProfileDataType>(defaultProfile as unknown as ProfileDataType);
@@ -33,7 +34,7 @@ export default function ProfileEditor() {
     const trimmed = skillInput.trim().toUpperCase();
     if (!trimmed) return;
 
-    const currentSkills = profile[activeLang].skills || [];
+    const currentSkills = profile[activeLang]?.skills || [];
     if (!currentSkills.includes(trimmed)) {
       setProfile((prev) => ({
         ...prev,
@@ -51,7 +52,7 @@ export default function ProfileEditor() {
       ...prev,
       [activeLang]: {
         ...prev[activeLang],
-        skills: (prev[activeLang].skills || []).filter((s: string) => s !== skillToRemove),
+        skills: (prev[activeLang]?.skills || []).filter((s: string) => s !== skillToRemove),
       },
     }));
   };
@@ -61,7 +62,7 @@ export default function ProfileEditor() {
     setMessage(null);
     try {
       await updateProfile(profile);
-      setMessage({ text: '프로필이 성공적으로 저장되었습니다! ✅', type: 'success' });
+      setMessage({ text: '프로필 정보가 성공적으로 저장되었습니다! ✅', type: 'success' });
     } catch (err: any) {
       console.error(err);
       setMessage({ text: `저장 실패: ${err.message || '오류 발생'}`, type: 'error' });
@@ -74,133 +75,163 @@ export default function ProfileEditor() {
   const current = profile[activeLang] || { name: '', headLine: '', about: '', skills: [] };
 
   return (
-    <div className="brutal-card p-6 md:p-8 bg-[#f2eee0]">
-      <div className="flex flex-wrap items-center justify-between gap-4 mb-6 border-b-2 border-black pb-4">
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+      {/* Header Bar */}
+      <div className={styles.editorHeader}>
         <div>
-          <h2 className="text-xl md:text-2xl font-bold uppercase">프로필 (Profile) 편집</h2>
-          <p className="text-sm text-gray-700 mt-1">
+          <h2 className={styles.editorTitle}>프로필 (Profile) 편집</h2>
+          <p className={styles.editorSubtitle}>
             홈 화면 상단 및 이력서에 표시되는 기본 정보와 기술 스택을 편집합니다.
           </p>
         </div>
-        <div className="flex gap-2">
+
+        {/* Language Tabs */}
+        <div style={{ display: 'flex', gap: '8px' }}>
           <button
             type="button"
             onClick={() => setActiveLang('en')}
-            className={`px-4 py-2 text-sm font-bold border-2 border-black ${
-              activeLang === 'en' ? 'bg-black text-[#e7e2d0]' : 'bg-transparent text-black hover:bg-black/10'
-            }`}>
-            ENGLISH (EN)
+            className={activeLang === 'en' ? styles.btnPrimary : styles.btnSecondary}>
+            🇬🇧 ENGLISH (EN)
           </button>
           <button
             type="button"
             onClick={() => setActiveLang('kr')}
-            className={`px-4 py-2 text-sm font-bold border-2 border-black ${
-              activeLang === 'kr' ? 'bg-black text-[#e7e2d0]' : 'bg-transparent text-black hover:bg-black/10'
-            }`}>
-            한국어 (KR)
+            className={activeLang === 'kr' ? styles.btnPrimary : styles.btnSecondary}>
+            🇰🇷 한국어 (KR)
           </button>
         </div>
       </div>
 
+      {/* Message Banner */}
       {message && (
         <div
-          className={`mb-6 p-4 border-2 border-black font-bold text-sm ${
-            message.type === 'success' ? 'bg-green-100 text-green-900' : 'bg-red-100 text-red-900'
-          }`}>
+          style={{
+            padding: '14px 20px',
+            border: '2px solid #000',
+            fontWeight: 700,
+            fontSize: '13px',
+            backgroundColor: message.type === 'success' ? '#d1fae5' : '#fee2e2',
+            color: message.type === 'success' ? '#065f46' : '#991b1b',
+          }}>
           {message.text}
         </div>
       )}
 
-      <div className="space-y-6">
-        <div>
-          <label className="block text-xs font-bold uppercase tracking-wider mb-2">
-            이름 (Name) - [{activeLang.toUpperCase()}]
+      {/* Form Fields */}
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+        <div className={styles.formGroup}>
+          <label className={styles.label}>
+            이름 (Name) <span>[{activeLang.toUpperCase()}]</span>
           </label>
           <input
             type="text"
             value={current.name || ''}
             onChange={(e) => handleTextChange('name', e.target.value)}
             placeholder="YOUNGGEUN JUN / 전영근"
-            className="w-full p-3 bg-white border-2 border-black font-medium focus:outline-none focus:ring-2 focus:ring-black"
+            className={styles.input}
           />
         </div>
 
-        <div>
-          <label className="block text-xs font-bold uppercase tracking-wider mb-2">
-            헤드라인 (HeadLine) - [{activeLang.toUpperCase()}]
+        <div className={styles.formGroup}>
+          <label className={styles.label}>
+            헤드라인 (HeadLine) <span>[{activeLang.toUpperCase()}]</span>
           </label>
           <input
             type="text"
             value={current.headLine || ''}
             onChange={(e) => handleTextChange('headLine', e.target.value)}
             placeholder="I make digital screens do cool stuff."
-            className="w-full p-3 bg-white border-2 border-black font-medium focus:outline-none focus:ring-2 focus:ring-black"
+            className={styles.input}
           />
         </div>
 
-        <div>
-          <label className="block text-xs font-bold uppercase tracking-wider mb-2">
-            소개글 (About) - [{activeLang.toUpperCase()}]
+        <div className={styles.formGroup}>
+          <label className={styles.label}>
+            소개글 (About) <span>[{activeLang.toUpperCase()}]</span>
           </label>
           <textarea
-            rows={4}
+            rows={5}
             value={current.about || ''}
             onChange={(e) => handleTextChange('about', e.target.value)}
             placeholder="I'm a Creative Software Developer..."
-            className="w-full p-3 bg-white border-2 border-black font-medium focus:outline-none focus:ring-2 focus:ring-black resize-y"
+            className={styles.textarea}
           />
         </div>
 
-        <div>
-          <label className="block text-xs font-bold uppercase tracking-wider mb-2">
-            기술 스택 (Skills) - [{activeLang.toUpperCase()}]
+        <div className={styles.formGroup}>
+          <label className={styles.label}>
+            기술 스택 (Skills) <span>[{activeLang.toUpperCase()}]</span>
           </label>
-          <div className="flex gap-2 mb-3">
+          <div style={{ display: 'flex', gap: '10px' }}>
             <input
               type="text"
               value={skillInput}
               onChange={(e) => setSkillInput(e.target.value)}
               onKeyDown={handleAddSkill}
-              placeholder="스킬 입력 후 Enter 또는 추가 클릭 (예: REACT, NEXT.JS, TYPESCRIPT)"
-              className="flex-1 p-3 bg-white border-2 border-black font-medium focus:outline-none focus:ring-2 focus:ring-black uppercase text-sm"
+              placeholder="스킬 입력 후 Enter 또는 추가 버튼 클릭 (예: REACT, NEXT.JS, TYPESCRIPT)"
+              className={styles.input}
+              style={{ flex: 1, textTransform: 'uppercase' }}
             />
             <button
               type="button"
               onClick={handleAddSkill}
-              className="brutal-btn whitespace-nowrap">
-              스킬 추가 +
+              className={styles.btnPrimary}
+              style={{ whiteSpace: 'nowrap' }}>
+              + 스킬 추가
             </button>
           </div>
 
-          <div className="flex flex-wrap gap-2 min-h-[44px] p-3 bg-white/70 border-2 border-black">
+          <div
+            style={{
+              display: 'flex',
+              flexWrap: 'wrap',
+              gap: '8px',
+              minHeight: '60px',
+              padding: '16px',
+              backgroundColor: '#ffffff',
+              border: '2px solid #000000',
+              marginTop: '10px',
+            }}>
             {current.skills && current.skills.length > 0 ? (
               current.skills.map((skill) => (
-                <span
-                  key={skill}
-                  className="inline-flex items-center gap-1.5 px-3 py-1 bg-black text-[#e7e2d0] text-xs font-bold border border-black rounded-[6px]">
-                  {skill}
+                <span key={skill} className={styles.tagChip}>
+                  <span>{skill}</span>
                   <button
                     type="button"
                     onClick={() => handleRemoveSkill(skill)}
-                    className="hover:text-red-400 font-bold ml-1 text-sm leading-none"
+                    className={styles.tagDeleteBtn}
                     title="삭제">
                     &times;
                   </button>
                 </span>
               ))
             ) : (
-              <span className="text-xs text-gray-500 italic">등록된 기술 스택이 없습니다.</span>
+              <span style={{ fontSize: '13px', color: '#888', fontStyle: 'italic' }}>
+                등록된 기술 스택이 없습니다.
+              </span>
             )}
           </div>
         </div>
 
-        <div className="pt-4 border-t-2 border-black flex justify-end">
+        {/* Save Footer */}
+        <div
+          style={{
+            paddingTop: '24px',
+            borderTop: '2px solid #000000',
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+          }}>
+          <span style={{ fontSize: '12px', color: '#555', fontFamily: 'monospace' }}>
+            * 변경 사항은 홈 화면과 CV에 즉시 반영됩니다.
+          </span>
           <button
             type="button"
             disabled={saving}
             onClick={handleSave}
-            className="brutal-btn px-8 py-3 text-base">
-            {saving ? '저장 중...' : '프로필 전체 저장 💾'}
+            className={styles.btnPrimary}
+            style={{ padding: '14px 32px', fontSize: '14px' }}>
+            {saving ? '저장 처리 중...' : '💾 프로필 전체 저장'}
           </button>
         </div>
       </div>

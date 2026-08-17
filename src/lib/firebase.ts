@@ -13,8 +13,20 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase only once
-const app = !getApps().length ? initializeApp(firebaseConfig) : getApp();
-const auth = getAuth(app);
-const db = getFirestore(app);
+let app;
+let auth: ReturnType<typeof getAuth>;
+let db: ReturnType<typeof getFirestore>;
+
+if (firebaseConfig.apiKey && firebaseConfig.projectId) {
+  app = !getApps().length ? initializeApp(firebaseConfig) : getApp();
+  auth = getAuth(app);
+  db = getFirestore(app);
+} else {
+  console.warn('Firebase configuration is incomplete. Authentication and database will not work.');
+  // Mock objects to prevent complete app crash
+  app = {} as any;
+  auth = {} as any;
+  db = {} as any;
+}
 
 export { app, auth, db };

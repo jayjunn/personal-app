@@ -3,6 +3,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { WorkItem, getWorks, updateWorks } from '@/service/portfolioService';
 import { workData as defaultWorks } from '@/data/portfolioData';
+import styles from '@/app/styles/Admin.module.css';
 
 export default function WorksEditor() {
   const [works, setWorks] = useState<WorkItem[]>(defaultWorks as unknown as WorkItem[]);
@@ -25,7 +26,7 @@ export default function WorksEditor() {
       id: Date.now(),
       name: '',
       category: 'web',
-      company: 'Toy Project',
+      company: 'Personal Project',
       img: 'https://res.cloudinary.com/dgmnoyv6u/image/upload/v1688622910/Screenshot_2023-07-06_at_2.54.03_PM_a8dssi.png',
       description: {
         en: '',
@@ -59,7 +60,6 @@ export default function WorksEditor() {
     setWorks(updated);
   };
 
-  // Tag management
   const handleAddTag = (e: React.KeyboardEvent | React.MouseEvent) => {
     if ('key' in e && e.key !== 'Enter') return;
     e.preventDefault();
@@ -84,7 +84,6 @@ export default function WorksEditor() {
     });
   };
 
-  // Image Upload via Cloudinary
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
     if (!files || files.length === 0 || !editItem) return;
@@ -164,115 +163,120 @@ export default function WorksEditor() {
   };
 
   return (
-    <div className="brutal-card p-6 md:p-8 bg-[#f2eee0]">
-      <div className="flex flex-wrap items-center justify-between gap-4 mb-6 border-b-2 border-black pb-4">
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+      {/* Header Bar */}
+      <div className={styles.editorHeader}>
         <div>
-          <h2 className="text-xl md:text-2xl font-bold uppercase">프로젝트 / 작업물 (Works) 관리</h2>
-          <p className="text-sm text-gray-700 mt-1">
-            홈 화면 하단 슬라이더 및 CV에 표시되는 프로젝트를 추가, 수정, 삭제합니다.
+          <h2 className={styles.editorTitle}>프로젝트 (Works) 관리</h2>
+          <p className={styles.editorSubtitle}>
+            홈 화면 슬라이더 및 `/works`에 표시되는 프로젝트 목록을 추가, 편집합니다.
           </p>
         </div>
-        <div className="flex gap-2">
-          <button
-            type="button"
-            onClick={handleStartAdd}
-            className="brutal-btn">
-            + 새 프로젝트 추가
-          </button>
-        </div>
+
+        <button
+          type="button"
+          onClick={handleStartAdd}
+          className={styles.btnPrimary}>
+          + 새 프로젝트 추가
+        </button>
       </div>
 
       {message && (
         <div
-          className={`mb-6 p-4 border-2 border-black font-bold text-sm ${
-            message.type === 'success' ? 'bg-green-100 text-green-900' : 'bg-red-100 text-red-900'
-          }`}>
+          style={{
+            padding: '14px 20px',
+            border: '2px solid #000',
+            fontWeight: 700,
+            fontSize: '13px',
+            backgroundColor: message.type === 'success' ? '#d1fae5' : '#fee2e2',
+            color: message.type === 'success' ? '#065f46' : '#991b1b',
+          }}>
           {message.text}
         </div>
       )}
 
-      {/* Projects Grid / List */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mb-8">
+      {/* Projects Grid */}
+      <div className={styles.grid2}>
         {works.length === 0 ? (
-          <div className="col-span-full p-8 text-center bg-white/50 border-2 border-dashed border-black">
-            등록된 프로젝트가 없습니다. [새 프로젝트 추가] 버튼을 눌러주세요.
+          <div style={{ gridColumn: '1 / -1', padding: '40px', textAlign: 'center', backgroundColor: '#fff', border: '2px dashed #000', fontFamily: 'monospace' }}>
+            등록된 프로젝트가 없습니다. 상단의 [+ 새 프로젝트 추가] 버튼을 눌러주세요.
           </div>
         ) : (
           works.map((work, idx) => (
-            <div
-              key={work.id || idx}
-              className="bg-white border-2 border-black p-4 flex flex-col justify-between shadow-[3px_3px_0px_#0c0c0c]">
+            <div key={work.id || idx} className={styles.itemCard}>
               <div>
-                <div className="flex items-center justify-between gap-2 border-b border-black/20 pb-2 mb-3">
-                  <div className="flex items-center gap-2">
-                    <span className="font-mono text-xs bg-black text-[#e7e2d0] px-2 py-0.5 font-bold">
-                      #{idx + 1}
-                    </span>
-                    <h3 className="font-bold text-base">{work.name}</h3>
+                <div className={styles.itemCardHeader}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                    <span className={styles.adminBadge}>#{idx + 1}</span>
+                    <h3 className={styles.itemCardTitle}>{work.name}</h3>
                   </div>
                   {work.company && (
-                    <span className="text-xs font-semibold px-2 py-0.5 bg-gray-100 border border-black">
+                    <span style={{ backgroundColor: '#e7e2d0', padding: '2px 8px', border: '1px solid #000', fontSize: '12px', fontWeight: 700 }}>
                       {work.company}
                     </span>
                   )}
                 </div>
 
                 {work.img && (
-                  <div className="relative w-full h-36 bg-gray-100 border border-black mb-3 overflow-hidden">
+                  <div style={{ width: '100%', height: '180px', backgroundColor: '#f0f0f0', border: '2px solid #000', margin: '14px 0', overflow: 'hidden' }}>
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
                       src={work.img}
                       alt={work.name}
-                      className="w-full h-full object-cover"
+                      style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                       onError={(e) => {
                         (e.target as HTMLImageElement).src =
-                          'https://placehold.co/600x400/e7e2d0/0c0c0c?text=' + encodeURIComponent(work.name);
+                          'https://placehold.co/600x400/e7e2d0/0c0c0c?text=' +
+                          encodeURIComponent(work.name);
                       }}
                     />
                   </div>
                 )}
 
-                <p className="text-xs text-gray-700 line-clamp-2 mb-3">
+                <p style={{ fontSize: '13px', color: '#444', lineHeight: 1.5, marginBottom: '12px' }}>
                   {work.description?.kr || work.description?.en || '설명 없음'}
                 </p>
 
-                <div className="flex flex-wrap gap-1 mb-3">
+                <div className={styles.tagList}>
                   {work.stacks?.map((stack) => (
-                    <span key={stack} className="text-[10px] font-bold px-1.5 py-0.5 bg-gray-100 border border-black">
+                    <span key={stack} className={styles.tagChip}>
                       {stack}
                     </span>
                   ))}
                 </div>
               </div>
 
-              <div className="pt-3 border-t border-black/20 flex items-center justify-between">
-                <div className="flex gap-1">
+              <div style={{ borderTop: '2px solid rgba(0,0,0,0.15)', paddingTop: '14px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <div style={{ display: 'flex', border: '2px solid #000' }}>
                   <button
                     type="button"
                     disabled={idx === 0}
                     onClick={() => handleMove(idx, 'up')}
-                    className="px-2 py-1 border border-black text-xs font-bold bg-[#e7e2d0] disabled:opacity-30">
+                    style={{ padding: '6px 10px', background: '#e7e2d0', borderRight: '1px solid #000', cursor: 'pointer', fontWeight: 700 }}
+                    title="위로 이동">
                     ▲
                   </button>
                   <button
                     type="button"
                     disabled={idx === works.length - 1}
                     onClick={() => handleMove(idx, 'down')}
-                    className="px-2 py-1 border border-black text-xs font-bold bg-[#e7e2d0] disabled:opacity-30">
+                    style={{ padding: '6px 10px', background: '#e7e2d0', cursor: 'pointer', fontWeight: 700 }}
+                    title="아래로 이동">
                     ▼
                   </button>
                 </div>
-                <div className="flex gap-2">
+                <div style={{ display: 'flex', gap: '8px' }}>
                   <button
                     type="button"
                     onClick={() => handleStartEdit(idx)}
-                    className="px-3 py-1 border border-black text-xs font-bold bg-yellow-200 hover:bg-yellow-300">
+                    className={styles.btnWarning}>
                     수정 ✏️
                   </button>
                   <button
                     type="button"
                     onClick={() => handleDelete(idx)}
-                    className="px-3 py-1 border border-black text-xs font-bold bg-red-200 hover:bg-red-300">
+                    className={styles.btnDanger}
+                    style={{ padding: '8px 14px' }}>
                     삭제 🗑️
                   </button>
                 </div>
@@ -282,100 +286,122 @@ export default function WorksEditor() {
         )}
       </div>
 
-      <div className="pt-4 border-t-2 border-black flex justify-between items-center">
-        <span className="text-xs text-gray-600 font-medium">총 {works.length}개의 프로젝트가 등록되어 있습니다.</span>
+      {/* Footer */}
+      <div
+        style={{
+          paddingTop: '24px',
+          borderTop: '2px solid #000000',
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+        }}>
+        <span style={{ fontSize: '13px', color: '#555', fontFamily: 'monospace' }}>
+          총 <strong>{works.length}</strong>개의 프로젝트가 등록되어 있습니다.
+        </span>
         <button
           type="button"
           disabled={saving}
           onClick={handleSaveAll}
-          className="brutal-btn px-8 py-3 text-base">
-          {saving ? '저장 중...' : '프로젝트 목록 전체 저장 💾'}
+          className={styles.btnPrimary}
+          style={{ padding: '14px 32px', fontSize: '14px' }}>
+          {saving ? '저장 처리 중...' : '💾 프로젝트 목록 전체 저장'}
         </button>
       </div>
 
       {/* Edit / Add Modal */}
       {editItem && (
-        <div className="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4 overflow-y-auto">
-          <div className="brutal-card bg-[#f2eee0] w-full max-w-3xl max-h-[90vh] overflow-y-auto p-6 md:p-8 relative my-8">
-            <h3 className="text-xl font-bold border-b-2 border-black pb-3 mb-6 uppercase">
-              {editingIndex === -1 ? '신규 프로젝트 추가' : `프로젝트 수정: ${editItem.name}`}
-            </h3>
+        <div className={styles.modalBackdrop}>
+          <div className={styles.modalBox}>
+            <div className={styles.modalHeader}>
+              <h3 className={styles.modalTitle}>
+                {editingIndex === -1 ? '신규 프로젝트 등록' : `프로젝트 수정: ${editItem.name}`}
+              </h3>
+              <button
+                type="button"
+                onClick={() => {
+                  setEditingIndex(null);
+                  setEditItem(null);
+                }}
+                className={styles.modalCloseBtn}>
+                ✕
+              </button>
+            </div>
 
-            <div className="space-y-4">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-xs font-bold uppercase mb-1">프로젝트명 (Project Name)</label>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+              <div className={styles.grid2}>
+                <div className={styles.formGroup} style={{ margin: 0 }}>
+                  <label className={styles.label}>프로젝트명 (Project Name)</label>
                   <input
                     type="text"
                     value={editItem.name}
                     onChange={(e) => setEditItem({ ...editItem, name: e.target.value })}
-                    placeholder="예: Airbnb Clone / Blocko"
-                    className="w-full p-2.5 bg-white border-2 border-black text-sm font-medium"
+                    placeholder="예: Airbnb Clone / Portfolio 2026"
+                    className={styles.input}
                   />
                 </div>
-                <div>
-                  <label className="block text-xs font-bold uppercase mb-1">구분 / 소속 (Company / Tag)</label>
+                <div className={styles.formGroup} style={{ margin: 0 }}>
+                  <label className={styles.label}>구분 / 소속 (Company / Tag)</label>
                   <input
                     type="text"
                     value={editItem.company || ''}
                     onChange={(e) => setEditItem({ ...editItem, company: e.target.value })}
                     placeholder="예: Toy Project, Freelance, 회사명"
-                    className="w-full p-2.5 bg-white border-2 border-black text-sm font-medium"
+                    className={styles.input}
                   />
                 </div>
               </div>
 
               {/* Image URL & Upload */}
-              <div>
-                <label className="block text-xs font-bold uppercase mb-1">이미지 (Image URL)</label>
-                <div className="flex flex-col md:flex-row gap-2">
+              <div className={styles.formGroup} style={{ margin: 0 }}>
+                <label className={styles.label}>이미지 (Image URL / Upload)</label>
+                <div style={{ display: 'flex', gap: '10px' }}>
                   <input
                     type="text"
                     value={editItem.img}
                     onChange={(e) => setEditItem({ ...editItem, img: e.target.value })}
                     placeholder="https://res.cloudinary.com/..."
-                    className="flex-1 p-2.5 bg-white border-2 border-black text-xs font-mono"
+                    className={styles.input}
+                    style={{ flex: 1 }}
                   />
-                  <div className="flex gap-2">
-                    <input
-                      type="file"
-                      ref={fileInputRef}
-                      onChange={handleImageUpload}
-                      accept="image/*"
-                      className="hidden"
-                      id="img-upload-input"
-                    />
-                    <label
-                      htmlFor="img-upload-input"
-                      className="px-4 py-2 border-2 border-black bg-white font-bold text-xs cursor-pointer hover:bg-gray-100 flex items-center justify-center">
-                      {uploading ? '업로드 중...' : '📁 파일 업로드'}
-                    </label>
-                  </div>
+                  <input
+                    type="file"
+                    ref={fileInputRef}
+                    onChange={handleImageUpload}
+                    accept="image/*"
+                    style={{ display: 'none' }}
+                    id="img-upload-input"
+                  />
+                  <label
+                    htmlFor="img-upload-input"
+                    className={styles.btnSecondary}
+                    style={{ whiteSpace: 'nowrap' }}>
+                    {uploading ? '업로드 중...' : '📁 파일 업로드'}
+                  </label>
                 </div>
                 {editItem.img && (
-                  <div className="mt-2 relative w-32 h-20 bg-gray-100 border border-black overflow-hidden">
+                  <div style={{ width: '160px', height: '100px', border: '2px solid #000', marginTop: '10px', overflow: 'hidden' }}>
                     {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src={editItem.img} alt="preview" className="w-full h-full object-cover" />
+                    <img src={editItem.img} alt="preview" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                   </div>
                 )}
               </div>
 
               {/* Link */}
-              <div>
-                <label className="block text-xs font-bold uppercase mb-1">배포 / 깃허브 링크 (Link URL)</label>
+              <div className={styles.formGroup} style={{ margin: 0 }}>
+                <label className={styles.label}>배포 / 깃허브 링크 (Link URL)</label>
                 <input
                   type="text"
                   value={editItem.link}
                   onChange={(e) => setEditItem({ ...editItem, link: e.target.value })}
-                  placeholder="https://..."
-                  className="w-full p-2.5 bg-white border-2 border-black text-xs font-mono"
+                  placeholder="https://github.com/... or https://..."
+                  className={styles.input}
                 />
               </div>
 
               {/* Descriptions */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-xs font-bold uppercase mb-1">영문 설명 (EN Description)</label>
+              <div className={styles.grid2}>
+                <div className={styles.formGroup} style={{ margin: 0 }}>
+                  <label className={styles.label}>영문 설명 (EN Description)</label>
                   <textarea
                     rows={3}
                     value={editItem.description?.en || ''}
@@ -385,12 +411,12 @@ export default function WorksEditor() {
                         description: { ...editItem.description, en: e.target.value },
                       })
                     }
-                    placeholder="This is a project for..."
-                    className="w-full p-2.5 bg-white border-2 border-black text-xs"
+                    placeholder="This project is built with..."
+                    className={styles.textarea}
                   />
                 </div>
-                <div>
-                  <label className="block text-xs font-bold uppercase mb-1">국문 설명 (KR Description)</label>
+                <div className={styles.formGroup} style={{ margin: 0 }}>
+                  <label className={styles.label}>국문 설명 (KR Description)</label>
                   <textarea
                     rows={3}
                     value={editItem.description?.kr || ''}
@@ -400,41 +426,51 @@ export default function WorksEditor() {
                         description: { ...editItem.description, kr: e.target.value },
                       })
                     }
-                    placeholder="이 프로젝트는..."
-                    className="w-full p-2.5 bg-white border-2 border-black text-xs"
+                    placeholder="이 프로젝트는 사용자 경험 중심의..."
+                    className={styles.textarea}
                   />
                 </div>
               </div>
 
               {/* Stacks Tags */}
-              <div>
-                <label className="block text-xs font-bold uppercase mb-1">사용 기술 태그 (Stacks)</label>
-                <div className="flex gap-2 mb-2">
+              <div className={styles.formGroup} style={{ margin: 0 }}>
+                <label className={styles.label}>기술 태그 (Stacks)</label>
+                <div style={{ display: 'flex', gap: '10px' }}>
                   <input
                     type="text"
                     value={tagInput}
                     onChange={(e) => setTagInput(e.target.value)}
                     onKeyDown={handleAddTag}
-                    placeholder="태그 입력 후 Enter 또는 추가 (예: NEXT.JS, PRISMA, TAILWIND)"
-                    className="flex-1 p-2 bg-white border-2 border-black text-xs uppercase"
+                    placeholder="태그 입력 후 Enter 또는 추가 클릭 (예: NEXT.JS, TAILWIND)"
+                    className={styles.input}
+                    style={{ flex: 1, textTransform: 'uppercase' }}
                   />
                   <button
                     type="button"
                     onClick={handleAddTag}
-                    className="px-3 py-1 bg-black text-[#e7e2d0] text-xs font-bold border border-black">
+                    className={styles.btnPrimary}
+                    style={{ whiteSpace: 'nowrap' }}>
                     + 추가
                   </button>
                 </div>
-                <div className="flex flex-wrap gap-1.5 p-2 bg-white/70 border border-black min-h-[36px]">
+                <div
+                  style={{
+                    display: 'flex',
+                    flexWrap: 'wrap',
+                    gap: '8px',
+                    padding: '14px',
+                    backgroundColor: '#fff',
+                    border: '2px solid #000',
+                    marginTop: '8px',
+                    minHeight: '48px',
+                  }}>
                   {editItem.stacks?.map((stack) => (
-                    <span
-                      key={stack}
-                      className="inline-flex items-center gap-1 px-2 py-0.5 bg-black text-[#e7e2d0] text-[11px] font-bold">
-                      {stack}
+                    <span key={stack} className={styles.tagChip}>
+                      <span>{stack}</span>
                       <button
                         type="button"
                         onClick={() => handleRemoveTag(stack)}
-                        className="hover:text-red-400 font-bold ml-1"
+                        className={styles.tagDeleteBtn}
                         title="제거">
                         &times;
                       </button>
@@ -444,21 +480,22 @@ export default function WorksEditor() {
               </div>
             </div>
 
-            <div className="flex justify-end gap-3 mt-6 pt-4 border-t-2 border-black">
+            {/* Modal Actions */}
+            <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '12px', marginTop: '16px', borderTop: '2px solid #000', paddingTop: '16px' }}>
               <button
                 type="button"
                 onClick={() => {
                   setEditingIndex(null);
                   setEditItem(null);
                 }}
-                className="px-4 py-2 border-2 border-black font-bold text-sm bg-white hover:bg-gray-100">
+                className={styles.btnSecondary}>
                 취소
               </button>
               <button
                 type="button"
                 onClick={handleSaveModal}
-                className="brutal-btn px-6 py-2 text-sm">
-                목록에 반영
+                className={styles.btnPrimary}>
+                목록에 반영 ➔
               </button>
             </div>
           </div>

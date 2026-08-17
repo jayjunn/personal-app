@@ -1,6 +1,4 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
 
 html,
 body {
@@ -70,3 +68,79 @@ li {
   background-color: #000000;
   color: #e7e2d0;
 }
+
+/* Brutalist UI Utilities */
+.brutal-card {
+  border: 2px solid #000000;
+  box-shadow: 4px 4px 0px #000000;
+  box-sizing: border-box;
+}
+
+.brutal-card-hover {
+  border: 2px solid #000000;
+  box-shadow: 4px 4px 0px #000000;
+  transition: all 0.15s ease-in-out;
+}
+
+.brutal-card-hover:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0px #000000;
+}
+
+.brutal-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background-color: #000000;
+  color: #e7e2d0;
+  font-weight: 700;
+  border: 2px solid #000000;
+  box-shadow: 3px 3px 0px rgba(0, 0, 0, 0.4);
+  transition: all 0.15s ease-in-out;
+  cursor: pointer;
+  box-sizing: border-box;
+  text-transform: uppercase;
+}
+
+.brutal-btn:hover {
+  background-color: #222222;
+  color: #ffffff;
+  box-shadow: 4px 4px 0px #000000;
+}
+
+.brutal-btn:active {
+  transform: translate(2px, 2px);
+  box-shadow: 1px 1px 0px #000000;
+}
+
+.brutal-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.brutal-btn-outline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background-color: #ffffff;
+  color: #000000;
+  font-weight: 700;
+  border: 2px solid #000000;
+  box-shadow: 3px 3px 0px #000000;
+  transition: all 0.15s ease-in-out;
+  cursor: pointer;
+  box-sizing: border-box;
+}
+
+.brutal-btn-outline:hover {
+  background-color: #000000;
+  color: #e7e2d0;
+}
+
+.brutal-btn-outline:active {
+  transform: translate(2px, 2px);
+  box-shadow: 1px 1px 0px #000000;
+}
+
