@@ -195,6 +195,57 @@ export default function MobileNavOverlay({
                 );
               })}
             </ul>
+
+            {/* Quick Command Palette Button */}
+            <div className="mt-4 pt-3 border-t border-black/20 dark:border-white/10">
+              <button
+                type="button"
+                onClick={() => {
+                  onClose();
+                  setTimeout(() => {
+                    window.dispatchEvent(new CustomEvent('open-command-palette'));
+                  }, 200);
+                }}
+                className="
+                  w-full
+                  flex
+                  items-center
+                  justify-between
+                  px-4
+                  py-3
+                  border-2
+                  border-black
+                  dark:border-[#272a34]
+                  bg-[#e7e2d0]
+                  dark:bg-[#1f212a]
+                  text-black
+                  dark:text-[#f3f4f6]
+                  font-black
+                  text-sm
+                  uppercase
+                  tracking-wider
+                  shadow-[3px_3px_0px_#000000]
+                  dark:shadow-[3px_3px_0px_#000000]
+                  active:translate-x-0.5
+                  active:translate-y-0.5
+                  active:shadow-none
+                  cursor-pointer
+                  hover:bg-black
+                  hover:text-white
+                  dark:hover:bg-[#252834]
+                  dark:hover:text-white
+                  transition-colors
+                "
+              >
+                <div className="flex items-center gap-2 font-mono">
+                  <span>⚡</span>
+                  <span>COMMAND PALETTE</span>
+                </div>
+                <span className="font-mono text-xs border border-current px-1.5 py-0.5 font-bold">
+                  ⌘K
+                </span>
+              </button>
+            </div>
           </nav>
 
           {/* Bottom Bar inside Overlay: Theme & Language */}

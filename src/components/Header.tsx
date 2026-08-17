@@ -115,40 +115,72 @@ export default function Header() {
             </h2>
           </Link>
 
-          <button
-            type="button"
-            onClick={() => {
-              setIsMobileMenuOpen(true);
-              setIsLangOpen(false);
-            }}
-            aria-label="Open Navigation Menu"
-            className="
-              md:hidden
-              flex
-              items-center
-              justify-center
-              gap-2
-              px-3.5
-              py-2
-              bg-[#e7e2d0]
-              dark:bg-[#16171e]
-              border-2
-              border-black
-              dark:border-[#272a34]
-              text-black
-              dark:text-[#f3f4f6]
-              shadow-[3px_3px_0px_#000000]
-              active:translate-x-0.5
-              active:translate-y-0.5
-              active:shadow-none
-              cursor-pointer
-            "
-          >
-            <MenuIcon className="w-4 h-4 stroke-current" />
-            <span className="text-xs font-mono font-black tracking-wider">
-              MENU
-            </span>
-          </button>
+          <div className="md:hidden flex items-center gap-2">
+            <button
+              type="button"
+              onClick={() => window.dispatchEvent(new CustomEvent('open-command-palette'))}
+              aria-label="Open Command Palette"
+              className="
+                flex
+                items-center
+                justify-center
+                px-2.5
+                py-2
+                bg-[#e7e2d0]
+                dark:bg-[#16171e]
+                border-2
+                border-black
+                dark:border-[#272a34]
+                text-black
+                dark:text-[#f3f4f6]
+                shadow-[3px_3px_0px_#000000]
+                active:translate-x-0.5
+                active:translate-y-0.5
+                active:shadow-none
+                cursor-pointer
+                font-mono
+                text-xs
+                font-black
+              "
+              title="Command Palette (⌘K)"
+            >
+              <span>⌘K</span>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => {
+                setIsMobileMenuOpen(true);
+                setIsLangOpen(false);
+              }}
+              aria-label="Open Navigation Menu"
+              className="
+                flex
+                items-center
+                justify-center
+                gap-2
+                px-3.5
+                py-2
+                bg-[#e7e2d0]
+                dark:bg-[#16171e]
+                border-2
+                border-black
+                dark:border-[#272a34]
+                text-black
+                dark:text-[#f3f4f6]
+                shadow-[3px_3px_0px_#000000]
+                active:translate-x-0.5
+                active:translate-y-0.5
+                active:shadow-none
+                cursor-pointer
+              "
+            >
+              <MenuIcon className="w-4 h-4 stroke-current" />
+              <span className="text-xs font-mono font-black tracking-wider">
+                MENU
+              </span>
+            </button>
+          </div>
         </section>
 
         <DesktopNav
