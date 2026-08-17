@@ -49,7 +49,7 @@ const Work = (props: WorkProps) => {
         <p className={styles.project__des}>{description}</p>
         <div className={styles.project__stacks}>
           {stacks.map((stack, index) => (
-            <span key={`stack-${stack}-${index}`} className={styles.stack__item}>
+            <span key={`work-stack-${name}-${stack}-${index}`} className={styles.stack__item}>
               {stack}
             </span>
           ))}

@@ -1,25 +1,47 @@
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { WorkItem, getWorks, updateWorks } from '@/service/portfolioService';
 import { workData as defaultWorks } from '@/data/portfolioData';
 import styles from '@/app/styles/Admin.module.css';
 
 export default function WorksEditor() {
+  const queryClient = useQueryClient();
   const [works, setWorks] = useState<WorkItem[]>(defaultWorks as unknown as WorkItem[]);
   const [editingIndex, setEditingIndex] = useState<number | null>(null);
   const [editItem, setEditItem] = useState<WorkItem | null>(null);
   const [tagInput, setTagInput] = useState('');
   const [uploading, setUploading] = useState(false);
-  const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState<{ text: string; type: 'success' | 'error' } | null>(null);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
+  // TanStack Query: fetch works
+  const { data: remoteWorks, isLoading } = useQuery({
+    queryKey: ['works'],
+    queryFn: getWorks,
+    initialData: defaultWorks as unknown as WorkItem[],
+  });
+
   useEffect(() => {
-    getWorks().then((data) => {
-      if (data) setWorks(data);
-    });
-  }, []);
+    if (remoteWorks) {
+      setWorks(remoteWorks);
+    }
+  }, [remoteWorks]);
+
+  // TanStack Query: mutation to save works
+  const saveMutation = useMutation({
+    mutationFn: (newWorks: WorkItem[]) => updateWorks(newWorks),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['works'] });
+      setMessage({ text: '프로젝트 목록이 성공적으로 저장되었습니다! ✅', type: 'success' });
+      setTimeout(() => setMessage(null), 3500);
+    },
+    onError: (err: any) => {
+      console.error(err);
+      setMessage({ text: `저장 실패: ${err.message || '오류 발생'}`, type: 'error' });
+    },
+  });
 
   const handleStartAdd = () => {
     setEditItem({
@@ -147,19 +169,9 @@ export default function WorksEditor() {
     setEditItem(null);
   };
 
-  const handleSaveAll = async () => {
-    setSaving(true);
+  const handleSaveAll = () => {
     setMessage(null);
-    try {
-      await updateWorks(works);
-      setMessage({ text: '프로젝트 목록이 성공적으로 저장되었습니다! ✅', type: 'success' });
-    } catch (err: any) {
-      console.error(err);
-      setMessage({ text: `저장 실패: ${err.message || '오류 발생'}`, type: 'error' });
-    } finally {
-      setSaving(false);
-      setTimeout(() => setMessage(null), 3500);
-    }
+    saveMutation.mutate(works);
   };
 
   return (
@@ -197,13 +209,17 @@ export default function WorksEditor() {
 
       {/* Projects Grid */}
       <div className={styles.grid2}>
-        {works.length === 0 ? (
+        {isLoading ? (
+          <div style={{ gridColumn: '1 / -1', padding: '40px', textAlign: 'center', backgroundColor: '#fff', border: '2px dashed #000', fontFamily: 'monospace' }}>
+            데이터를 불러오는 중입니다...
+          </div>
+        ) : works.length === 0 ? (
           <div style={{ gridColumn: '1 / -1', padding: '40px', textAlign: 'center', backgroundColor: '#fff', border: '2px dashed #000', fontFamily: 'monospace' }}>
             등록된 프로젝트가 없습니다. 상단의 [+ 새 프로젝트 추가] 버튼을 눌러주세요.
           </div>
         ) : (
           works.map((work, idx) => (
-            <div key={work.id || idx} className={styles.itemCard}>
+            <div key={`admin-work-${work.id ?? 'idx'}-${work.name}-${idx}`} className={styles.itemCard}>
               <div>
                 <div className={styles.itemCardHeader}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
@@ -238,8 +254,8 @@ export default function WorksEditor() {
                 </p>
 
                 <div className={styles.tagList}>
-                  {work.stacks?.map((stack) => (
-                    <span key={stack} className={styles.tagChip}>
+                  {work.stacks?.map((stack, sIdx) => (
+                    <span key={`admin-work-stack-${work.name}-${stack}-${sIdx}`} className={styles.tagChip}>
                       {stack}
                     </span>
                   ))}
@@ -300,11 +316,11 @@ export default function WorksEditor() {
         </span>
         <button
           type="button"
-          disabled={saving}
+          disabled={saveMutation.isPending}
           onClick={handleSaveAll}
           className={styles.btnPrimary}
           style={{ padding: '14px 32px', fontSize: '14px' }}>
-          {saving ? '저장 처리 중...' : '💾 프로젝트 목록 전체 저장'}
+          {saveMutation.isPending ? '저장 처리 중...' : '💾 프로젝트 목록 전체 저장'}
         </button>
       </div>
 
@@ -464,8 +480,8 @@ export default function WorksEditor() {
                     marginTop: '8px',
                     minHeight: '48px',
                   }}>
-                  {editItem.stacks?.map((stack) => (
-                    <span key={stack} className={styles.tagChip}>
+                  {editItem.stacks?.map((stack, sIdx) => (
+                    <span key={`admin-edit-stack-${stack}-${sIdx}`} className={styles.tagChip}>
                       <span>{stack}</span>
                       <button
                         type="button"

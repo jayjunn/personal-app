@@ -1,22 +1,44 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { ExperienceItem, getExperiences, updateExperiences } from '@/service/portfolioService';
 import { experienceData as defaultExperiences } from '@/data/portfolioData';
 import styles from '@/app/styles/Admin.module.css';
 
 export default function ExperienceEditor() {
+  const queryClient = useQueryClient();
   const [experiences, setExperiences] = useState<ExperienceItem[]>(defaultExperiences as unknown as ExperienceItem[]);
   const [editingIndex, setEditingIndex] = useState<number | null>(null);
   const [editItem, setEditItem] = useState<ExperienceItem | null>(null);
-  const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState<{ text: string; type: 'success' | 'error' } | null>(null);
 
+  // TanStack Query: fetch experiences
+  const { data: remoteExperiences, isLoading } = useQuery({
+    queryKey: ['experiences'],
+    queryFn: getExperiences,
+    initialData: defaultExperiences as unknown as ExperienceItem[],
+  });
+
   useEffect(() => {
-    getExperiences().then((data) => {
-      if (data) setExperiences(data);
-    });
-  }, []);
+    if (remoteExperiences) {
+      setExperiences(remoteExperiences);
+    }
+  }, [remoteExperiences]);
+
+  // TanStack Query: mutation to save experiences
+  const saveMutation = useMutation({
+    mutationFn: (newExps: ExperienceItem[]) => updateExperiences(newExps),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['experiences'] });
+      setMessage({ text: '경력 사항이 성공적으로 저장되었습니다! ✅', type: 'success' });
+      setTimeout(() => setMessage(null), 3500);
+    },
+    onError: (err: any) => {
+      console.error(err);
+      setMessage({ text: `저장 실패: ${err.message || '오류 발생'}`, type: 'error' });
+    },
+  });
 
   const handleStartAdd = () => {
     setEditItem({
@@ -59,13 +81,13 @@ export default function ExperienceEditor() {
 
   const handleBulletChange = (lang: 'en' | 'kr', bIndex: number, val: string) => {
     if (!editItem) return;
-    const updatedList = [...(editItem.description[lang] || [])];
-    updatedList[bIndex] = val;
+    const updatedBullets = [...(editItem.description[lang] || [])];
+    updatedBullets[bIndex] = val;
     setEditItem({
       ...editItem,
       description: {
         ...editItem.description,
-        [lang]: updatedList,
+        [lang]: updatedBullets,
       },
     });
   };
@@ -83,12 +105,12 @@ export default function ExperienceEditor() {
 
   const handleRemoveBullet = (lang: 'en' | 'kr', bIndex: number) => {
     if (!editItem) return;
-    const updatedList = editItem.description[lang].filter((_, i) => i !== bIndex);
+    const updatedBullets = editItem.description[lang].filter((_, i) => i !== bIndex);
     setEditItem({
       ...editItem,
       description: {
         ...editItem.description,
-        [lang]: updatedList,
+        [lang]: updatedBullets.length > 0 ? updatedBullets : [''],
       },
     });
   };
@@ -96,24 +118,16 @@ export default function ExperienceEditor() {
   const handleSaveModal = () => {
     if (!editItem) return;
     if (!editItem.company.trim() || !editItem.role.trim()) {
-      alert('회사명과 직책(Role)을 모두 입력해주세요.');
+      alert('회사명과 직책/역할을 입력해주세요.');
       return;
     }
 
-    const cleanItem: ExperienceItem = {
-      ...editItem,
-      description: {
-        en: editItem.description.en.filter((b) => b.trim() !== ''),
-        kr: editItem.description.kr.filter((b) => b.trim() !== ''),
-      },
-    };
-
     let updatedList: ExperienceItem[];
     if (editingIndex === -1) {
-      updatedList = [cleanItem, ...experiences];
+      updatedList = [editItem, ...experiences];
     } else if (editingIndex !== null) {
       updatedList = [...experiences];
-      updatedList[editingIndex] = cleanItem;
+      updatedList[editingIndex] = editItem;
     } else {
       return;
     }
@@ -123,29 +137,19 @@ export default function ExperienceEditor() {
     setEditItem(null);
   };
 
-  const handleSaveAll = async () => {
-    setSaving(true);
+  const handleSaveAll = () => {
     setMessage(null);
-    try {
-      await updateExperiences(experiences);
-      setMessage({ text: '경력 사항이 성공적으로 저장되었습니다! ✅', type: 'success' });
-    } catch (err: any) {
-      console.error(err);
-      setMessage({ text: `저장 실패: ${err.message || '오류 발생'}`, type: 'error' });
-    } finally {
-      setSaving(false);
-      setTimeout(() => setMessage(null), 3500);
-    }
+    saveMutation.mutate(experiences);
   };
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
-      {/* Header Bar */}
+      {/* Header */}
       <div className={styles.editorHeader}>
         <div>
-          <h2 className={styles.editorTitle}>경력 (Experience) 관리</h2>
+          <h2 className={styles.editorTitle}>경력 사항 (Experience) 관리</h2>
           <p className={styles.editorSubtitle}>
-            홈 화면 및 CV에 표시되는 회사 및 개발/직무 경력 리스트를 관리합니다.
+            회사별 직책, 근무 기간, 주요 업무 불릿(영문/국문) 및 기술 스택을 편집합니다.
           </p>
         </div>
 
@@ -173,13 +177,17 @@ export default function ExperienceEditor() {
 
       {/* Experience List */}
       <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-        {experiences.length === 0 ? (
+        {isLoading ? (
+          <div style={{ padding: '40px', textAlign: 'center', backgroundColor: '#fff', border: '2px dashed #000', fontFamily: 'monospace' }}>
+            데이터를 불러오는 중입니다...
+          </div>
+        ) : experiences.length === 0 ? (
           <div style={{ padding: '40px', textAlign: 'center', backgroundColor: '#fff', border: '2px dashed #000', fontFamily: 'monospace' }}>
             등록된 경력 데이터가 없습니다. 상단의 [+ 새 경력 추가하기] 버튼을 눌러주세요.
           </div>
         ) : (
           experiences.map((exp, idx) => (
-            <div key={idx} className={styles.itemCard}>
+            <div key={`admin-exp-${exp.id || exp.company}-${idx}`} className={styles.itemCard}>
               <div className={styles.itemCardHeader}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
                   <span className={styles.adminBadge}>#{idx + 1}</span>
@@ -198,7 +206,7 @@ export default function ExperienceEditor() {
                       disabled={idx === 0}
                       onClick={() => handleMove(idx, 'up')}
                       style={{ padding: '6px 10px', background: '#e7e2d0', borderRight: '1px solid #000', cursor: 'pointer', fontWeight: 700 }}
-                      title="위로 이동">
+                      title="위로">
                       ▲
                     </button>
                     <button
@@ -206,11 +214,10 @@ export default function ExperienceEditor() {
                       disabled={idx === experiences.length - 1}
                       onClick={() => handleMove(idx, 'down')}
                       style={{ padding: '6px 10px', background: '#e7e2d0', cursor: 'pointer', fontWeight: 700 }}
-                      title="아래로 이동">
+                      title="아래로">
                       ▼
                     </button>
                   </div>
-
                   <button
                     type="button"
                     onClick={() => handleStartEdit(idx)}
@@ -227,10 +234,37 @@ export default function ExperienceEditor() {
                 </div>
               </div>
 
-              <div style={{ fontSize: '13px', color: '#555', display: 'flex', gap: '20px', fontFamily: 'monospace' }}>
-                <span>• 영문 업무 설명: <strong>{exp.description?.en?.length || 0}</strong>개 항목</span>
-                <span>• 국문 업무 설명: <strong>{exp.description?.kr?.length || 0}</strong>개 항목</span>
+              <div style={{ fontSize: '13px', color: '#555', fontFamily: 'monospace', fontWeight: 600 }}>
+                📅 {exp.period || '기간 미지정'} | 📍 {exp.location || '위치 미지정'}
               </div>
+
+              {/* Description Bullets preview */}
+              <div style={{ marginTop: '8px' }}>
+                <p style={{ fontSize: '12px', fontWeight: 700, color: '#333', marginBottom: '4px' }}>
+                  🇰🇷 국문 설명 요약 ({exp.description?.kr?.length || 0}개 항목):
+                </p>
+                <ul style={{ paddingLeft: '18px', margin: 0, fontSize: '13px', color: '#444', lineHeight: 1.5 }}>
+                  {exp.description?.kr?.slice(0, 3).map((bullet, bIdx) => (
+                    <li key={`preview-kr-${bIdx}`}>{bullet}</li>
+                  ))}
+                  {(exp.description?.kr?.length || 0) > 3 && (
+                    <li style={{ color: '#888', fontStyle: 'italic' }}>
+                      외 {exp.description.kr.length - 3}개 항목 더 있음...
+                    </li>
+                  )}
+                </ul>
+              </div>
+
+              {/* Stacks tags preview */}
+              {exp.stacks && exp.stacks.length > 0 && (
+                <div className={styles.tagList} style={{ marginTop: '4px' }}>
+                  {exp.stacks.map((stk, sIdx) => (
+                    <span key={`preview-stack-${stk}-${sIdx}`} className={styles.tagChip}>
+                      {stk}
+                    </span>
+                  ))}
+                </div>
+              )}
             </div>
           ))
         )}
@@ -246,25 +280,25 @@ export default function ExperienceEditor() {
           alignItems: 'center',
         }}>
         <span style={{ fontSize: '13px', color: '#555', fontFamily: 'monospace' }}>
-          총 <strong>{experiences.length}</strong>개의 경력이 등록되어 있습니다.
+          총 <strong>{experiences.length}</strong>개의 경력 항목이 등록되어 있습니다.
         </span>
         <button
           type="button"
-          disabled={saving}
+          disabled={saveMutation.isPending}
           onClick={handleSaveAll}
           className={styles.btnPrimary}
           style={{ padding: '14px 32px', fontSize: '14px' }}>
-          {saving ? '저장 처리 중...' : '💾 경력 사항 전체 저장'}
+          {saveMutation.isPending ? '저장 처리 중...' : '💾 경력 사항 전체 저장'}
         </button>
       </div>
 
-      {/* Edit / Add Modal */}
+      {/* Edit Modal */}
       {editItem && (
         <div className={styles.modalBackdrop}>
-          <div className={styles.modalBox}>
+          <div className={styles.modalBox} style={{ maxWidth: '780px' }}>
             <div className={styles.modalHeader}>
               <h3 className={styles.modalTitle}>
-                {editingIndex === -1 ? '신규 경력 등록' : `경력 수정: ${editItem.company}`}
+                {editingIndex === -1 ? '새 경력 항목 추가' : `경력 수정: ${editItem.company}`}
               </h3>
               <button
                 type="button"
@@ -277,25 +311,48 @@ export default function ExperienceEditor() {
               </button>
             </div>
 
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
               <div className={styles.grid2}>
-                <div className={styles.formGroup} style={{ margin: 0 }}>
-                  <label className={styles.label}>직책 / 역할 (Role)</label>
-                  <input
-                    type="text"
-                    value={editItem.role}
-                    onChange={(e) => setEditItem({ ...editItem, role: e.target.value })}
-                    placeholder="예: Software Engineer / Front-end Developer"
-                    className={styles.input}
-                  />
-                </div>
                 <div className={styles.formGroup} style={{ margin: 0 }}>
                   <label className={styles.label}>회사명 (Company)</label>
                   <input
                     type="text"
                     value={editItem.company}
                     onChange={(e) => setEditItem({ ...editItem, company: e.target.value })}
-                    placeholder="예: eBay / Blocko"
+                    placeholder="예: eBay, COS, Blocko"
+                    className={styles.input}
+                  />
+                </div>
+                <div className={styles.formGroup} style={{ margin: 0 }}>
+                  <label className={styles.label}>직책 / 역할 (Role / Position)</label>
+                  <input
+                    type="text"
+                    value={editItem.role}
+                    onChange={(e) => setEditItem({ ...editItem, role: e.target.value })}
+                    placeholder="예: Front-End Developer / Software Engineer"
+                    className={styles.input}
+                  />
+                </div>
+              </div>
+
+              <div className={styles.grid2}>
+                <div className={styles.formGroup} style={{ margin: 0 }}>
+                  <label className={styles.label}>근무 기간 (Period)</label>
+                  <input
+                    type="text"
+                    value={editItem.period}
+                    onChange={(e) => setEditItem({ ...editItem, period: e.target.value })}
+                    placeholder="예: 2023 - Present / 2021 - 2022"
+                    className={styles.input}
+                  />
+                </div>
+                <div className={styles.formGroup} style={{ margin: 0 }}>
+                  <label className={styles.label}>근무지 (Location)</label>
+                  <input
+                    type="text"
+                    value={editItem.location}
+                    onChange={(e) => setEditItem({ ...editItem, location: e.target.value })}
+                    placeholder="예: Seoul / Tokyo"
                     className={styles.input}
                   />
                 </div>
@@ -315,7 +372,7 @@ export default function ExperienceEditor() {
                 </div>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
                   {editItem.description.en.map((bullet, bIdx) => (
-                    <div key={bIdx} style={{ display: 'flex', gap: '10px', alignItems: 'flex-start' }}>
+                    <div key={`admin-bullet-en-${bIdx}`} style={{ display: 'flex', gap: '10px', alignItems: 'flex-start' }}>
                       <span style={{ fontWeight: 700, paddingTop: '10px', fontSize: '13px' }}>{bIdx + 1}.</span>
                       <textarea
                         rows={2}
@@ -350,7 +407,7 @@ export default function ExperienceEditor() {
                 </div>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
                   {editItem.description.kr.map((bullet, bIdx) => (
-                    <div key={bIdx} style={{ display: 'flex', gap: '10px', alignItems: 'flex-start' }}>
+                    <div key={`admin-bullet-kr-${bIdx}`} style={{ display: 'flex', gap: '10px', alignItems: 'flex-start' }}>
                       <span style={{ fontWeight: 700, paddingTop: '10px', fontSize: '13px' }}>{bIdx + 1}.</span>
                       <textarea
                         rows={2}
@@ -372,6 +429,7 @@ export default function ExperienceEditor() {
               </div>
             </div>
 
+            {/* Modal Actions */}
             <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '12px', marginTop: '16px', borderTop: '2px solid #000', paddingTop: '16px' }}>
               <button
                 type="button"

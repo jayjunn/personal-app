@@ -3,8 +3,10 @@ import './styles/globals.css';
 import styles from './styles/app.module.css';
 import { UserContextProvider } from '../context/userContext';
 import { AuthContextProvider } from '../context/authContext';
+import ReactQueryProvider from '../context/queryProvider';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+import LanguageModal from '../components/common/LanguageModal';
 
 export const metadata: Metadata = {
   title: { default: 'Younggeun Jun', template: 'Younggeun Jun | %s' },
@@ -16,15 +18,18 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en">
       <body>
         <main className={`${styles.contents} min-h-screen flex flex-col justify-between`}>
-          <UserContextProvider>
-            <AuthContextProvider>
-              <div className="flex-1 flex flex-col">
-                <Header />
-                <div className="flex-1">{children}</div>
-              </div>
-              <Footer />
-            </AuthContextProvider>
-          </UserContextProvider>
+          <ReactQueryProvider>
+            <UserContextProvider>
+              <AuthContextProvider>
+                <div className="flex-1 flex flex-col">
+                  <Header />
+                  <div className="flex-1">{children}</div>
+                </div>
+                <Footer />
+                <LanguageModal />
+              </AuthContextProvider>
+            </UserContextProvider>
+          </ReactQueryProvider>
         </main>
       </body>
     </html>

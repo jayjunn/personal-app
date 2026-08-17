@@ -58,8 +58,13 @@ export const triggerRevalidate = async (path?: string) => {
   }
 };
 
+const isDbReady = () => {
+  return !!(db && typeof db === 'object' && ('type' in db || 'app' in db));
+};
+
 // Profile API
 export const getProfile = async (): Promise<ProfileDataType> => {
+  if (!isDbReady()) return initialProfileData as unknown as ProfileDataType;
   try {
     const docRef = doc(db, COLLECTION_NAME, 'profile');
     const docSnap = await getDoc(docRef);
@@ -81,6 +86,7 @@ export const updateProfile = async (data: ProfileDataType): Promise<void> => {
 
 // Experience API
 export const getExperiences = async (): Promise<ExperienceItem[]> => {
+  if (!isDbReady()) return initialExperienceData;
   try {
     const docRef = doc(db, COLLECTION_NAME, 'experiences');
     const docSnap = await getDoc(docRef);
@@ -95,6 +101,7 @@ export const getExperiences = async (): Promise<ExperienceItem[]> => {
 };
 
 export const updateExperiences = async (list: ExperienceItem[]): Promise<void> => {
+  if (!isDbReady()) throw new Error('Database is not initialized. Check Firebase environment variables.');
   const docRef = doc(db, COLLECTION_NAME, 'experiences');
   await setDoc(docRef, { list });
   await triggerRevalidate('/experience');
@@ -104,6 +111,7 @@ export const updateExperiences = async (list: ExperienceItem[]): Promise<void> =
 
 // Works API
 export const getWorks = async (): Promise<Project[]> => {
+  if (!isDbReady()) return initialWorkData;
   try {
     const docRef = doc(db, COLLECTION_NAME, 'works');
     const docSnap = await getDoc(docRef);
@@ -118,6 +126,7 @@ export const getWorks = async (): Promise<Project[]> => {
 };
 
 export const updateWorks = async (list: Project[]): Promise<void> => {
+  if (!isDbReady()) throw new Error('Database is not initialized. Check Firebase environment variables.');
   const docRef = doc(db, COLLECTION_NAME, 'works');
   await setDoc(docRef, { list });
   await triggerRevalidate('/works');
@@ -126,6 +135,16 @@ export const updateWorks = async (list: Project[]): Promise<void> => {
 
 // CV Settings API
 export const getCVSettings = async (): Promise<CVDataType> => {
+  if (!isDbReady()) {
+    return {
+      pdfUrl: '',
+      summaryEn: initialCvData.en.summary,
+      summaryKr: initialCvData.kr.summary,
+      lastUpdated: new Date().toLocaleDateString(),
+      en: initialCvData.en,
+      kr: initialCvData.kr,
+    };
+  }
   try {
     const docRef = doc(db, COLLECTION_NAME, 'cv');
     const docSnap = await getDoc(docRef);

@@ -1,10 +1,12 @@
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { CVDataType, getCVSettings, updateCVSettings } from '@/service/portfolioService';
 import styles from '@/app/styles/Admin.module.css';
 
 export default function CvEditor() {
+  const queryClient = useQueryClient();
   const [cvSettings, setCvSettings] = useState<CVDataType>({
     pdfUrl: '',
     summaryEn: '',
@@ -12,15 +14,34 @@ export default function CvEditor() {
     lastUpdated: '',
   });
   const [uploading, setUploading] = useState(false);
-  const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState<{ text: string; type: 'success' | 'error' } | null>(null);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
+  // TanStack Query: fetch CV settings
+  const { data: remoteCv, isLoading } = useQuery({
+    queryKey: ['cvSettings'],
+    queryFn: getCVSettings,
+  });
+
   useEffect(() => {
-    getCVSettings().then((data) => {
-      if (data) setCvSettings(data);
-    });
-  }, []);
+    if (remoteCv) {
+      setCvSettings(remoteCv);
+    }
+  }, [remoteCv]);
+
+  // TanStack Query: mutation to save CV settings
+  const saveMutation = useMutation({
+    mutationFn: (newCv: CVDataType) => updateCVSettings(newCv),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['cvSettings'] });
+      setMessage({ text: 'CV 설정이 성공적으로 저장되었습니다! ✅', type: 'success' });
+      setTimeout(() => setMessage(null), 3500);
+    },
+    onError: (err: any) => {
+      console.error(err);
+      setMessage({ text: `저장 실패: ${err.message || '오류 발생'}`, type: 'error' });
+    },
+  });
 
   const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
@@ -64,34 +85,19 @@ export default function CvEditor() {
     }
   };
 
-  const handleSave = async () => {
-    setSaving(true);
+  const handleSave = () => {
     setMessage(null);
-    try {
-      const payload: CVDataType = {
-        ...cvSettings,
-        lastUpdated: new Date().toLocaleDateString(),
-      };
-      await updateCVSettings(payload);
-      setCvSettings(payload);
-      setMessage({ text: 'CV 및 이력서 설정이 성공적으로 저장되었습니다! ✅', type: 'success' });
-    } catch (err: any) {
-      console.error(err);
-      setMessage({ text: `저장 실패: ${err.message || '오류 발생'}`, type: 'error' });
-    } finally {
-      setSaving(false);
-      setTimeout(() => setMessage(null), 3500);
-    }
+    saveMutation.mutate(cvSettings);
   };
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
-      {/* Header Bar */}
+      {/* Header */}
       <div className={styles.editorHeader}>
         <div>
-          <h2 className={styles.editorTitle}>이력서 (CV) 설정</h2>
+          <h2 className={styles.editorTitle}>이력서 (CV) 관리</h2>
           <p className={styles.editorSubtitle}>
-            `/cv` 페이지의 PDF 다운로드 파일 링크 및 소개 요약문을 관리합니다.
+            `/cv` 페이지의 PDF 이력서 다운로드 링크 및 소개(Summary) 문구를 관리합니다.
           </p>
         </div>
       </div>
@@ -100,7 +106,7 @@ export default function CvEditor() {
         <div
           style={{
             padding: '14px 20px',
-            border: '2px solid #000',
+            border: '2px solid #000000',
             fontWeight: 700,
             fontSize: '13px',
             backgroundColor: message.type === 'success' ? '#d1fae5' : '#fee2e2',
@@ -110,103 +116,118 @@ export default function CvEditor() {
         </div>
       )}
 
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
-        {/* PDF Link & Upload */}
-        <div className={styles.formGroup} style={{ margin: 0 }}>
-          <label className={styles.label}>PDF 이력서 파일 (PDF File URL)</label>
-          <div style={{ display: 'flex', gap: '10px' }}>
-            <input
-              type="text"
-              value={cvSettings.pdfUrl || ''}
-              onChange={(e) => setCvSettings({ ...cvSettings, pdfUrl: e.target.value })}
-              placeholder="https://.../resume.pdf"
-              className={styles.input}
-              style={{ flex: 1 }}
-            />
-            <input
-              type="file"
-              ref={fileInputRef}
-              onChange={handleFileUpload}
-              accept="application/pdf"
-              style={{ display: 'none' }}
-              id="pdf-upload-input"
-            />
-            <label
-              htmlFor="pdf-upload-input"
-              className={styles.btnSecondary}
-              style={{ whiteSpace: 'nowrap' }}>
-              {uploading ? '업로드 중...' : '📄 PDF 파일 업로드'}
-            </label>
+      {/* Main Settings Card */}
+      <div className={styles.itemCard}>
+        {isLoading ? (
+          <div style={{ padding: '30px', textAlign: 'center', fontFamily: 'monospace' }}>
+            데이터를 불러오는 중입니다...
           </div>
-          {cvSettings.pdfUrl && (
-            <div style={{ marginTop: '8px', display: 'flex', alignItems: 'center', gap: '8px' }}>
-              <span style={{ fontSize: '13px', color: '#059669', fontWeight: 700 }}>✓ PDF 파일 등록됨</span>
-              <a
-                href={cvSettings.pdfUrl}
-                target="_blank"
-                rel="noreferrer"
-                style={{ fontSize: '13px', fontWeight: 700, textDecoration: 'underline' }}>
-                등록된 PDF 열기 ↗
-              </a>
+        ) : (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+            {/* PDF File URL / Upload */}
+            <div className={styles.formGroup} style={{ margin: 0 }}>
+              <label className={styles.label}>
+                📄 PDF 이력서 링크 (Resume PDF URL)
+              </label>
+              <div style={{ display: 'flex', gap: '10px' }}>
+                <input
+                  type="text"
+                  value={cvSettings.pdfUrl || ''}
+                  onChange={(e) =>
+                    setCvSettings({
+                      ...cvSettings,
+                      pdfUrl: e.target.value,
+                      lastUpdated: new Date().toLocaleDateString(),
+                    })
+                  }
+                  placeholder="https://res.cloudinary.com/.../resume.pdf"
+                  className={styles.input}
+                  style={{ flex: 1 }}
+                />
+                <input
+                  type="file"
+                  ref={fileInputRef}
+                  onChange={handleFileUpload}
+                  accept=".pdf"
+                  style={{ display: 'none' }}
+                  id="cv-pdf-upload-input"
+                />
+                <label
+                  htmlFor="cv-pdf-upload-input"
+                  className={styles.btnSecondary}
+                  style={{ whiteSpace: 'nowrap' }}>
+                  {uploading ? '업로드 중...' : '📁 PDF 파일 업로드'}
+                </label>
+              </div>
+
+              {cvSettings.pdfUrl && (
+                <div style={{ marginTop: '10px', display: 'flex', alignItems: 'center', gap: '12px' }}>
+                  <a
+                    href={cvSettings.pdfUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    style={{
+                      fontSize: '13px',
+                      color: 'blue',
+                      textDecoration: 'underline',
+                      fontWeight: 600,
+                    }}>
+                    📄 업로드된 PDF 파일 미리보기 ↗
+                  </a>
+                  {cvSettings.lastUpdated && (
+                    <span style={{ fontSize: '12px', color: '#666', fontFamily: 'monospace' }}>
+                      (최종 수정일: {cvSettings.lastUpdated})
+                    </span>
+                  )}
+                </div>
+              )}
             </div>
-          )}
-        </div>
 
-        {/* Summaries */}
-        <div className={styles.grid2}>
-          <div className={styles.formGroup} style={{ margin: 0 }}>
-            <label className={styles.label}>
-              CV 상단 요약문 <span>[EN Summary]</span>
-            </label>
-            <textarea
-              rows={5}
-              value={cvSettings.summaryEn || ''}
-              onChange={(e) => setCvSettings({ ...cvSettings, summaryEn: e.target.value })}
-              placeholder="Software engineer with strong experience..."
-              className={styles.textarea}
-            />
-          </div>
-          <div className={styles.formGroup} style={{ margin: 0 }}>
-            <label className={styles.label}>
-              CV 상단 요약문 <span>[KR Summary]</span>
-            </label>
-            <textarea
-              rows={5}
-              value={cvSettings.summaryKr || ''}
-              onChange={(e) => setCvSettings({ ...cvSettings, summaryKr: e.target.value })}
-              placeholder="뛰어난 사용자 경험과 안정적인 서비스를 지향하는..."
-              className={styles.textarea}
-            />
-          </div>
-        </div>
+            {/* English Summary */}
+            <div className={styles.formGroup} style={{ margin: 0 }}>
+              <label className={styles.label}>
+                🇬🇧 영문 이력서 소개 요약 (English CV Summary)
+              </label>
+              <textarea
+                rows={4}
+                value={cvSettings.summaryEn || ''}
+                onChange={(e) =>
+                  setCvSettings({ ...cvSettings, summaryEn: e.target.value })
+                }
+                placeholder="I'm a Creative Software Developer with..."
+                className={styles.textarea}
+              />
+            </div>
 
-        {cvSettings.lastUpdated && (
-          <div style={{ fontSize: '13px', color: '#555', fontFamily: 'monospace' }}>
-            마지막 업데이트 일자: <strong>{cvSettings.lastUpdated}</strong>
+            {/* Korean Summary */}
+            <div className={styles.formGroup} style={{ margin: 0 }}>
+              <label className={styles.label}>
+                🇰🇷 국문 이력서 소개 요약 (Korean CV Summary)
+              </label>
+              <textarea
+                rows={4}
+                value={cvSettings.summaryKr || ''}
+                onChange={(e) =>
+                  setCvSettings({ ...cvSettings, summaryKr: e.target.value })
+                }
+                placeholder="인터랙티브 디자인과 고성능 웹 아키텍처에 열정을 가진 개발자로서..."
+                className={styles.textarea}
+              />
+            </div>
           </div>
         )}
+      </div>
 
-        {/* Footer */}
-        <div
-          style={{
-            paddingTop: '24px',
-            borderTop: '2px solid #000000',
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-          }}>
-          <span style={{ fontSize: '13px', color: '#555', fontFamily: 'monospace' }}>
-            * 변경 사항은 `/cv` 페이지에 즉시 적용됩니다.
-          </span>
-          <button
-            type="button"
-            disabled={saving}
-            onClick={handleSave}
-            className={styles.btnPrimary}
-            style={{ padding: '14px 32px', fontSize: '14px' }}>
-            {saving ? '저장 처리 중...' : '💾 CV 설정 전체 저장'}
-          </button>
-        </div>
+      {/* Save Button */}
+      <div style={{ display: 'flex', justifyContent: 'flex-end', paddingTop: '16px' }}>
+        <button
+          type="button"
+          disabled={saveMutation.isPending}
+          onClick={handleSave}
+          className={styles.btnPrimary}
+          style={{ padding: '14px 36px', fontSize: '15px' }}>
+          {saveMutation.isPending ? '저장 처리 중...' : '💾 CV 설정 저장하기'}
+        </button>
       </div>
     </div>
   );

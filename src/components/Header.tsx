@@ -11,7 +11,7 @@ import Link from 'next/link';
 
 const Header = () => {
   const [selectOn, setSelectOn] = useState(false);
-  const { user, setUser, isEnglish } = useUserContext();
+  const { user, setLanguage, isEnglish } = useUserContext();
 
   const profile = isEnglish ? profileData.en : profileData.kr;
 
@@ -19,12 +19,8 @@ const Header = () => {
     setSelectOn(!selectOn);
   };
 
-  const handleLanguageSelect = (type: string) => {
-    const newUser = { ...user, language: type };
-    if (typeof window !== 'undefined') {
-      localStorage.setItem('user', JSON.stringify(newUser));
-    }
-    setUser(newUser);
+  const handleLanguageSelect = (type: 'ENGLISH' | 'KOREAN') => {
+    setLanguage(type);
     setSelectOn(false);
   };
 
@@ -50,8 +46,8 @@ const Header = () => {
       <nav>
         <ul className={styles.ul}>
           {navList.map((item, index) => (
-            <React.Fragment key={`group-${item.title}`}>
-              <li className={styles.nav__list} key={`nav-${item.title}`}>
+            <React.Fragment key={`nav-group-${item.title}-${index}`}>
+              <li className={styles.nav__list}>
                 {item.title === 'Tech Blog' ? (
                   <a href={item.link} target="_blank" rel="noopener noreferrer" onClick={() => setSelectOn(false)}>
                     {item.title}
@@ -63,21 +59,28 @@ const Header = () => {
                 )}
               </li>
               {index + 1 !== navList.length && (
-                <li key={`divider-${item.title}`} className={styles.nav__list}>
+                <li className={styles.nav__list}>
                   <span className={styles.divider}>|</span>
                 </li>
               )}
             </React.Fragment>
           ))}
-          <li className={styles.language} key={`button`}>
-            <button className={styles.language__icon} onClick={handleLanguageButton} aria-label="Toggle Language">
+          <li className={styles.language}>
+            <button
+              className={styles.language__icon}
+              onClick={handleLanguageButton}
+              aria-label="Toggle Language"
+              style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
               <Image
                 src={Language}
                 alt="language"
-                width={28}
-                height={28}
-                style={{ width: '28px', height: '28px' }}
+                width={24}
+                height={24}
+                style={{ width: '24px', height: '24px' }}
               />
+              <span style={{ fontSize: '11px', fontWeight: 800, fontFamily: 'monospace' }}>
+                {user.language === 'ENGLISH' ? 'EN' : 'KR'}
+              </span>
             </button>
             {selectOn && (
               <motion.ul
@@ -86,17 +89,25 @@ const Header = () => {
                   scale: 0,
                   x: '-50%',
                 }}
-                animate={{ rotate: 360, scale: 1 }}
+                animate={{ scale: 1, x: '-50%' }}
                 transition={{
                   type: 'spring',
-                  stiffness: 160,
+                  stiffness: 200,
                   damping: 20,
                 }}>
-                <li className={styles.option} onClick={() => handleLanguageSelect('ENGLISH')}>
-                  English
+                <li
+                  className={styles.option}
+                  style={{ fontWeight: user.language === 'ENGLISH' ? 900 : 600, display: 'flex', alignItems: 'center', gap: '6px' }}
+                  onClick={() => handleLanguageSelect('ENGLISH')}>
+                  <span>🇬🇧</span>
+                  <span>English {user.language === 'ENGLISH' && '✓'}</span>
                 </li>
-                <li className={styles.option} onClick={() => handleLanguageSelect('KOREAN')}>
-                  한국어
+                <li
+                  className={styles.option}
+                  style={{ fontWeight: user.language === 'KOREAN' ? 900 : 600, display: 'flex', alignItems: 'center', gap: '6px' }}
+                  onClick={() => handleLanguageSelect('KOREAN')}>
+                  <span>🇰🇷</span>
+                  <span>한국어 {user.language === 'KOREAN' && '✓'}</span>
                 </li>
               </motion.ul>
             )}
