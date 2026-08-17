@@ -32,8 +32,8 @@ export async function POST(req: Request) {
 
     // 4. 현재 웹사이트 주소
     const baseUrl =
-      process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
-
+    process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+    
     // 5. 웹사이트의 실제 페이지 가져오기
     const [worksRes, experienceRes, cvRes] = await Promise.all([
       fetch(`${baseUrl}/works`, {
