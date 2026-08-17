@@ -56,13 +56,7 @@ export default function AdminLoginPage() {
     }
   };
 
-  if (loading) {
-    return (
-      <div className="min-h-[70vh] flex items-center justify-center">
-        <div className="brutal-card p-6 bg-white font-bold">인증 상태 확인 중...</div>
-      </div>
-    );
-  }
+
 
   return (
     <div className="min-h-[75vh] flex items-center justify-center px-4 py-12">

@@ -59,9 +59,14 @@ export default function AdminDashboardPage() {
 
   if (loading || !user) {
     return (
-      <div className="min-h-[70vh] flex items-center justify-center">
-        <div className="brutal-card p-6 bg-white font-bold text-sm">
-          관리자 인증 확인 중...
+      <div className="min-h-[70vh] flex flex-col items-center justify-center p-4">
+        <div className="brutal-card p-6 bg-[#f2eee0] max-w-sm text-center">
+          <p className="font-bold text-sm mb-3">관리자 로그인이 필요합니다.</p>
+          <Link
+            href="/admin/login"
+            className="brutal-btn w-full py-2 text-xs">
+            로그인 페이지로 이동 →
+          </Link>
         </div>
       </div>
     );

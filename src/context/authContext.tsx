@@ -32,12 +32,35 @@ export const AuthContextProvider = ({ children }: { children: ReactNode }) => {
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      setUser(currentUser);
-      setLoading(false);
-    });
+    let timer: NodeJS.Timeout;
 
-    return () => unsubscribe();
+    // Safety fallback: Never stay stuck in loading state forever
+    timer = setTimeout(() => {
+      setLoading(false);
+    }, 1500);
+
+    try {
+      const unsubscribe = onAuthStateChanged(
+        auth,
+        (currentUser) => {
+          clearTimeout(timer);
+          setUser(currentUser);
+          setLoading(false);
+        },
+        (error) => {
+          console.warn('Firebase onAuthStateChanged error:', error);
+          clearTimeout(timer);
+          setLoading(false);
+        }
+      );
+
+      return () => {
+        clearTimeout(timer);
+        unsubscribe();
+      };
+    } catch (err) {
+      console.warn('Firebase auth initialization error:', err);
+    }
   }, []);
 
   const loginWithEmail = async (email: string, pass: string) => {

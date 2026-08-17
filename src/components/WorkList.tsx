@@ -7,14 +7,24 @@ import { workData } from '../data/portfolioData';
 import { useUserContext } from '../context/userContext';
 import PageWrap from './common/PageWrap';
 
-const WorkList = () => {
+interface WorkListProps {
+  limit?: number;
+  showMoreLink?: boolean;
+}
+
+const WorkList = ({ limit, showMoreLink = false }: WorkListProps) => {
   const { isEnglish } = useUserContext();
 
+  const displayedWorks = limit ? workData.slice(0, limit) : workData;
+
   return (
-    <PageWrap title="Works">
+    <PageWrap
+      title="Works"
+      moreLink={showMoreLink ? '/works' : undefined}
+      moreText={isEnglish ? 'VIEW ALL WORKS ➔' : '전체 프로젝트 보기 ➔'}>
       <div className={styles.wrapper}>
         <div className={styles.list}>
-          {workData.map((item, index) => (
+          {displayedWorks.map((item, index) => (
             <Work
               key={index}
               name={item.name}
