@@ -55,7 +55,7 @@ export default function EmailForm() {
         onSubmit={handleSubmit}
         method="POST"
         style={{ display: 'flex', flexDirection: 'column', gap: '20px', width: '100%' }}>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '20px' }}>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full">
           <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
             <label
               htmlFor="email"
@@ -113,7 +113,7 @@ export default function EmailForm() {
           </div>
         </div>
 
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', width: '100%' }}>
           <label
             htmlFor="message"
             style={{ fontSize: '13px', fontWeight: 800, textTransform: 'uppercase', color: '#111' }}>
@@ -143,7 +143,7 @@ export default function EmailForm() {
           />
         </div>
 
-        <div style={{ display: 'flex', justifyContent: 'flex-end', paddingTop: '10px' }}>
+        <div style={{ display: 'flex', justifyContent: 'flex-end', paddingTop: '10px', width: '100%' }}>
           <button
             type="submit"
             disabled={isLoading}
@@ -164,6 +164,7 @@ export default function EmailForm() {
               textTransform: 'uppercase',
               transition: 'all 0.2s ease',
               opacity: isLoading ? 0.6 : 1,
+              width: '100%',
             }}>
             {isLoading ? '전송 처리 중...' : '메시지 전송 (Send Message) ➔'}
           </button>

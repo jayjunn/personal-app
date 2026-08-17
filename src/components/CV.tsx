@@ -81,14 +81,14 @@ export default function Cv({ initialCv, initialExperiences }: CvProps) {
         </div>
 
         {/* CV Main Box */}
-        <div style={{ border: '3px solid black', backgroundColor: '#e7e2d0', padding: '30px', display: 'flex', flexDirection: 'column', gap: '28px' }}>
+        <div style={{ border: '3px solid black', backgroundColor: '#e7e2d0', padding: 'clamp(16px, 3.5vw, 30px)', display: 'flex', flexDirection: 'column', gap: '24px', width: '100%', boxSizing: 'border-box' }}>
           {/* Header */}
-          <div style={{ borderBottom: '3px solid black', paddingBottom: '20px', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', flexWrap: 'wrap', gap: '16px' }}>
+          <div style={{ borderBottom: '3px solid black', paddingBottom: '16px', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '14px' }}>
             <div>
-              <h1 style={{ fontSize: '32px', fontWeight: 800, textTransform: 'uppercase', margin: 0 }}>{cv.name}</h1>
-              <p style={{ fontSize: '15px', fontWeight: 700, textTransform: 'uppercase', marginTop: '6px' }}>{cv.role}</p>
+              <h1 style={{ fontSize: 'clamp(22px, 5vw, 32px)', fontWeight: 800, textTransform: 'uppercase', margin: 0 }}>{cv.name}</h1>
+              <p style={{ fontSize: '14px', fontWeight: 700, textTransform: 'uppercase', marginTop: '4px' }}>{cv.role}</p>
             </div>
-            <div style={{ fontSize: '13px', display: 'flex', flexDirection: 'column', gap: '4px', fontWeight: 600, fontFamily: 'monospace' }}>
+            <div style={{ fontSize: '12px', display: 'flex', flexDirection: 'column', gap: '4px', fontWeight: 600, fontFamily: 'monospace' }}>
               <div>Email: {cv.email}</div>
               <div>Location: {cv.location}</div>
               <div>GitHub: github.com/jayjunn</div>

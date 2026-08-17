@@ -160,7 +160,7 @@ export default function MarioCompanion() {
   }, [isActive]);
 
   // Click interaction: Mario High Jump & Coin Pop!
-  const handleClick = (e: React.MouseEvent) => {
+  const handleClick = (e: React.MouseEvent | React.TouchEvent) => {
     e.stopPropagation();
     stateRef.current = 'CLICKED';
     setScore((s) => s + 100);
@@ -221,18 +221,18 @@ export default function MarioCompanion() {
       <div
         style={{
           position: 'fixed',
-          bottom: '20px',
-          right: '20px',
+          bottom: '16px',
+          right: '16px',
           zIndex: 9990,
           display: 'flex',
           alignItems: 'center',
           gap: '8px',
           backgroundColor: '#e7e2d0',
           border: '2px solid #000000',
-          padding: '6px 12px',
-          boxShadow: '3px 3px 0px #000000',
+          padding: '4px 10px',
+          boxShadow: '2px 2px 0px #000000',
           fontFamily: 'monospace',
-          fontSize: '12px',
+          fontSize: '11px',
           fontWeight: 800,
         }}>
         <span>🪙 {score} PTS</span>
@@ -240,12 +240,12 @@ export default function MarioCompanion() {
           type="button"
           onClick={() => setIsActive(false)}
           style={{
-            marginLeft: '6px',
+            marginLeft: '4px',
             background: 'none',
             border: 'none',
             color: '#666',
             cursor: 'pointer',
-            fontSize: '11px',
+            fontSize: '10px',
             textDecoration: 'underline',
           }}
           title="캐릭터 숨기기">
@@ -267,7 +267,7 @@ export default function MarioCompanion() {
               pointerEvents: 'none',
               zIndex: 9999,
               fontWeight: 900,
-              fontSize: '16px',
+              fontSize: '15px',
               fontFamily: 'monospace',
               color: '#d97706',
               textShadow: '2px 2px 0px #000000',
@@ -288,9 +288,11 @@ export default function MarioCompanion() {
           cursor: 'pointer',
           userSelect: 'none',
           pointerEvents: 'auto',
+          touchAction: 'manipulation',
           transition: 'transform 0.05s linear',
         }}
         onClick={handleClick}
+        onTouchStart={handleClick}
         onMouseEnter={handleMouseEnter}>
         {/* Speech Bubble */}
         <AnimatePresence>

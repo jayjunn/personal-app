@@ -30,7 +30,7 @@ export default function Contact() {
           }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
             <span style={{ fontSize: '18px', fontWeight: 800, textTransform: 'uppercase' }}>FIND ME</span>
-            <span style={{ fontFamily: 'monospace', fontWeight: 800, letterSpacing: '2px' }}>{`>>>>>>>>>>>>>>>>`}</span>
+            <span className="hidden md:inline" style={{ fontFamily: 'monospace', fontWeight: 800, letterSpacing: '2px' }}>{`>>>>>>>>>>>>>>>>`}</span>
           </div>
           <ul style={{ display: 'flex', gap: '18px', margin: 0, padding: 0, listStyle: 'none' }}>
             <li>
