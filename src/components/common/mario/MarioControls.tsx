@@ -29,7 +29,8 @@ export default function MarioControls({
         className="
           fixed
           bottom-6
-          right-6
+          left-4
+          sm:left-6
           z-[8000]
           bg-black
           dark:bg-[#16171e]
@@ -62,8 +63,9 @@ export default function MarioControls({
     <div
       className="
         fixed
-        bottom-4
-        right-4
+        bottom-6
+        left-4
+        sm:left-6
         z-[8500]
         flex
         items-center
@@ -73,9 +75,9 @@ export default function MarioControls({
         border-2
         border-black
         dark:border-[#2f3340]
-        px-2.5
-        py-1
-        shadow-[2px_2px_0px_#000000]
+        px-3
+        py-2
+        shadow-[3px_3px_0px_#000000]
         font-mono
         text-xs
         font-extrabold

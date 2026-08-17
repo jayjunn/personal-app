@@ -66,19 +66,19 @@ export default function MarioCompanion() {
 
       const minX = 30;
       const maxX = screenW - 80;
-      const minY = 70;
-      const maxY = screenH - 72;
+      const minY = 80;
+      const maxY = screenH - 130;
 
       if (stage === 1) {
-        // Stage 1: Stationary idle
+        // Stage 1: Stationary idle placed comfortably above the control panel
         cur.vx = 0;
         cur.vy = 0;
         cur.x = 80;
         cur.y = maxY;
       } else if (stage === 2) {
-        // Stage 2: Ground walking along bottom bar (0.45px/frame)
-        const speed = 0.45;
-        const groundMaxX = Math.min(screenW - 80, 420);
+        // Stage 2: Ground walking along the line above the control panel
+        const speed = 0.5;
+        const groundMaxX = Math.min(screenW - 80, 500);
 
         if (frameCountRef.current % 180 === 0) {
           cur.vx = speed * (Math.random() > 0.5 ? 1 : -1);
