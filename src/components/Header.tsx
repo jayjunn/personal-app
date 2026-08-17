@@ -23,12 +23,14 @@ const Header = () => {
     setSelectOn((prev) => !prev);
   };
 
-  const handleLanguageSelect = (type: 'ENGLISH' | 'KOREAN') => {
+  const handleLanguageSelect = (
+    type: 'ENGLISH' | 'KOREAN'
+  ) => {
     setLanguage(type);
     setSelectOn(false);
   };
 
-  // 언어 드롭다운 외부 클릭
+  // 언어 메뉴 외부 클릭
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
@@ -40,24 +42,33 @@ const Header = () => {
     };
 
     if (selectOn) {
-      document.addEventListener('mousedown', handleClickOutside);
+      document.addEventListener(
+        'mousedown',
+        handleClickOutside
+      );
     }
 
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener(
+        'mousedown',
+        handleClickOutside
+      );
     };
   }, [selectOn]);
 
-  // 모바일 메뉴 열렸을 때 뒤쪽 페이지 스크롤 방지
+  // 모바일 메뉴가 열리면 전체 페이지 스크롤 차단
   useEffect(() => {
     if (isMobileMenuOpen) {
       document.body.style.overflow = 'hidden';
+      document.documentElement.style.overflow = 'hidden';
     } else {
       document.body.style.overflow = '';
+      document.documentElement.style.overflow = '';
     }
 
     return () => {
       document.body.style.overflow = '';
+      document.documentElement.style.overflow = '';
     };
   }, [isMobileMenuOpen]);
 
@@ -90,346 +101,354 @@ const Header = () => {
   ];
 
   return (
-    <header
-      className="
-        fixed
-        top-0
-        left-0
-        right-0
-        z-[9990]
-        w-full
-        bg-[#e7e2d0]/95
-        backdrop-blur-md
-      "
-    >
+    <>
       {/* =====================================================
-          TOP BRAND
+          DESKTOP / NORMAL HEADER
       ====================================================== */}
 
-      <section
+      <header
         className="
+          fixed
+          top-0
+          left-0
+          right-0
+          z-[9990]
           w-full
-          flex
-          justify-between
-          items-center
-          px-4
-          sm:px-8
-          pt-5
-          sm:pt-6
-          pb-3
-          sm:pb-4
+          bg-[#e7e2d0]/95
+          backdrop-blur-md
         "
       >
-        <Link
-          href="/"
-          onClick={() => {
-            setSelectOn(false);
-            setIsMobileMenuOpen(false);
-          }}
-          className="cursor-pointer group"
-        >
-          <h1
-            className="
-              text-2xl
-              sm:text-3xl
-              md:text-4xl
-              font-black
-              uppercase
-              tracking-tight
-              text-black
-              m-0
-              group-hover:opacity-85
-              transition-opacity
-            "
-          >
-            {profile.name}
-          </h1>
+        {/* =================================================
+            BRAND
+        ================================================== */}
 
-          <h2
-            className="
-              text-xs
-              sm:text-sm
-              font-extrabold
-              uppercase
-              tracking-wider
-              text-neutral-600
-              mt-0.5
-            "
-          >
-            FRONT-END DEVELOPER
-          </h2>
-        </Link>
-
-        {/* =====================================================
-            MOBILE HAMBURGER
-        ====================================================== */}
-
-        <button
-          type="button"
-          onClick={() => {
-            setIsMobileMenuOpen(true);
-            setSelectOn(false);
-          }}
-          aria-label="Open Navigation Menu"
-          className="
-            md:hidden
-            flex
-            items-center
-            justify-center
-            w-9
-            h-9
-            bg-[#e7e2d0]
-            border-2
-            border-black
-            shadow-[2px_2px_0px_#000000]
-            active:translate-x-0.5
-            active:translate-y-0.5
-            active:shadow-none
-            hover:bg-black
-            text-black
-            hover:text-white
-            transition-all
-            cursor-pointer
-            box-border
-          "
-        >
-          <svg
-            className="w-5 h-5 stroke-current"
-            viewBox="0 0 24 24"
-            fill="none"
-            strokeWidth="3"
-            strokeLinecap="square"
-          >
-            <path d="M4 6h16M4 12h16M4 18h16" />
-          </svg>
-        </button>
-      </section>
-
-      {/* =====================================================
-          DESKTOP NAVIGATION
-      ====================================================== */}
-
-      <nav className="hidden md:block w-full mt-4 sm:mt-5 px-4 sm:px-8 pb-2">
-        <ul
+        <section
           className="
             w-full
-            bg-[#e7e2d0]
-            border-[3px]
-            border-black
-            px-4
-            sm:px-6
-            py-3.5
             flex
-            items-center
             justify-between
-            gap-3
-            box-border
+            items-center
+            px-4
+            sm:px-8
+            pt-5
+            sm:pt-6
+            pb-3
+            sm:pb-4
           "
         >
-          {navList.map((item, index) => {
-            const isActive =
-              !item.isExternal && pathname === item.link;
+          <Link
+            href="/"
+            onClick={() => {
+              setSelectOn(false);
+              setIsMobileMenuOpen(false);
+            }}
+            className="cursor-pointer group"
+          >
+            <h1
+              className="
+                text-2xl
+                sm:text-3xl
+                md:text-4xl
+                font-black
+                uppercase
+                tracking-tight
+                text-black
+                m-0
+                group-hover:opacity-85
+                transition-opacity
+              "
+            >
+              {profile.name}
+            </h1>
 
-            return (
-              <React.Fragment
-                key={`nav-group-${item.title}-${index}`}
+            <h2
+              className="
+                text-xs
+                sm:text-sm
+                font-extrabold
+                uppercase
+                tracking-wider
+                text-neutral-600
+                mt-0.5
+              "
+            >
+              FRONT-END DEVELOPER
+            </h2>
+          </Link>
+
+          {/* Mobile Menu Button */}
+
+          <button
+            type="button"
+            onClick={() => {
+              setIsMobileMenuOpen(true);
+              setSelectOn(false);
+            }}
+            aria-label="Open Navigation Menu"
+            className="
+              md:hidden
+              flex
+              items-center
+              justify-center
+              w-9
+              h-9
+              bg-[#e7e2d0]
+              border-2
+              border-black
+              shadow-[2px_2px_0px_#000000]
+              active:translate-x-0.5
+              active:translate-y-0.5
+              active:shadow-none
+              hover:bg-black
+              text-black
+              hover:text-white
+              transition-all
+              cursor-pointer
+              box-border
+            "
+          >
+            <svg
+              className="w-5 h-5 stroke-current"
+              viewBox="0 0 24 24"
+              fill="none"
+              strokeWidth="3"
+              strokeLinecap="square"
+            >
+              <path d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+          </button>
+        </section>
+
+        {/* =================================================
+            DESKTOP NAV
+        ================================================== */}
+
+        <nav className="hidden md:block w-full mt-4 sm:mt-5 px-4 sm:px-8 pb-2">
+          <ul
+            className="
+              w-full
+              bg-[#e7e2d0]
+              border-[3px]
+              border-black
+              px-4
+              sm:px-6
+              py-3.5
+              flex
+              items-center
+              justify-between
+              gap-3
+              box-border
+            "
+          >
+            {navList.map((item, index) => {
+              const isActive =
+                !item.isExternal &&
+                pathname === item.link;
+
+              return (
+                <React.Fragment
+                  key={`nav-${item.title}-${index}`}
+                >
+                  <li className="flex items-center">
+                    {item.isExternal ? (
+                      <a
+                        href={item.link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        onClick={() => setSelectOn(false)}
+                        className="
+                          px-3
+                          py-1.5
+                          font-black
+                          text-xs
+                          lg:text-sm
+                          uppercase
+                          tracking-wider
+                          text-black
+                          hover:bg-black
+                          hover:text-white
+                          transition-colors
+                          flex
+                          items-center
+                          gap-1.5
+                        "
+                      >
+                        <span>{item.title}</span>
+                        <span className="text-[10px]">
+                          ↗
+                        </span>
+                      </a>
+                    ) : (
+                      <Link
+                        href={item.link}
+                        onClick={() => setSelectOn(false)}
+                        className={`
+                          px-3
+                          py-1.5
+                          font-black
+                          text-xs
+                          lg:text-sm
+                          uppercase
+                          tracking-wider
+                          transition-all
+                          ${
+                            isActive
+                              ? 'bg-black text-white'
+                              : 'text-black hover:bg-black hover:text-white'
+                          }
+                        `}
+                      >
+                        {item.title}
+                      </Link>
+                    )}
+                  </li>
+
+                  {index + 1 !== navList.length && (
+                    <li className="text-black/30 font-light select-none">
+                      |
+                    </li>
+                  )}
+                </React.Fragment>
+              );
+            })}
+
+            {/* Language */}
+
+            <li
+              ref={langRef}
+              className="relative flex items-center"
+            >
+              <button
+                type="button"
+                onClick={handleLanguageButton}
+                aria-label="Toggle Language"
+                className="
+                  flex
+                  items-center
+                  gap-2
+                  px-3
+                  py-1.5
+                  bg-[#e7e2d0]
+                  border-[1.5px]
+                  border-black
+                  cursor-pointer
+                  hover:bg-black
+                  hover:text-[#e7e2d0]
+                  transition-colors
+                  shadow-[1px_1px_0px_#000000]
+                  text-black
+                "
               >
-                <li className="flex items-center">
-                  {item.isExternal ? (
-                    <a
-                      href={item.link}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      onClick={() => setSelectOn(false)}
-                      className="
-                        px-3
-                        py-1.5
-                        font-black
-                        text-xs
-                        lg:text-sm
-                        uppercase
-                        tracking-wider
-                        text-black
-                        hover:bg-black
-                        hover:text-white
-                        transition-colors
-                        flex
-                        items-center
-                        gap-1.5
-                      "
-                    >
-                      <span>{item.title}</span>
-                      <span className="text-[10px]">↗</span>
-                    </a>
-                  ) : (
-                    <Link
-                      href={item.link}
-                      onClick={() => setSelectOn(false)}
+                <Image
+                  src={Language}
+                  alt="language"
+                  width={18}
+                  height={18}
+                  className="w-4 h-4"
+                />
+
+                <span className="text-[11px] font-black font-mono">
+                  {language === 'ENGLISH' ? 'EN' : 'KR'}
+                </span>
+              </button>
+
+              <AnimatePresence>
+                {selectOn && (
+                  <motion.ul
+                    initial={{
+                      opacity: 0,
+                      scale: 0.9,
+                      y: 5,
+                    }}
+                    animate={{
+                      opacity: 1,
+                      scale: 1,
+                      y: 0,
+                    }}
+                    exit={{
+                      opacity: 0,
+                      scale: 0.9,
+                      y: 5,
+                    }}
+                    transition={{ duration: 0.15 }}
+                    className="
+                      absolute
+                      top-[calc(100%+8px)]
+                      right-0
+                      bg-[#e7e2d0]
+                      border-[3px]
+                      border-black
+                      shadow-[4px_4px_0px_#000000]
+                      p-2.5
+                      min-w-[145px]
+                      z-[100]
+                      flex
+                      flex-col
+                      gap-1.5
+                      list-none
+                      m-0
+                    "
+                  >
+                    <li
+                      onClick={() =>
+                        handleLanguageSelect('ENGLISH')
+                      }
                       className={`
                         px-3
                         py-1.5
-                        font-black
                         text-xs
-                        lg:text-sm
-                        uppercase
-                        tracking-wider
-                        transition-all
-                        ${isActive
-                          ? 'bg-black text-white'
-                          : 'text-black hover:bg-black hover:text-white'
+                        font-extrabold
+                        cursor-pointer
+                        flex
+                        items-center
+                        gap-2
+                        ${
+                          language === 'ENGLISH'
+                            ? 'bg-black text-white'
+                            : 'text-black hover:bg-black hover:text-white'
                         }
                       `}
                     >
-                      {item.title}
-                    </Link>
-                  )}
-                </li>
+                      <span>🇬🇧</span>
+                      <span>
+                        English{' '}
+                        {language === 'ENGLISH' && '✓'}
+                      </span>
+                    </li>
 
-                {index + 1 !== navList.length && (
-                  <li className="text-black/30 font-light select-none">
-                    |
-                  </li>
+                    <li
+                      onClick={() =>
+                        handleLanguageSelect('KOREAN')
+                      }
+                      className={`
+                        px-3
+                        py-1.5
+                        text-xs
+                        font-extrabold
+                        cursor-pointer
+                        flex
+                        items-center
+                        gap-2
+                        ${
+                          language === 'KOREAN'
+                            ? 'bg-black text-white'
+                            : 'text-black hover:bg-black hover:text-white'
+                        }
+                      `}
+                    >
+                      <span>🇰🇷</span>
+                      <span>
+                        한국어{' '}
+                        {language === 'KOREAN' && '✓'}
+                      </span>
+                    </li>
+                  </motion.ul>
                 )}
-              </React.Fragment>
-            );
-          })}
-
-          {/* =================================================
-              DESKTOP LANGUAGE
-          ================================================== */}
-
-          <li
-            ref={langRef}
-            className="relative flex items-center"
-          >
-            <button
-              type="button"
-              onClick={handleLanguageButton}
-              aria-label="Toggle Language"
-              className="
-                flex
-                items-center
-                gap-2
-                px-3
-                py-1.5
-                bg-[#e7e2d0]
-                border-[1.5px]
-                border-black
-                cursor-pointer
-                hover:bg-black
-                hover:text-[#e7e2d0]
-                transition-colors
-                shadow-[1px_1px_0px_#000000]
-                text-black
-              "
-            >
-              <Image
-                src={Language}
-                alt="language"
-                width={18}
-                height={18}
-                className="w-4 h-4"
-              />
-
-              <span className="text-[11px] font-black font-mono">
-                {language === 'ENGLISH' ? 'EN' : 'KR'}
-              </span>
-            </button>
-
-            <AnimatePresence>
-              {selectOn && (
-                <motion.ul
-                  initial={{
-                    opacity: 0,
-                    scale: 0.9,
-                    y: 5,
-                  }}
-                  animate={{
-                    opacity: 1,
-                    scale: 1,
-                    y: 0,
-                  }}
-                  exit={{
-                    opacity: 0,
-                    scale: 0.9,
-                    y: 5,
-                  }}
-                  transition={{ duration: 0.15 }}
-                  className="
-                    absolute
-                    top-[calc(100%+8px)]
-                    right-0
-                    bg-[#e7e2d0]
-                    border-[3px]
-                    border-black
-                    shadow-[4px_4px_0px_#000000]
-                    p-2.5
-                    min-w-[145px]
-                    z-[100]
-                    flex
-                    flex-col
-                    gap-1.5
-                    list-none
-                    m-0
-                  "
-                >
-                  <li
-                    className={`
-                      px-3
-                      py-1.5
-                      text-xs
-                      font-extrabold
-                      cursor-pointer
-                      flex
-                      items-center
-                      gap-2
-                      transition-colors
-                      ${language === 'ENGLISH'
-                        ? 'bg-black text-white'
-                        : 'text-black hover:bg-black hover:text-white'
-                      }
-                    `}
-                    onClick={() =>
-                      handleLanguageSelect('ENGLISH')
-                    }
-                  >
-                    <span>🇬🇧</span>
-                    <span>
-                      English {language === 'ENGLISH' && '✓'}
-                    </span>
-                  </li>
-
-                  <li
-                    className={`
-                      px-3
-                      py-1.5
-                      text-xs
-                      font-extrabold
-                      cursor-pointer
-                      flex
-                      items-center
-                      gap-2
-                      transition-colors
-                      ${language === 'KOREAN'
-                        ? 'bg-black text-white'
-                        : 'text-black hover:bg-black hover:text-white'
-                      }
-                    `}
-                    onClick={() =>
-                      handleLanguageSelect('KOREAN')
-                    }
-                  >
-                    <span>🇰🇷</span>
-                    <span>
-                      한국어 {language === 'KOREAN' && '✓'}
-                    </span>
-                  </li>
-                </motion.ul>
-              )}
-            </AnimatePresence>
-          </li>
-        </ul>
-      </nav>
+              </AnimatePresence>
+            </li>
+          </ul>
+        </nav>
+      </header>
 
       {/* =====================================================
           MOBILE FULL SCREEN MENU
@@ -459,18 +478,19 @@ const Header = () => {
               inset-0
               z-[99999]
               w-screen
-              h-screen
-              min-h-[100dvh]
+              h-[100dvh]
               bg-[#e7e2d0]
               text-black
               flex
               flex-col
               overflow-hidden
-              select-none
+              overscroll-none
+              border-b-[3px]
+              border-black
             "
           >
             {/* =================================================
-                MOBILE MENU HEADER
+                MOBILE MENU TOP
             ================================================== */}
 
             <div
@@ -483,41 +503,21 @@ const Header = () => {
                 sm:px-8
                 pt-6
                 pb-4
-                border-b-2
+                border-b-[3px]
                 border-black
                 bg-[#e7e2d0]
                 shrink-0
               "
             >
               <div className="flex flex-col">
-                <span
-                  className="
-                    text-lg
-                    sm:text-xl
-                    font-black
-                    uppercase
-                    tracking-tight
-                    text-black
-                  "
-                >
+                <span className="text-lg sm:text-xl font-black uppercase tracking-tight">
                   {profile.name}
                 </span>
 
-                <span
-                  className="
-                    text-[10px]
-                    font-extrabold
-                    uppercase
-                    tracking-wider
-                    text-neutral-600
-                    font-mono
-                  "
-                >
+                <span className="text-[10px] font-extrabold uppercase tracking-wider text-neutral-600 font-mono">
                   NAVIGATION DIRECTORY
                 </span>
               </div>
-
-              {/* CLOSE */}
 
               <button
                 type="button"
@@ -544,8 +544,6 @@ const Header = () => {
                   hover:bg-black
                   hover:text-white
                   transition-all
-                  cursor-pointer
-                  text-black
                 "
               >
                 <span>✕</span>
@@ -554,12 +552,13 @@ const Header = () => {
             </div>
 
             {/* =================================================
-                MOBILE MENU LIST
+                MOBILE NAV LIST
             ================================================== */}
 
             <div
               className="
                 flex-1
+                min-h-0
                 flex
                 flex-col
                 items-center
@@ -567,19 +566,10 @@ const Header = () => {
                 w-full
                 px-6
                 sm:px-8
-                overflow-y-auto
+                overflow-hidden
               "
             >
-              <div
-                className="
-                  flex
-                  flex-col
-                  gap-0
-                  w-full
-                  max-w-sm
-                  mx-auto
-                "
-              >
+              <div className="w-full max-w-sm">
                 {navList.map((item, index) => {
                   const isActive =
                     !item.isExternal &&
@@ -587,7 +577,7 @@ const Header = () => {
 
                   return (
                     <motion.div
-                      key={`mobile-nav-${item.title}`}
+                      key={`mobile-${item.title}`}
                       initial={{
                         opacity: 0,
                         y: 15,
@@ -604,7 +594,7 @@ const Header = () => {
                         w-full
                         border-b
                         border-black/20
-                        py-4
+                        py-3
                         flex
                         items-center
                         justify-center
@@ -633,14 +623,7 @@ const Header = () => {
                             transition-transform
                           "
                         >
-                          <span
-                            className="
-                              font-mono
-                              text-xs
-                              font-bold
-                              text-neutral-500
-                            "
-                          >
+                          <span className="font-mono text-xs font-bold text-neutral-500">
                             0{index + 1}.
                           </span>
 
@@ -666,41 +649,24 @@ const Header = () => {
                             font-black
                             uppercase
                             tracking-tight
+                            text-black
                             active:scale-95
                             transition-transform
-                            ${isActive
-                              ? 'text-black underline underline-offset-8 decoration-2'
-                              : 'text-black'
+                            ${
+                              isActive
+                                ? 'underline underline-offset-8 decoration-2'
+                                : ''
                             }
                           `}
                         >
-                          <span
-                            className="
-                              font-mono
-                              text-xs
-                              font-bold
-                              text-neutral-500
-                            "
-                          >
+                          <span className="font-mono text-xs font-bold text-neutral-500">
                             0{index + 1}.
                           </span>
 
                           <span>{item.title}</span>
 
                           {isActive && (
-                            <span
-                              className="
-                                text-[10px]
-                                font-mono
-                                bg-black
-                                text-[#e7e2d0]
-                                px-1.5
-                                py-0.5
-                                border
-                                border-black
-                                ml-1
-                              "
-                            >
+                            <span className="text-[10px] font-mono bg-black text-[#e7e2d0] px-1.5 py-0.5 border border-black ml-1">
                               ACTIVE
                             </span>
                           )}
@@ -723,19 +689,16 @@ const Header = () => {
                 flex-col
                 items-center
                 justify-center
-                gap-3.5
-                border-t-2
+                gap-3
+                border-t-[3px]
                 border-black
                 pt-4
                 pb-6
                 px-6
                 bg-[#e7e2d0]
-                text-center
                 shrink-0
               "
             >
-              {/* Language */}
-
               <div
                 className="
                   flex
@@ -755,10 +718,10 @@ const Header = () => {
                     text-[11px]
                     font-mono
                     font-black
-                    transition-colors
-                    ${language === 'KOREAN'
-                      ? 'bg-black text-white'
-                      : 'text-black hover:bg-[#d4ceb8]'
+                    ${
+                      language === 'KOREAN'
+                        ? 'bg-black text-white'
+                        : 'text-black hover:bg-[#d4ceb8]'
                     }
                   `}
                 >
@@ -774,10 +737,10 @@ const Header = () => {
                     text-[11px]
                     font-mono
                     font-black
-                    transition-colors
-                    ${language === 'ENGLISH'
-                      ? 'bg-black text-white'
-                      : 'text-black hover:bg-[#d4ceb8]'
+                    ${
+                      language === 'ENGLISH'
+                        ? 'bg-black text-white'
+                        : 'text-black hover:bg-[#d4ceb8]'
                     }
                   `}
                 >
@@ -785,20 +748,7 @@ const Header = () => {
                 </button>
               </div>
 
-              {/* Footer */}
-
-              <div
-                className="
-                  flex
-                  items-center
-                  justify-center
-                  gap-3
-                  text-[10px]
-                  font-mono
-                  font-bold
-                  text-neutral-600
-                "
-              >
+              <div className="flex items-center justify-center gap-3 text-[10px] font-mono font-bold text-neutral-600">
                 <span>© YOUNGGEUN JUN</span>
 
                 <span>•</span>
@@ -808,11 +758,7 @@ const Header = () => {
                   onClick={() =>
                     setIsMobileMenuOpen(false)
                   }
-                  className="
-                    underline
-                    hover:text-black
-                    text-neutral-600
-                  "
+                  className="underline hover:text-black"
                 >
                   ADMIN
                 </Link>
@@ -821,7 +767,7 @@ const Header = () => {
           </motion.div>
         )}
       </AnimatePresence>
-    </header>
+    </>
   );
 };
 
