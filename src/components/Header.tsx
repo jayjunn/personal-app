@@ -274,9 +274,8 @@ const Header = () => {
                       ? 'bg-black text-white'
                       : 'text-black hover:bg-[#d4ceb8]'
                   }`}>
-                  🇰🇷 한국어 (KR)
+                  🇰🇷 한국어
                 </button>
-                <div className="w-[2px] h-4 bg-black" />
                 <button
                   type="button"
                   onClick={() => setLanguage('ENGLISH')}
@@ -285,7 +284,7 @@ const Header = () => {
                       ? 'bg-black text-white'
                       : 'text-black hover:bg-[#d4ceb8]'
                   }`}>
-                  🇬🇧 English (EN)
+                  🇬🇧 English
                 </button>
               </div>
 
