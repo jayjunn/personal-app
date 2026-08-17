@@ -30,77 +30,52 @@ export async function POST(req: Request) {
       apiKey,
     });
 
-    // 4. 현재 웹사이트 주소
+    // 4. 배포된 웹사이트 주소
     const baseUrl =
-    process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
-    
-    // 5. 웹사이트의 실제 페이지 가져오기
-    const [worksRes, experienceRes, cvRes] = await Promise.all([
-      fetch(`${baseUrl}/works`, {
-        cache: "no-store",
-      }),
-      fetch(`${baseUrl}/experience`, {
-        cache: "no-store",
-      }),
-      fetch(`${baseUrl}/cv`, {
-        cache: "no-store",
-      }),
-    ]);
+      process.env.NEXT_PUBLIC_SITE_URL ||
+      "http://localhost:3000";
 
-    // 6. 페이지 내용 가져오기
-    const worksHtml = worksRes.ok
-      ? await worksRes.text()
-      : "No Works page is available.";
-
-    const experienceHtml = experienceRes.ok
-      ? await experienceRes.text()
-      : "No Experience page is available.";
-
-    const cvHtml = cvRes.ok
-      ? await cvRes.text()
-      : "No CV page is available.";
-
-    // 7. 디버깅용 로그
-    console.log("Website pages:", {
-      works: worksRes.status,
-      experience: experienceRes.status,
-      cv: cvRes.status,
+    // 5. CV 페이지 하나만 가져오기
+    const cvRes = await fetch(`${baseUrl}/cv`, {
+      cache: "no-store",
     });
 
-    // 8. Gemini에게 전달할 프롬프트
-    const fullPrompt = `
-You are an AI assistant for my personal portfolio website.
+    if (!cvRes.ok) {
+      throw new Error(
+        `Failed to fetch CV page: ${cvRes.status}`
+      );
+    }
 
-Your job is to answer questions about me using ONLY the information
-contained in the website pages provided below.
+    const cvHtml = await cvRes.text();
+
+    // 디버깅
+    console.log("CV page:", cvRes.status);
+
+    // 6. Gemini에게 전달할 프롬프트
+    const fullPrompt = `
+You are an AI assistant for Younggeun Jun's personal portfolio website.
+
+Your job is to answer questions about Younggeun Jun using ONLY
+the information contained in the CV page provided below.
 
 IMPORTANT RULES:
 
-1. Only use information from the website content below.
+1. Use ONLY the information from the CV content below.
 2. Do NOT use outside knowledge.
-3. Do NOT make up or guess information.
-4. You can summarize, explain, and compare information from the website.
-5. If the answer cannot be found in the website content, say:
+3. Do NOT make up, guess, or infer information that is not explicitly
+   provided in the CV.
+4. You may summarize and explain the information from the CV.
+5. If the answer cannot be found in the CV, say:
    "I don't have that information on this website."
-6. When possible, give a clear and concise answer.
-7. If the user asks for a summary, summarize only the relevant
-   information from the website.
-8. Do not pretend to know information that is not provided.
+6. Keep your answers clear and concise.
+7. Answer in the same language as the user's question.
+8. If the user asks for a summary, summarize only information
+   contained in the CV.
+9. Do not pretend to know anything about Younggeun Jun that is not
+   provided in the CV.
 
 ========================
-WORKS PAGE
-========================
-
-${worksHtml}
-
-========================
-EXPERIENCE PAGE
-========================
-
-${experienceHtml}
-
-========================
-CV PAGE
+CV PAGE CONTENT
 ========================
 
 ${cvHtml}
@@ -112,13 +87,13 @@ USER QUESTION
 ${prompt}
 `;
 
-    // 9. Gemini 호출
+    // 7. Gemini 호출
     const response = await ai.models.generateContent({
       model: "gemini-3.6-flash",
       contents: fullPrompt,
     });
 
-    // 10. Gemini 답변 반환
+    // 8. Gemini 답변 반환
     return NextResponse.json({
       text: response.text,
     });
@@ -129,9 +104,10 @@ ${prompt}
     return NextResponse.json(
       {
         error: "Failed to fetch from Gemini",
-        details: error instanceof Error
-          ? error.message
-          : String(error),
+        details:
+          error instanceof Error
+            ? error.message
+            : String(error),
       },
       { status: 500 }
     );
