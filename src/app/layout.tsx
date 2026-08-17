@@ -6,6 +6,7 @@ import Header from '../components/Header';
 import Footer from '../components/Footer';
 import LanguageInitializer from '../components/common/LanguageInitializer';
 import LanguageModal from '../components/common/LanguageModal';
+import Chatbot from '../components/common/Chatbot';
 
 export const metadata: Metadata = {
   title: { default: 'Younggeun Jun', template: 'Younggeun Jun | %s' },
@@ -41,6 +42,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               <Footer />
               <LanguageModal />
             </AuthProvider>
+            <Chatbot />
           </ReactQueryProvider>
         </main>
       </body>
