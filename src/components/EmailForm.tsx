@@ -70,7 +70,7 @@ export default function EmailForm() {
               placeholder="your-email@example.com"
               onChange={handleInput}
               value={inputValue.email}
-              className="w-full p-3.5 sm:p-4 bg-white border-2 border-black text-sm font-medium outline-none focus:bg-neutral-50 box-border"
+              className="w-full p-3.5 sm:p-4 bg-[#fbf9f4] border-2 border-black text-sm font-medium outline-none focus:bg-[#ede8d5] box-border"
             />
           </div>
 
@@ -88,7 +88,7 @@ export default function EmailForm() {
               placeholder="프로젝트 제안 / 문의 내용"
               onChange={handleInput}
               value={inputValue.subject}
-              className="w-full p-3.5 sm:p-4 bg-white border-2 border-black text-sm font-medium outline-none focus:bg-neutral-50 box-border"
+              className="w-full p-3.5 sm:p-4 bg-[#fbf9f4] border-2 border-black text-sm font-medium outline-none focus:bg-[#ede8d5] box-border"
             />
           </div>
         </div>
@@ -107,7 +107,7 @@ export default function EmailForm() {
             placeholder="남기실 메시지를 작성해주세요..."
             onChange={handleInput}
             value={inputValue.message}
-            className="w-full p-3.5 sm:p-4 bg-white border-2 border-black text-sm font-medium outline-none focus:bg-neutral-50 leading-relaxed resize-y box-border"
+            className="w-full p-3.5 sm:p-4 bg-[#fbf9f4] border-2 border-black text-sm font-medium outline-none focus:bg-[#ede8d5] leading-relaxed resize-y box-border"
           />
         </div>
 

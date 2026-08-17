@@ -103,11 +103,10 @@ export default function CvEditor() {
 
       {message && (
         <div
-          className={`p-3.5 sm:p-4 border-2 border-black font-bold text-xs sm:text-sm ${
-            message.type === 'success'
-              ? 'bg-emerald-100 text-emerald-900'
-              : 'bg-rose-100 text-rose-900'
-          }`}>
+          className={`p-3.5 sm:p-4 border-2 border-black font-bold text-xs sm:text-sm ${message.type === 'success'
+            ? 'bg-emerald-100 text-emerald-900'
+            : 'bg-rose-100 text-rose-900'
+            }`}>
           {message.text}
         </div>
       )}

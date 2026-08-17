@@ -84,7 +84,7 @@ const Profile = ({ initialProfile }: ProfileProps) => {
               {skills.map((skill, index) => (
                 <motion.span
                   key={`profile-skill-${skill}-${index}`}
-                  className="border-2 border-black rounded-lg px-3 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm font-extrabold tracking-wide bg-[#e7e2d0] text-black shadow-[2px_2px_0px_#000000] hover:shadow-[4px_4px_0px_#000000] hover:bg-white hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all cursor-default"
+                  className="border-2 border-black rounded-lg px-3 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm font-extrabold tracking-wide bg-[#e7e2d0] text-black shadow-[2px_2px_0px_#000000] hover:shadow-[4px_4px_0px_#000000] hover:bg-[#d4ceb8] hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all cursor-default"
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.96 }}>
                   {skill}

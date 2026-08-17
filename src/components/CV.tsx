@@ -41,7 +41,7 @@ export default function Cv({ initialCv, initialExperiences }: CvProps) {
               href={activeCvData.pdfUrl}
               target="_blank"
               rel="noreferrer"
-              className="border-2 border-black px-4 py-2 bg-white text-black font-bold text-xs sm:text-sm uppercase no-underline inline-flex items-center gap-1.5 hover:bg-black hover:text-[#e7e2d0] transition-colors shadow-[2px_2px_0px_#000000]">
+              className="border-2 border-black px-4 py-2 bg-[#e7e2d0] text-black font-bold text-xs sm:text-sm uppercase no-underline inline-flex items-center gap-1.5 hover:bg-black hover:text-[#e7e2d0] transition-colors shadow-[2px_2px_0px_#000000]">
               📄 {isEnglish ? 'Download PDF Resume ↗' : 'PDF 이력서 다운로드 ↗'}
             </a>
           ) : (
@@ -93,7 +93,7 @@ export default function Cv({ initialCv, initialExperiences }: CvProps) {
                   </h4>
                   <div className="flex flex-wrap gap-1.5">
                     {cat.skills.map((skill, sIdx) => (
-                      <span key={`cv-skill-${skill.name}-${sIdx}`} className="text-[11px] border border-black px-2 py-0.5 font-bold bg-white shadow-[1px_1px_0px_#000000]">
+                      <span key={`cv-skill-${skill.name}-${sIdx}`} className="text-[11px] border border-black px-2 py-0.5 font-bold bg-[#e7e2d0] shadow-[1px_1px_0px_#000000]">
                         {skill.name}
                       </span>
                     ))}
@@ -114,7 +114,7 @@ export default function Cv({ initialCv, initialExperiences }: CvProps) {
                   ? item.description?.en || []
                   : item.description?.kr || [];
                 return (
-                  <div key={`cv-exp-${item.company}-${item.id || idx}`} className="border-2 border-black p-4 sm:p-5 bg-white flex flex-col gap-2.5 shadow-[2px_2px_0px_#000000]">
+                  <div key={`cv-exp-${item.company}-${item.id || idx}`} className="border-2 border-black p-4 sm:p-5 bg-[#e7e2d0] flex flex-col gap-2.5 shadow-[2px_2px_0px_#000000]">
                     <div className="flex justify-between items-center border-b border-black pb-2 flex-wrap gap-2">
                       <div className="font-extrabold text-sm sm:text-base">
                         {item.role}, {item.company}

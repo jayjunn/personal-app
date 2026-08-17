@@ -81,7 +81,7 @@ const Header = () => {
           type="button"
           onClick={() => setIsMobileMenuOpen(true)}
           aria-label="Open Navigation Menu"
-          className="md:hidden flex items-center justify-center w-9 h-9 bg-white border-2 border-black shadow-[2px_2px_0px_#000000] active:translate-x-0.5 active:translate-y-0.5 active:shadow-none hover:bg-black text-black hover:text-white transition-all cursor-pointer box-border">
+          className="md:hidden flex items-center justify-center w-9 h-9 bg-[#e7e2d0] border-2 border-black shadow-[2px_2px_0px_#000000] active:translate-x-0.5 active:translate-y-0.5 active:shadow-none hover:bg-black text-black hover:text-white transition-all cursor-pointer box-border">
           <svg
             className="w-5 h-5 stroke-current"
             viewBox="0 0 24 24"
@@ -136,7 +136,7 @@ const Header = () => {
             <button
               onClick={handleLanguageButton}
               aria-label="Toggle Language"
-              className="flex items-center gap-1.5 px-2.5 py-1 bg-white border-[1.5px] border-black cursor-pointer hover:bg-black hover:text-[#e7e2d0] transition-colors shadow-[1px_1px_0px_#000000] text-black">
+              className="flex items-center gap-1.5 px-2.5 py-1 bg-[#e7e2d0] border-[1.5px] border-black cursor-pointer hover:bg-black hover:text-[#e7e2d0] transition-colors shadow-[1px_1px_0px_#000000] text-black">
               <Image
                 src={Language}
                 alt="language"
@@ -208,7 +208,7 @@ const Header = () => {
               <button
                 type="button"
                 onClick={() => setIsMobileMenuOpen(false)}
-                className="flex items-center justify-center gap-1.5 px-3 py-1.5 bg-white border-2 border-black font-mono text-xs font-black uppercase shadow-[2px_2px_0px_#000000] active:translate-x-0.5 active:translate-y-0.5 active:shadow-none hover:bg-black hover:text-white transition-all cursor-pointer text-black">
+                className="flex items-center justify-center gap-1.5 px-3 py-1.5 bg-[#e7e2d0] border-2 border-black font-mono text-xs font-black uppercase shadow-[2px_2px_0px_#000000] active:translate-x-0.5 active:translate-y-0.5 active:shadow-none hover:bg-black hover:text-white transition-all cursor-pointer text-black">
                 <span>✕</span>
                 <span>CLOSE</span>
               </button>
@@ -265,14 +265,14 @@ const Header = () => {
 
             {/* Bottom: Language Switcher */}
             <div className="w-full flex flex-col items-center justify-center gap-3.5 border-t-2 border-black pt-4 text-center">
-              <div className="flex items-center border-2 border-black bg-white shadow-[2px_2px_0px_#000000]">
+              <div className="flex items-center border-2 border-black bg-[#e7e2d0] shadow-[2px_2px_0px_#000000]">
                 <button
                   type="button"
                   onClick={() => setLanguage('KOREAN')}
                   className={`px-3 py-1.5 text-[11px] font-mono font-black transition-colors ${
                     language === 'KOREAN'
                       ? 'bg-black text-white'
-                      : 'text-black hover:bg-neutral-100'
+                      : 'text-black hover:bg-[#d4ceb8]'
                   }`}>
                   🇰🇷 한국어 (KR)
                 </button>
@@ -283,7 +283,7 @@ const Header = () => {
                   className={`px-3 py-1.5 text-[11px] font-mono font-black transition-colors ${
                     language === 'ENGLISH'
                       ? 'bg-black text-white'
-                      : 'text-black hover:bg-neutral-100'
+                      : 'text-black hover:bg-[#d4ceb8]'
                   }`}>
                   🇬🇧 English (EN)
                 </button>

@@ -31,7 +31,7 @@ export default function Experience({ limit, showMoreLink = false, initialExperie
       <ul className="w-full mt-6 grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 list-none p-0">
         {displayedExperiences.map(({ role, company, description, stacks, id }, index) => (
           <li
-            className="flex flex-col justify-start items-start p-4 sm:p-5 border-2 border-black bg-white shadow-[3px_3px_0px_#000000] hover:shadow-[5px_5px_0px_#000000] transition-all"
+            className="flex flex-col justify-start items-start p-4 sm:p-5 border-2 border-black bg-[#e7e2d0] shadow-[3px_3px_0px_#000000] hover:shadow-[5px_5px_0px_#000000] transition-all"
             key={`exp-${id || company}-${index}`}
             id={company.toLowerCase().replace(/\s+/g, '-')}>
             <div className="w-full flex items-baseline justify-start mb-3.5 flex-wrap gap-1.5 border-b border-black pb-2">

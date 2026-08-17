@@ -18,7 +18,7 @@ export default function Footer() {
       <div className="flex items-center gap-3">
         <Link
           href="/admin"
-          className="inline-flex items-center gap-2 px-3.5 py-1.5 bg-white border-2 border-black font-extrabold text-[11px] uppercase text-black hover:bg-black hover:text-[#e7e2d0] transition-colors shadow-[2px_2px_0px_#000000]"
+          className="inline-flex items-center gap-2 px-3.5 py-1.5 bg-[#e7e2d0] border-2 border-black font-extrabold text-[11px] uppercase text-black hover:bg-black hover:text-[#e7e2d0] transition-colors shadow-[2px_2px_0px_#000000]"
           title="관리자 페이지로 이동">
           {user ? (
             <>

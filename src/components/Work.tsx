@@ -35,7 +35,7 @@ const Work = (props: WorkProps) => {
         href={link}
         target="_blank"
         rel="noreferrer"
-        className="w-full h-44 sm:h-52 relative block bg-white border-b-2 border-black overflow-hidden group cursor-pointer"
+        className="w-full h-44 sm:h-52 relative block bg-[#e7e2d0] border-b-2 border-black overflow-hidden group cursor-pointer"
         aria-label={name}>
         <div className="w-full h-full relative p-4 flex items-center justify-center">
           <Image
@@ -59,7 +59,7 @@ const Work = (props: WorkProps) => {
           {stacks.map((stack, index) => (
             <span
               key={`work-stack-${name}-${stack}-${index}`}
-              className="text-[11px] font-extrabold uppercase px-2 py-0.5 border border-black bg-white shadow-[1px_1px_0px_#000000] text-black">
+              className="text-[11px] font-extrabold uppercase px-2 py-0.5 border border-black bg-[#e7e2d0] shadow-[1px_1px_0px_#000000] text-black">
               {stack}
             </span>
           ))}
