@@ -3,11 +3,7 @@
 import React, { RefObject } from 'react';
 import { useLanguage } from '@/hooks/useLanguage';
 import MarkdownText from './MarkdownText';
-
-export interface ChatMessage {
-  role: 'user' | 'gemini';
-  text: string;
-}
+import { ChatMessage } from '@/store/chatAtom';
 
 interface ChatMessageListProps {
   messages: ChatMessage[];
@@ -44,14 +40,15 @@ export default function ChatMessageList({
         text-sm
         bg-[#e7e2d0]
         dark:bg-[#16171e]
+        scroll-smooth
       "
     >
       {/* Welcome Greeting when no messages yet */}
       {messages.length === 0 && (
         <div
           className="
-            max-w-[85%]
-            p-3
+            max-w-[88%]
+            p-3.5
             rounded-lg
             border-2
             border-black
@@ -62,6 +59,7 @@ export default function ChatMessageList({
             dark:text-[#f3f4f6]
             self-start
             shadow-[2px_2px_0px_#000000]
+            leading-relaxed
           "
         >
           {t.chatbot.greeting}
@@ -94,45 +92,6 @@ export default function ChatMessageList({
         </div>
       ))}
 
-      {/* Quick Prompts when no user messages yet */}
-      {messages.length === 0 && !isPending && (
-        <div className="flex flex-wrap gap-2 pt-1 pb-1">
-          {quickPrompts.map((item, idx) => (
-            <button
-              key={idx}
-              type="button"
-              onClick={() => onSelectPrompt?.(item.query)}
-              className="
-                text-xs
-                px-2.5
-                py-1.5
-                rounded-md
-                border-2
-                border-black
-                dark:border-[#2f3340]
-                bg-[#f4f0e3]
-                dark:bg-[#1f212a]
-                text-black
-                dark:text-cyan-400
-                hover:bg-black
-                hover:text-white
-                dark:hover:bg-cyan-400
-                dark:hover:text-black
-                transition-all
-                duration-150
-                shadow-[2px_2px_0px_#000000]
-                active:translate-x-[1px]
-                active:translate-y-[1px]
-                cursor-pointer
-                text-left
-              "
-            >
-              {item.label}
-            </button>
-          ))}
-        </div>
-      )}
-
       {/* Loading indicator */}
       {isPending && (
         <div
@@ -154,6 +113,53 @@ export default function ChatMessageList({
           "
         >
           {t.chatbot.thinking}
+        </div>
+      )}
+
+      {/* Quick Prompts Category Section (항상 답변 완료 후 또는 최초 시작 시 노출) */}
+      {!isPending && (
+        <div className="flex flex-col gap-1.5 pt-1.5 pb-1">
+          {messages.length > 0 && (
+            <span className="text-[11px] font-bold text-neutral-600 dark:text-neutral-400 px-0.5">
+              💡 추천 질문 더보기:
+            </span>
+          )}
+          <div className="flex flex-wrap gap-1.5">
+            {quickPrompts.map((item, idx) => (
+              <button
+                key={idx}
+                type="button"
+                onClick={() => onSelectPrompt?.(item.query)}
+                className="
+                  text-xs
+                  px-2.5
+                  py-1.5
+                  rounded-md
+                  border-2
+                  border-black
+                  dark:border-[#2f3340]
+                  bg-[#f4f0e3]
+                  dark:bg-[#1f212a]
+                  text-black
+                  dark:text-cyan-400
+                  hover:bg-black
+                  hover:text-white
+                  dark:hover:bg-cyan-400
+                  dark:hover:text-black
+                  transition-all
+                  duration-150
+                  shadow-[2px_2px_0px_#000000]
+                  active:translate-x-[1px]
+                  active:translate-y-[1px]
+                  cursor-pointer
+                  text-left
+                  font-medium
+                "
+              >
+                {item.label}
+              </button>
+            ))}
+          </div>
         </div>
       )}
 

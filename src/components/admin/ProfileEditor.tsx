@@ -1,15 +1,33 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { ProfileDataType } from '@/service/portfolioService';
 import { profileData as defaultProfile } from '@/data/portfolioData';
 import { useProfileQuery, useUpdateProfileMutation } from '@/hooks/usePortfolioQueries';
+import AiAssistModal from './AiAssistModal';
+import { AiPolishMode } from '@/app/api/ai-polish/route';
+
+interface AiModalState {
+  isOpen: boolean;
+  field: 'headLine' | 'about' | 'skills';
+  initialText: string;
+  fieldLabel: string;
+  defaultMode: AiPolishMode;
+}
 
 export default function ProfileEditor() {
   const [profile, setProfile] = useState<ProfileDataType>(defaultProfile as unknown as ProfileDataType);
   const [activeLang, setActiveLang] = useState<'en' | 'kr'>('en');
   const [skillInput, setSkillInput] = useState('');
   const [message, setMessage] = useState<{ text: string; type: 'success' | 'error' } | null>(null);
+
+  const [aiModal, setAiModal] = useState<AiModalState>({
+    isOpen: false,
+    field: 'about',
+    initialText: '',
+    fieldLabel: '',
+    defaultMode: 'polish',
+  });
 
   const { data: remoteProfile, isLoading } = useProfileQuery();
   const [prevRemote, setPrevRemote] = useState<ProfileDataType | undefined>(undefined);
@@ -26,6 +44,43 @@ export default function ProfileEditor() {
       [activeLang]: {
         ...prev[activeLang],
         [field]: value,
+      },
+    }));
+  };
+
+  const openAiModal = (
+    field: 'headLine' | 'about' | 'skills',
+    fieldLabel: string,
+    defaultMode: AiPolishMode = 'polish'
+  ) => {
+    const text =
+      field === 'skills'
+        ? (profile[activeLang]?.about || '') + ' ' + (profile[activeLang]?.headLine || '')
+        : profile[activeLang]?.[field] || '';
+
+    setAiModal({
+      isOpen: true,
+      field,
+      initialText: text,
+      fieldLabel: `${fieldLabel} [${activeLang.toUpperCase()}]`,
+      defaultMode,
+    });
+  };
+
+  const handleApplyAiText = (newText: string) => {
+    if (aiModal.field === 'headLine' || aiModal.field === 'about') {
+      handleTextChange(aiModal.field, newText);
+    }
+  };
+
+  const handleApplyAiStacks = (stacks: string[]) => {
+    const currentSkills = profile[activeLang]?.skills || [];
+    const merged = Array.from(new Set([...currentSkills, ...stacks]));
+    setProfile((prev) => ({
+      ...prev,
+      [activeLang]: {
+        ...prev[activeLang],
+        skills: merged,
       },
     }));
   };
@@ -142,9 +197,17 @@ export default function ProfileEditor() {
             </div>
 
             <div className="flex flex-col gap-2">
-              <label className="text-xs font-black uppercase text-neutral-800">
-                헤드라인 문구 (Headline) - [{activeLang.toUpperCase()}]
-              </label>
+              <div className="flex justify-between items-center">
+                <label className="text-xs font-black uppercase text-neutral-800">
+                  헤드라인 문구 (Headline) - [{activeLang.toUpperCase()}]
+                </label>
+                <button
+                  type="button"
+                  onClick={() => openAiModal('headLine', 'Headline', 'summarize')}
+                  className="px-2.5 py-1 bg-yellow-300 border border-black text-black font-black text-xs uppercase cursor-pointer hover:bg-yellow-400 transition-colors shadow-[1.5px_1.5px_0px_#000000] flex items-center gap-1">
+                  <span>✨ AI 다듬기/번역</span>
+                </button>
+              </div>
               <input
                 type="text"
                 value={current.headLine || ''}
@@ -155,15 +218,31 @@ export default function ProfileEditor() {
             </div>
 
             <div className="flex flex-col gap-2">
-              <label className="text-xs font-black uppercase text-neutral-800">
-                소개글 (About Text) - [{activeLang.toUpperCase()}]
-              </label>
+              <div className="flex justify-between items-center">
+                <label className="text-xs font-black uppercase text-neutral-800">
+                  소개글 (About Text) - [{activeLang.toUpperCase()}]
+                </label>
+                <div className="flex items-center gap-2">
+                  <button
+                    type="button"
+                    onClick={() => openAiModal('about', 'About Me', activeLang === 'en' ? 'translate-kr' : 'translate-en')}
+                    className="px-2.5 py-1 bg-neutral-100 border border-black text-black font-bold text-xs cursor-pointer hover:bg-neutral-200 transition-colors shadow-[1.5px_1.5px_0px_#000000]">
+                    {activeLang === 'en' ? '🇰🇷 국문 번역 생성' : '🇬🇧 영문 번역 생성'}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => openAiModal('about', 'About Me', 'polish')}
+                    className="px-2.5 py-1 bg-yellow-300 border border-black text-black font-black text-xs uppercase cursor-pointer hover:bg-yellow-400 transition-colors shadow-[1.5px_1.5px_0px_#000000] flex items-center gap-1">
+                    <span>✨ AI 다듬기</span>
+                  </button>
+                </div>
+              </div>
               <textarea
                 rows={5}
                 value={current.about || ''}
                 onChange={(e) => handleTextChange('about', e.target.value)}
                 placeholder="개발자 소개 및 지향하는 가치에 대한 상세 설명..."
-                className="w-full p-3 bg-[#fbf9f4] border-2 border-black text-sm font-semibold outline-none focus:bg-white resize-y"
+                className="w-full p-3 bg-[#fbf9f4] border-2 border-black text-sm font-semibold outline-none focus:bg-white resize-y leading-relaxed"
               />
             </div>
 
@@ -173,9 +252,17 @@ export default function ProfileEditor() {
                 <label className="text-xs font-black uppercase text-neutral-800">
                   기술 스택 태그 (Skills) - [{activeLang.toUpperCase()}]
                 </label>
-                <span className="text-xs text-neutral-500 font-mono">
-                  총 {current.skills?.length || 0}개 등록됨
-                </span>
+                <div className="flex items-center gap-2">
+                  <button
+                    type="button"
+                    onClick={() => openAiModal('skills', 'Skills Extractor', 'extract-stacks')}
+                    className="px-2.5 py-1 bg-blue-100 border border-blue-900 text-blue-900 font-bold text-xs cursor-pointer hover:bg-blue-200 transition-colors shadow-[1.5px_1.5px_0px_#000000] flex items-center gap-1">
+                    <span>🏷️ 소개글에서 스택 자동추출</span>
+                  </button>
+                  <span className="text-xs text-neutral-500 font-mono">
+                    총 {current.skills?.length || 0}개
+                  </span>
+                </div>
               </div>
 
               <div className="flex flex-col sm:flex-row gap-2 mt-1">
@@ -232,6 +319,19 @@ export default function ProfileEditor() {
           {saveMutation.isPending ? '저장 처리 중...' : '💾 프로필 설정 저장하기'}
         </button>
       </div>
+
+      {/* AI Assistant Modal */}
+      <AiAssistModal
+        isOpen={aiModal.isOpen}
+        onClose={() => setAiModal((prev) => ({ ...prev, isOpen: false }))}
+        initialText={aiModal.initialText}
+        fieldLabel={aiModal.fieldLabel}
+        contextType="profile"
+        defaultMode={aiModal.defaultMode}
+        onApplyText={handleApplyAiText}
+        onApplyStacks={aiModal.field === 'skills' ? handleApplyAiStacks : undefined}
+      />
     </div>
   );
 }
+

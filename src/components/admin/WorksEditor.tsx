@@ -1,10 +1,21 @@
 'use client';
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useRef } from 'react';
 import { WorkItem } from '@/service/portfolioService';
 import { uploadToCloudinary } from '@/service/uploadService';
 import { workData as defaultWorks } from '@/data/portfolioData';
 import { useWorksQuery, useUpdateWorksMutation } from '@/hooks/usePortfolioQueries';
+import AiAssistModal from './AiAssistModal';
+import BatchAiModal from './BatchAiModal';
+import { AiPolishMode } from '@/app/api/ai-polish/route';
+
+interface AiModalState {
+  isOpen: boolean;
+  targetField: 'en_desc' | 'kr_desc' | 'stacks';
+  initialText: string;
+  fieldLabel: string;
+  defaultMode: AiPolishMode;
+}
 
 export default function WorksEditor() {
   const [works, setWorks] = useState<WorkItem[]>(defaultWorks as unknown as WorkItem[]);
@@ -13,7 +24,16 @@ export default function WorksEditor() {
   const [tagInput, setTagInput] = useState('');
   const [uploading, setUploading] = useState(false);
   const [message, setMessage] = useState<{ text: string; type: 'success' | 'error' } | null>(null);
+  const [isBatchModalOpen, setIsBatchModalOpen] = useState(false);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
+
+  const [aiModal, setAiModal] = useState<AiModalState>({
+    isOpen: false,
+    targetField: 'kr_desc',
+    initialText: '',
+    fieldLabel: '',
+    defaultMode: 'polish',
+  });
 
   const { data: remoteWorks, isLoading } = useWorksQuery();
   const [prevRemote, setPrevRemote] = useState<WorkItem[] | undefined>(undefined);
@@ -110,6 +130,61 @@ export default function WorksEditor() {
     }
   };
 
+  const openAiModal = (
+    targetField: 'en_desc' | 'kr_desc' | 'stacks',
+    fieldLabel: string,
+    defaultMode: AiPolishMode = 'polish'
+  ) => {
+    if (!editItem) return;
+
+    let text = '';
+    if (targetField === 'en_desc') {
+      text = editItem.description?.en || editItem.description?.kr || '';
+    } else if (targetField === 'kr_desc') {
+      text = editItem.description?.kr || editItem.description?.en || '';
+    } else if (targetField === 'stacks') {
+      text = `${editItem.name} ${editItem.company || ''} ${editItem.description?.en || ''} ${editItem.description?.kr || ''}`;
+    }
+
+    setAiModal({
+      isOpen: true,
+      targetField,
+      initialText: text,
+      fieldLabel: `${editItem.name || 'Project'} - ${fieldLabel}`,
+      defaultMode,
+    });
+  };
+
+  const handleApplyAiText = (newText: string) => {
+    if (!editItem) return;
+    if (aiModal.targetField === 'en_desc') {
+      setEditItem({
+        ...editItem,
+        description: {
+          ...editItem.description,
+          en: newText,
+        },
+      });
+    } else if (aiModal.targetField === 'kr_desc') {
+      setEditItem({
+        ...editItem,
+        description: {
+          ...editItem.description,
+          kr: newText,
+        },
+      });
+    }
+  };
+
+  const handleApplyAiStacks = (stacks: string[]) => {
+    if (!editItem) return;
+    const merged = Array.from(new Set([...editItem.stacks, ...stacks]));
+    setEditItem({
+      ...editItem,
+      stacks: merged,
+    });
+  };
+
   const handleSaveModal = () => {
     if (!editItem) return;
     if (!editItem.name.trim()) {
@@ -137,10 +212,18 @@ export default function WorksEditor() {
     saveMutation.mutate(works);
   };
 
+  const handleApplyBatchWorks = (newWorks: WorkItem[]) => {
+    setWorks(newWorks);
+    setMessage({
+      type: 'success',
+      text: `총 ${newWorks.length}개의 프로젝트가 AI로 일괄 다듬어졌습니다! 아래 [💾 프로젝트 목록 전체 저장]을 눌러 Firestore에 반영하세요.`,
+    });
+  };
+
   return (
     <div className="flex flex-col gap-6 w-full">
       {/* Header Bar */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b-2 border-black pb-4">
+      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 border-b-2 border-black pb-4">
         <div>
           <h2 className="text-xl sm:text-2xl font-black uppercase m-0 tracking-tight">
             프로젝트 (Works) 관리
@@ -150,12 +233,20 @@ export default function WorksEditor() {
           </p>
         </div>
 
-        <button
-          type="button"
-          onClick={handleStartAdd}
-          className="px-4 py-2.5 bg-black text-[#e7e2d0] border-2 border-black font-extrabold text-xs uppercase cursor-pointer hover:bg-neutral-800 transition-colors shadow-[2px_2px_0px_#000000] self-start sm:self-auto">
-          + 새 프로젝트 추가
-        </button>
+        <div className="flex flex-wrap gap-2.5 items-center">
+          <button
+            type="button"
+            onClick={() => setIsBatchModalOpen(true)}
+            className="px-4 py-2.5 bg-yellow-300 border-2 border-black text-black font-black text-xs uppercase cursor-pointer hover:bg-yellow-400 transition-colors shadow-[3px_3px_0px_#000000] flex items-center gap-1.5 animate-pulse hover:animate-none">
+            <span>⚡ AI 전체 프로젝트 일괄 다듬기 & 번역</span>
+          </button>
+          <button
+            type="button"
+            onClick={handleStartAdd}
+            className="px-4 py-2.5 bg-black text-[#e7e2d0] border-2 border-black font-extrabold text-xs uppercase cursor-pointer hover:bg-neutral-800 transition-colors shadow-[2px_2px_0px_#000000]">
+            + 새 프로젝트 추가
+          </button>
+        </div>
       </div>
 
       {message && (
@@ -252,6 +343,25 @@ export default function WorksEditor() {
                 <div className="flex gap-2">
                   <button
                     type="button"
+                    onClick={() => {
+                      handleStartEdit(idx);
+                      // Open AI modal for this item immediately
+                      setTimeout(() => {
+                        const targetWork = works[idx];
+                        setAiModal({
+                          isOpen: true,
+                          targetField: 'kr_desc',
+                          initialText: targetWork.description?.kr || targetWork.description?.en || '',
+                          fieldLabel: `${targetWork.name} - KR Description`,
+                          defaultMode: 'polish',
+                        });
+                      }, 50);
+                    }}
+                    className="px-3 py-1 bg-yellow-300 border-2 border-black text-black font-black text-xs uppercase cursor-pointer hover:bg-yellow-400 transition-colors shadow-[1px_1px_0px_#000000] flex items-center gap-1">
+                    <span>✨ AI 다듬기</span>
+                  </button>
+                  <button
+                    type="button"
                     onClick={() => handleStartEdit(idx)}
                     className="px-3 py-1 bg-cyan-400 border-2 border-black text-black font-extrabold text-xs uppercase cursor-pointer hover:bg-cyan-300 transition-colors shadow-[1px_1px_0px_#000000]">
                     수정 ✏️
@@ -286,7 +396,7 @@ export default function WorksEditor() {
       {/* Edit / Add Modal */}
       {editItem && (
         <div className="fixed inset-0 bg-black/70 z-[9999] flex items-center justify-center p-4 backdrop-blur-xs">
-          <div className="bg-[#e7e2d0] border-4 border-black p-5 sm:p-7 w-full max-w-[650px] max-h-[90vh] overflow-y-auto shadow-[8px_8px_0px_#000000] flex flex-col gap-4">
+          <div className="bg-[#e7e2d0] border-4 border-black p-5 sm:p-7 w-full max-w-[680px] max-h-[90vh] overflow-y-auto shadow-[8px_8px_0px_#000000] flex flex-col gap-4">
             <div className="flex items-center justify-between border-b-[3px] border-black pb-3">
               <h3 className="text-lg sm:text-xl font-black uppercase m-0">
                 {editingIndex === -1 ? '신규 프로젝트 등록' : `프로젝트 수정: ${editItem.name}`}
@@ -371,10 +481,27 @@ export default function WorksEditor() {
                 />
               </div>
 
-              {/* Descriptions */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              {/* Descriptions with AI Buttons */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="flex flex-col gap-2">
-                  <label className="text-xs font-black uppercase">영문 설명 (EN Description)</label>
+                  <div className="flex justify-between items-center">
+                    <label className="text-xs font-black uppercase">영문 설명 (EN)</label>
+                    <div className="flex items-center gap-1.5">
+                      <button
+                        type="button"
+                        onClick={() => openAiModal('en_desc', 'English Desc', 'translate-en')}
+                        className="px-2 py-0.5 bg-neutral-100 border border-black text-[11px] font-bold cursor-pointer hover:bg-neutral-200"
+                        title="국문 설명을 바탕으로 영문 번역 생성">
+                        🇬🇧 번역
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => openAiModal('en_desc', 'English Desc', 'polish')}
+                        className="px-2 py-0.5 bg-yellow-300 border border-black text-[11px] font-black cursor-pointer hover:bg-yellow-400">
+                        ✨ 다듬기
+                      </button>
+                    </div>
+                  </div>
                   <textarea
                     rows={3}
                     value={editItem.description?.en || ''}
@@ -385,11 +512,29 @@ export default function WorksEditor() {
                       })
                     }
                     placeholder="This project is built with..."
-                    className="w-full p-2.5 bg-white border-2 border-black text-sm font-semibold outline-none resize-y"
+                    className="w-full p-2.5 bg-white border-2 border-black text-sm font-semibold outline-none resize-y leading-relaxed"
                   />
                 </div>
+
                 <div className="flex flex-col gap-2">
-                  <label className="text-xs font-black uppercase">국문 설명 (KR Description)</label>
+                  <div className="flex justify-between items-center">
+                    <label className="text-xs font-black uppercase">국문 설명 (KR)</label>
+                    <div className="flex items-center gap-1.5">
+                      <button
+                        type="button"
+                        onClick={() => openAiModal('kr_desc', 'Korean Desc', 'translate-kr')}
+                        className="px-2 py-0.5 bg-neutral-100 border border-black text-[11px] font-bold cursor-pointer hover:bg-neutral-200"
+                        title="영문 설명을 바탕으로 국문 번역 생성">
+                        🇰🇷 번역
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => openAiModal('kr_desc', 'Korean Desc', 'polish')}
+                        className="px-2 py-0.5 bg-yellow-300 border border-black text-[11px] font-black cursor-pointer hover:bg-yellow-400">
+                        ✨ 다듬기
+                      </button>
+                    </div>
+                  </div>
                   <textarea
                     rows={3}
                     value={editItem.description?.kr || ''}
@@ -400,14 +545,22 @@ export default function WorksEditor() {
                       })
                     }
                     placeholder="이 프로젝트는 사용자 경험 중심의..."
-                    className="w-full p-2.5 bg-white border-2 border-black text-sm font-semibold outline-none resize-y"
+                    className="w-full p-2.5 bg-white border-2 border-black text-sm font-semibold outline-none resize-y leading-relaxed"
                   />
                 </div>
               </div>
 
               {/* Stacks Tags */}
               <div className="flex flex-col gap-2">
-                <label className="text-xs font-black uppercase">기술 태그 (Stacks)</label>
+                <div className="flex justify-between items-center">
+                  <label className="text-xs font-black uppercase">기술 태그 (Stacks)</label>
+                  <button
+                    type="button"
+                    onClick={() => openAiModal('stacks', 'Tech Stacks', 'extract-stacks')}
+                    className="px-2 py-0.5 bg-blue-100 border border-blue-900 text-blue-900 font-bold text-xs cursor-pointer hover:bg-blue-200">
+                    🏷️ 설명글에서 스택 자동추출
+                  </button>
+                </div>
                 <div className="flex gap-2">
                   <input
                     type="text"
@@ -464,6 +617,29 @@ export default function WorksEditor() {
           </div>
         </div>
       )}
+
+      {/* AI Assistant Modal */}
+      <AiAssistModal
+        isOpen={aiModal.isOpen}
+        onClose={() => setAiModal((prev) => ({ ...prev, isOpen: false }))}
+        initialText={aiModal.initialText}
+        fieldLabel={aiModal.fieldLabel}
+        contextType="works"
+        defaultMode={aiModal.defaultMode}
+        onApplyText={handleApplyAiText}
+        onApplyStacks={aiModal.targetField === 'stacks' ? handleApplyAiStacks : undefined}
+      />
+
+      {/* Batch AI Modal */}
+      <BatchAiModal
+        isOpen={isBatchModalOpen}
+        onClose={() => setIsBatchModalOpen(false)}
+        type="works"
+        originalItems={works}
+        onApplyAll={handleApplyBatchWorks}
+      />
     </div>
   );
 }
+
+

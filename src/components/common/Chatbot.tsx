@@ -2,21 +2,20 @@
 
 import React, { useEffect, useRef, useState } from 'react';
 import { useAtom } from 'jotai';
-import { isChatOpenAtom } from '@/store';
+import { isChatOpenAtom, chatMessagesAtom } from '@/store';
 import { useMutation } from '@tanstack/react-query';
 import { useLanguage } from '@/hooks/useLanguage';
 import { fetchGeminiResponse } from '@/service/geminiService';
 import ChatFloatingButton from './chatbot/ChatFloatingButton';
-import ChatMessageList, { ChatMessage } from './chatbot/ChatMessageList';
+import ChatMessageList from './chatbot/ChatMessageList';
 import ChatInput from './chatbot/ChatInput';
 
 export default function Chatbot() {
   const [isOpen, setIsOpen] = useAtom(isChatOpenAtom);
+  const [messages, setMessages] = useAtom(chatMessagesAtom);
   const [input, setInput] = useState('');
   const { isEnglish, t } = useLanguage();
   const messagesEndRef = useRef<HTMLDivElement>(null);
-
-  const [messages, setMessages] = useState<ChatMessage[]>([]);
 
   const mutation = useMutation({
     mutationFn: fetchGeminiResponse,
@@ -26,6 +25,7 @@ export default function Chatbot() {
         {
           role: 'gemini',
           text: data || t.chatbot.noResponse,
+          timestamp: Date.now(),
         },
       ]);
     },
@@ -35,17 +35,22 @@ export default function Chatbot() {
         {
           role: 'gemini',
           text: t.chatbot.error,
+          timestamp: Date.now(),
         },
       ]);
     },
   });
 
+  // Automatically scroll down when a new message arrives or generation starts
   useEffect(() => {
     if (!isOpen) return;
-    messagesEndRef.current?.scrollIntoView({
-      behavior: 'smooth',
-      block: 'end',
-    });
+    const timer = setTimeout(() => {
+      messagesEndRef.current?.scrollIntoView({
+        behavior: 'smooth',
+        block: 'end',
+      });
+    }, 100);
+    return () => clearTimeout(timer);
   }, [messages, mutation.isPending, isOpen]);
 
   const sendQuery = (text: string) => {
@@ -56,6 +61,7 @@ export default function Chatbot() {
       {
         role: 'user',
         text: text.trim(),
+        timestamp: Date.now(),
       },
     ]);
 
@@ -72,6 +78,12 @@ export default function Chatbot() {
     const userMessage = input.trim();
     setInput('');
     sendQuery(userMessage);
+  };
+
+  const handleClearHistory = () => {
+    if (confirm(isEnglish ? 'Do you want to clear chat history?' : '대화 기록을 모두 지우시겠습니까?')) {
+      setMessages([]);
+    }
   };
 
   return (
@@ -91,7 +103,7 @@ export default function Chatbot() {
             right-6
             w-80
             sm:w-96
-            h-[460px]
+            h-[500px]
             bg-[#e7e2d0]
             dark:bg-[#16171e]
             border-[3px]
@@ -139,13 +151,24 @@ export default function Chatbot() {
               </span>
             </div>
 
-            <button
-              onClick={() => setIsOpen(false)}
-              className="text-white dark:text-[#f3f4f6] font-bold hover:text-cyan-400 transition-colors text-lg"
-              aria-label="Close Chatbot"
-            >
-              ✕
-            </button>
+            <div className="flex items-center gap-2">
+              {messages.length > 0 && (
+                <button
+                  type="button"
+                  onClick={handleClearHistory}
+                  title={isEnglish ? 'Clear Chat History' : '대화 기록 지우기'}
+                  className="text-neutral-400 hover:text-rose-400 text-xs font-bold transition-colors cursor-pointer px-1.5 py-0.5 border border-neutral-600 rounded">
+                  {isEnglish ? 'Clear' : '초기화'}
+                </button>
+              )}
+              <button
+                onClick={() => setIsOpen(false)}
+                className="text-white dark:text-[#f3f4f6] font-bold hover:text-cyan-400 transition-colors text-lg cursor-pointer"
+                aria-label="Close Chatbot"
+              >
+                ✕
+              </button>
+            </div>
           </div>
 
           {/* Messages Stream */}

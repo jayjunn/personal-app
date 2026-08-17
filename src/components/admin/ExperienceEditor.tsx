@@ -1,15 +1,36 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { ExperienceItem } from '@/service/portfolioService';
 import { experienceData as defaultExperiences } from '@/data/portfolioData';
 import { useExperiencesQuery, useUpdateExperiencesMutation } from '@/hooks/usePortfolioQueries';
+import AiAssistModal from './AiAssistModal';
+import BatchAiModal from './BatchAiModal';
+import { AiPolishMode } from '@/app/api/ai-polish/route';
+
+interface AiModalState {
+  isOpen: boolean;
+  targetLang: 'en' | 'kr';
+  bulletIndex?: number;
+  initialText: string;
+  fieldLabel: string;
+  defaultMode: AiPolishMode;
+}
 
 export default function ExperienceEditor() {
   const [experiences, setExperiences] = useState<ExperienceItem[]>(defaultExperiences as unknown as ExperienceItem[]);
   const [editingIndex, setEditingIndex] = useState<number | null>(null);
   const [editItem, setEditItem] = useState<ExperienceItem | null>(null);
   const [message, setMessage] = useState<{ text: string; type: 'success' | 'error' } | null>(null);
+  const [isBatchModalOpen, setIsBatchModalOpen] = useState(false);
+
+  const [aiModal, setAiModal] = useState<AiModalState>({
+    isOpen: false,
+    targetLang: 'kr',
+    initialText: '',
+    fieldLabel: '',
+    defaultMode: 'polish',
+  });
 
   const { data: remoteExperiences, isLoading } = useExperiencesQuery();
   const [prevRemote, setPrevRemote] = useState<ExperienceItem[] | undefined>(undefined);
@@ -95,6 +116,63 @@ export default function ExperienceEditor() {
     });
   };
 
+  const openAiSingleBullet = (lang: 'en' | 'kr', bIndex: number, mode: AiPolishMode = 'polish') => {
+    if (!editItem) return;
+    const text = editItem.description[lang]?.[bIndex] || '';
+    setAiModal({
+      isOpen: true,
+      targetLang: lang,
+      bulletIndex: bIndex,
+      initialText: text,
+      fieldLabel: `${editItem.company || 'Experience'} [${lang.toUpperCase()}] Bullet #${bIndex + 1}`,
+      defaultMode: mode,
+    });
+  };
+
+  const openAiFullBullets = (lang: 'en' | 'kr', mode: AiPolishMode = 'bulletize') => {
+    if (!editItem) return;
+    const oppositeLang = lang === 'en' ? 'kr' : 'en';
+    const sourceBullets =
+      mode === 'translate-en' || mode === 'translate-kr'
+        ? editItem.description[oppositeLang] || []
+        : editItem.description[lang] || [];
+
+    const text = sourceBullets.filter(Boolean).join('\n');
+    setAiModal({
+      isOpen: true,
+      targetLang: lang,
+      bulletIndex: undefined,
+      initialText: text,
+      fieldLabel: `${editItem.company || 'Experience'} [${lang.toUpperCase()}] Full Bullets`,
+      defaultMode: mode,
+    });
+  };
+
+  const handleApplyAiText = (newText: string) => {
+    if (!editItem) return;
+    const { targetLang, bulletIndex } = aiModal;
+
+    if (bulletIndex !== undefined) {
+      handleBulletChange(targetLang, bulletIndex, newText);
+    } else {
+      // Split into multiple bullet points
+      const lines = newText
+        .split('\n')
+        .map((l) => l.replace(/^[•\-\*\d\.]+\s*/, '').trim())
+        .filter(Boolean);
+
+      if (lines.length > 0) {
+        setEditItem({
+          ...editItem,
+          description: {
+            ...editItem.description,
+            [targetLang]: lines,
+          },
+        });
+      }
+    }
+  };
+
   const handleSaveModal = () => {
     if (!editItem) return;
     if (!editItem.company.trim() || !editItem.role.trim()) {
@@ -122,10 +200,18 @@ export default function ExperienceEditor() {
     saveMutation.mutate(experiences);
   };
 
+  const handleApplyBatchExperiences = (newExperiences: ExperienceItem[]) => {
+    setExperiences(newExperiences);
+    setMessage({
+      type: 'success',
+      text: `총 ${newExperiences.length}개의 경력 항목이 AI로 일괄 다듬어졌습니다! 아래 [💾 경력 사항 전체 저장]을 눌러 Firestore에 반영하세요.`,
+    });
+  };
+
   return (
     <div className="flex flex-col gap-6 w-full">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b-2 border-black pb-4">
+      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 border-b-2 border-black pb-4">
         <div>
           <h2 className="text-xl sm:text-2xl font-black uppercase m-0 tracking-tight">
             경력 사항 (Experience) 관리
@@ -135,12 +221,20 @@ export default function ExperienceEditor() {
           </p>
         </div>
 
-        <button
-          type="button"
-          onClick={handleStartAdd}
-          className="px-4 py-2.5 bg-black text-[#e7e2d0] border-2 border-black font-extrabold text-xs uppercase cursor-pointer hover:bg-neutral-800 transition-colors shadow-[2px_2px_0px_#000000] self-start sm:self-auto">
-          + 새 경력 추가하기
-        </button>
+        <div className="flex flex-wrap gap-2.5 items-center">
+          <button
+            type="button"
+            onClick={() => setIsBatchModalOpen(true)}
+            className="px-4 py-2.5 bg-yellow-300 border-2 border-black text-black font-black text-xs uppercase cursor-pointer hover:bg-yellow-400 transition-colors shadow-[3px_3px_0px_#000000] flex items-center gap-1.5 animate-pulse hover:animate-none">
+            <span>⚡ AI 전체 경력 일괄 다듬기 & 번역</span>
+          </button>
+          <button
+            type="button"
+            onClick={handleStartAdd}
+            className="px-4 py-2.5 bg-black text-[#e7e2d0] border-2 border-black font-extrabold text-xs uppercase cursor-pointer hover:bg-neutral-800 transition-colors shadow-[2px_2px_0px_#000000]">
+            + 새 경력 추가하기
+          </button>
+        </div>
       </div>
 
       {message && (
@@ -201,6 +295,27 @@ export default function ExperienceEditor() {
                       ▼
                     </button>
                   </div>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      handleStartEdit(idx);
+                      // Open AI modal for this item immediately
+                      setTimeout(() => {
+                        const targetExp = experiences[idx];
+                        const text = (targetExp.description?.kr || targetExp.description?.en || []).join('\n');
+                        setAiModal({
+                          isOpen: true,
+                          targetLang: 'kr',
+                          bulletIndex: undefined,
+                          initialText: text,
+                          fieldLabel: `${targetExp.company} Bullets`,
+                          defaultMode: 'bulletize',
+                        });
+                      }, 50);
+                    }}
+                    className="px-3 py-1 bg-yellow-300 border-2 border-black text-black font-black text-xs uppercase cursor-pointer hover:bg-yellow-400 transition-colors shadow-[1px_1px_0px_#000000] flex items-center gap-1">
+                    <span>✨ AI 다듬기</span>
+                  </button>
                   <button
                     type="button"
                     onClick={() => handleStartEdit(idx)}
@@ -269,7 +384,7 @@ export default function ExperienceEditor() {
       {/* Edit Modal */}
       {editItem && (
         <div className="fixed inset-0 bg-black/70 z-[9999] flex items-center justify-center p-4 backdrop-blur-xs">
-          <div className="bg-[#e7e2d0] border-4 border-black p-5 sm:p-7 w-full max-w-[780px] max-h-[90vh] overflow-y-auto shadow-[8px_8px_0px_#000000] flex flex-col gap-4">
+          <div className="bg-[#e7e2d0] border-4 border-black p-5 sm:p-7 w-full max-w-[820px] max-h-[90vh] overflow-y-auto shadow-[8px_8px_0px_#000000] flex flex-col gap-4">
             <div className="flex items-center justify-between border-b-[3px] border-black pb-3">
               <h3 className="text-lg sm:text-xl font-black uppercase m-0">
                 {editingIndex === -1 ? '새 경력 항목 추가' : `경력 수정: ${editItem.company}`}
@@ -334,14 +449,29 @@ export default function ExperienceEditor() {
 
               {/* English Bullets */}
               <div className="bg-white border-2 border-black p-4">
-                <div className="flex justify-between items-center mb-3 border-b border-neutral-300 pb-2">
+                <div className="flex justify-between items-center mb-3 border-b border-neutral-300 pb-2 flex-wrap gap-2">
                   <label className="text-xs font-black uppercase">🇬🇧 영문 업무 및 성과 설명 (Bullet Points)</label>
-                  <button
-                    type="button"
-                    onClick={() => handleAddBullet('en')}
-                    className="px-3 py-1 bg-black text-[#e7e2d0] font-extrabold text-xs uppercase cursor-pointer hover:bg-neutral-800">
-                    + 항목 추가
-                  </button>
+                  <div className="flex items-center gap-1.5">
+                    <button
+                      type="button"
+                      onClick={() => openAiFullBullets('en', 'translate-en')}
+                      className="px-2.5 py-1 bg-neutral-100 border border-black text-[11px] font-bold cursor-pointer hover:bg-neutral-200"
+                      title="국문 불릿 리스트를 바탕으로 영문 불릿 일괄 번역 생성">
+                      🇰🇷 국문에서 영문 일괄생성
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => openAiFullBullets('en', 'bulletize')}
+                      className="px-2.5 py-1 bg-yellow-300 border border-black text-[11px] font-black cursor-pointer hover:bg-yellow-400">
+                      ✨ 불릿 일괄 다듬기
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => handleAddBullet('en')}
+                      className="px-3 py-1 bg-black text-[#e7e2d0] font-extrabold text-xs uppercase cursor-pointer hover:bg-neutral-800">
+                      + 항목 추가
+                    </button>
+                  </div>
                 </div>
                 <div className="flex flex-col gap-2">
                   {editItem.description.en.map((bullet, bIdx) => (
@@ -352,12 +482,20 @@ export default function ExperienceEditor() {
                         value={bullet}
                         onChange={(e) => handleBulletChange('en', bIdx, e.target.value)}
                         placeholder="Implemented responsive web features..."
-                        className="flex-1 p-2 bg-[#fbf9f4] border border-black text-xs font-medium outline-none resize-y"
+                        className="flex-1 p-2 bg-[#fbf9f4] border border-black text-xs font-medium outline-none resize-y leading-relaxed"
                       />
                       <button
                         type="button"
+                        onClick={() => openAiSingleBullet('en', bIdx, 'polish')}
+                        className="px-2 py-1.5 bg-yellow-200 border border-black text-[10px] font-black hover:bg-yellow-300 cursor-pointer"
+                        title="AI로 이 항목 다듬기">
+                        ✨ AI
+                      </button>
+                      <button
+                        type="button"
                         onClick={() => handleRemoveBullet('en', bIdx)}
-                        className="p-2 text-red-600 cursor-pointer font-extrabold hover:bg-red-50">
+                        className="p-1.5 text-red-600 cursor-pointer font-extrabold hover:bg-red-50"
+                        title="삭제">
                         ✕
                       </button>
                     </div>
@@ -367,14 +505,29 @@ export default function ExperienceEditor() {
 
               {/* Korean Bullets */}
               <div className="bg-white border-2 border-black p-4">
-                <div className="flex justify-between items-center mb-3 border-b border-neutral-300 pb-2">
+                <div className="flex justify-between items-center mb-3 border-b border-neutral-300 pb-2 flex-wrap gap-2">
                   <label className="text-xs font-black uppercase">🇰🇷 국문 업무 및 성과 설명 (Bullet Points)</label>
-                  <button
-                    type="button"
-                    onClick={() => handleAddBullet('kr')}
-                    className="px-3 py-1 bg-black text-[#e7e2d0] font-extrabold text-xs uppercase cursor-pointer hover:bg-neutral-800">
-                    + 항목 추가
-                  </button>
+                  <div className="flex items-center gap-1.5">
+                    <button
+                      type="button"
+                      onClick={() => openAiFullBullets('kr', 'translate-kr')}
+                      className="px-2.5 py-1 bg-neutral-100 border border-black text-[11px] font-bold cursor-pointer hover:bg-neutral-200"
+                      title="영문 불릿 리스트를 바탕으로 국문 불릿 일괄 번역 생성">
+                      🇬🇧 영문에서 국문 일괄생성
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => openAiFullBullets('kr', 'bulletize')}
+                      className="px-2.5 py-1 bg-yellow-300 border border-black text-[11px] font-black cursor-pointer hover:bg-yellow-400">
+                      ✨ 불릿 일괄 다듬기
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => handleAddBullet('kr')}
+                      className="px-3 py-1 bg-black text-[#e7e2d0] font-extrabold text-xs uppercase cursor-pointer hover:bg-neutral-800">
+                      + 항목 추가
+                    </button>
+                  </div>
                 </div>
                 <div className="flex flex-col gap-2">
                   {editItem.description.kr.map((bullet, bIdx) => (
@@ -385,12 +538,20 @@ export default function ExperienceEditor() {
                         value={bullet}
                         onChange={(e) => handleBulletChange('kr', bIdx, e.target.value)}
                         placeholder="성능 최적화 및 신규 화면 개발 진행..."
-                        className="flex-1 p-2 bg-[#fbf9f4] border border-black text-xs font-medium outline-none resize-y"
+                        className="flex-1 p-2 bg-[#fbf9f4] border border-black text-xs font-medium outline-none resize-y leading-relaxed"
                       />
                       <button
                         type="button"
+                        onClick={() => openAiSingleBullet('kr', bIdx, 'polish')}
+                        className="px-2 py-1.5 bg-yellow-200 border border-black text-[10px] font-black hover:bg-yellow-300 cursor-pointer"
+                        title="AI로 이 항목 다듬기">
+                        ✨ AI
+                      </button>
+                      <button
+                        type="button"
                         onClick={() => handleRemoveBullet('kr', bIdx)}
-                        className="p-2 text-red-600 cursor-pointer font-extrabold hover:bg-red-50">
+                        className="p-1.5 text-red-600 cursor-pointer font-extrabold hover:bg-red-50"
+                        title="삭제">
                         ✕
                       </button>
                     </div>
@@ -420,6 +581,28 @@ export default function ExperienceEditor() {
           </div>
         </div>
       )}
+
+      {/* AI Assistant Modal */}
+      <AiAssistModal
+        isOpen={aiModal.isOpen}
+        onClose={() => setAiModal((prev) => ({ ...prev, isOpen: false }))}
+        initialText={aiModal.initialText}
+        fieldLabel={aiModal.fieldLabel}
+        contextType="experience"
+        defaultMode={aiModal.defaultMode}
+        onApplyText={handleApplyAiText}
+      />
+
+      {/* Batch AI Modal */}
+      <BatchAiModal
+        isOpen={isBatchModalOpen}
+        onClose={() => setIsBatchModalOpen(false)}
+        type="experiences"
+        originalItems={experiences}
+        onApplyAll={handleApplyBatchExperiences}
+      />
     </div>
   );
 }
+
+

@@ -1,9 +1,19 @@
 'use client';
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useRef } from 'react';
 import { CVDataType } from '@/service/portfolioService';
 import { uploadToCloudinary } from '@/service/uploadService';
 import { useCvSettingsQuery, useUpdateCvSettingsMutation } from '@/hooks/usePortfolioQueries';
+import AiAssistModal from './AiAssistModal';
+import { AiPolishMode } from '@/app/api/ai-polish/route';
+
+interface AiModalState {
+  isOpen: boolean;
+  targetField: 'summaryEn' | 'summaryKr';
+  initialText: string;
+  fieldLabel: string;
+  defaultMode: AiPolishMode;
+}
 
 export default function CvEditor() {
   const [cvSettings, setCvSettings] = useState<CVDataType>({
@@ -16,6 +26,14 @@ export default function CvEditor() {
   const [message, setMessage] = useState<{ text: string; type: 'success' | 'error' } | null>(null);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
+  const [aiModal, setAiModal] = useState<AiModalState>({
+    isOpen: false,
+    targetField: 'summaryKr',
+    initialText: '',
+    fieldLabel: '',
+    defaultMode: 'polish',
+  });
+
   const { data: remoteCv, isLoading } = useCvSettingsQuery();
   const [prevRemote, setPrevRemote] = useState<CVDataType | undefined>(undefined);
   if (remoteCv && remoteCv !== prevRemote) {
@@ -24,6 +42,32 @@ export default function CvEditor() {
   }
 
   const saveMutation = useUpdateCvSettingsMutation();
+
+  const openAiModal = (
+    targetField: 'summaryEn' | 'summaryKr',
+    fieldLabel: string,
+    defaultMode: AiPolishMode = 'polish'
+  ) => {
+    const text =
+      targetField === 'summaryEn'
+        ? cvSettings.summaryEn || cvSettings.summaryKr || ''
+        : cvSettings.summaryKr || cvSettings.summaryEn || '';
+
+    setAiModal({
+      isOpen: true,
+      targetField,
+      initialText: text,
+      fieldLabel: `CV ${fieldLabel}`,
+      defaultMode,
+    });
+  };
+
+  const handleApplyAiText = (newText: string) => {
+    setCvSettings((prev) => ({
+      ...prev,
+      [aiModal.targetField]: newText,
+    }));
+  };
 
   const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
@@ -68,10 +112,11 @@ export default function CvEditor() {
 
       {message && (
         <div
-          className={`p-3.5 sm:p-4 border-2 border-black font-bold text-xs sm:text-sm ${message.type === 'success'
-            ? 'bg-emerald-100 text-emerald-900'
-            : 'bg-rose-100 text-rose-900'
-            }`}>
+          className={`p-3.5 sm:p-4 border-2 border-black font-bold text-xs sm:text-sm ${
+            message.type === 'success'
+              ? 'bg-emerald-100 text-emerald-900'
+              : 'bg-rose-100 text-rose-900'
+          }`}>
           {message.text}
         </div>
       )}
@@ -138,9 +183,26 @@ export default function CvEditor() {
 
             {/* English Summary */}
             <div className="flex flex-col gap-2">
-              <label className="text-xs font-black uppercase text-neutral-800">
-                🇬🇧 영문 이력서 소개 요약 (English CV Summary)
-              </label>
+              <div className="flex justify-between items-center">
+                <label className="text-xs font-black uppercase text-neutral-800">
+                  🇬🇧 영문 이력서 소개 요약 (English CV Summary)
+                </label>
+                <div className="flex items-center gap-1.5">
+                  <button
+                    type="button"
+                    onClick={() => openAiModal('summaryEn', 'Summary (EN)', 'translate-en')}
+                    className="px-2.5 py-1 bg-neutral-100 border border-black text-xs font-bold cursor-pointer hover:bg-neutral-200"
+                    title="국문 요약을 바탕으로 영문 번역 생성">
+                    🇰🇷 국문에서 영문 번역
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => openAiModal('summaryEn', 'Summary (EN)', 'polish')}
+                    className="px-2.5 py-1 bg-yellow-300 border border-black text-xs font-black cursor-pointer hover:bg-yellow-400">
+                    ✨ AI 다듬기
+                  </button>
+                </div>
+              </div>
               <textarea
                 rows={4}
                 value={cvSettings.summaryEn || ''}
@@ -148,15 +210,32 @@ export default function CvEditor() {
                   setCvSettings({ ...cvSettings, summaryEn: e.target.value })
                 }
                 placeholder="I'm a Creative Software Developer with..."
-                className="w-full p-3 bg-[#fbf9f4] border-2 border-black text-sm font-semibold outline-none focus:bg-white resize-y"
+                className="w-full p-3 bg-[#fbf9f4] border-2 border-black text-sm font-semibold outline-none focus:bg-white resize-y leading-relaxed"
               />
             </div>
 
             {/* Korean Summary */}
             <div className="flex flex-col gap-2">
-              <label className="text-xs font-black uppercase text-neutral-800">
-                🇰🇷 국문 이력서 소개 요약 (Korean CV Summary)
-              </label>
+              <div className="flex justify-between items-center">
+                <label className="text-xs font-black uppercase text-neutral-800">
+                  🇰🇷 국문 이력서 소개 요약 (Korean CV Summary)
+                </label>
+                <div className="flex items-center gap-1.5">
+                  <button
+                    type="button"
+                    onClick={() => openAiModal('summaryKr', 'Summary (KR)', 'translate-kr')}
+                    className="px-2.5 py-1 bg-neutral-100 border border-black text-xs font-bold cursor-pointer hover:bg-neutral-200"
+                    title="영문 요약을 바탕으로 국문 번역 생성">
+                    🇬🇧 영문에서 국문 번역
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => openAiModal('summaryKr', 'Summary (KR)', 'polish')}
+                    className="px-2.5 py-1 bg-yellow-300 border border-black text-xs font-black cursor-pointer hover:bg-yellow-400">
+                    ✨ AI 다듬기
+                  </button>
+                </div>
+              </div>
               <textarea
                 rows={4}
                 value={cvSettings.summaryKr || ''}
@@ -164,7 +243,7 @@ export default function CvEditor() {
                   setCvSettings({ ...cvSettings, summaryKr: e.target.value })
                 }
                 placeholder="인터랙티브 디자인과 고성능 웹 아키텍처에 열정을 가진 개발자로서..."
-                className="w-full p-3 bg-[#fbf9f4] border-2 border-black text-sm font-semibold outline-none focus:bg-white resize-y"
+                className="w-full p-3 bg-[#fbf9f4] border-2 border-black text-sm font-semibold outline-none focus:bg-white resize-y leading-relaxed"
               />
             </div>
           </div>
@@ -181,6 +260,18 @@ export default function CvEditor() {
           {saveMutation.isPending ? '저장 처리 중...' : '💾 CV 설정 저장하기'}
         </button>
       </div>
+
+      {/* AI Assistant Modal */}
+      <AiAssistModal
+        isOpen={aiModal.isOpen}
+        onClose={() => setAiModal((prev) => ({ ...prev, isOpen: false }))}
+        initialText={aiModal.initialText}
+        fieldLabel={aiModal.fieldLabel}
+        contextType="cv"
+        defaultMode={aiModal.defaultMode}
+        onApplyText={handleApplyAiText}
+      />
     </div>
   );
 }
+
