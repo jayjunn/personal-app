@@ -31,10 +31,10 @@ export default function Experience({ limit, showMoreLink = false, initialExperie
       moreLink={showMoreLink ? '/experience' : undefined}
       moreText={isEnglish ? 'VIEW ALL EXPERIENCES ➔' : '전체 경력 보기 ➔'}>
       <ul className={styles.experience__list}>
-        {displayedExperiences.map(({ role, company, description, stacks }, index) => (
+        {displayedExperiences.map(({ role, company, description, stacks, id }, index) => (
           <motion.li
             className={styles.experience}
-            key={index}
+            key={`exp-${id || company}-${index}`}
             id={company.toLowerCase().replace(/\s+/g, '-')}
             initial={{ opacity: 0, y: 15 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -46,7 +46,7 @@ export default function Experience({ limit, showMoreLink = false, initialExperie
             </div>
             <ul className={styles.descriptions}>
               {languageSelector(description).map((item, dIndex) => (
-                <li className={styles.description} key={dIndex}>
+                <li className={styles.description} key={`exp-desc-${company}-${dIndex}`}>
                   <p>- {item}</p>
                 </li>
               ))}
@@ -54,7 +54,7 @@ export default function Experience({ limit, showMoreLink = false, initialExperie
             {stacks && (
               <div className={styles.experience__stacks}>
                 {stacks.map((stack, sIdx) => (
-                  <span key={sIdx} className={styles.stack__badge}>
+                  <span key={`exp-stack-${company}-${stack}-${sIdx}`} className={styles.stack__badge}>
                     {stack}
                   </span>
                 ))}

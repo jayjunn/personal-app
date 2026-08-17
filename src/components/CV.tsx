@@ -111,13 +111,13 @@ export default function Cv({ initialCv, initialExperiences }: CvProps) {
             </h3>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '16px' }}>
               {skillCategories.map((cat, idx) => (
-                <div key={idx} style={{ border: '2px solid black', padding: '16px', backgroundColor: '#e7e2d0' }}>
+                <div key={`cv-cat-${cat.title?.en || idx}-${idx}`} style={{ border: '2px solid black', padding: '16px', backgroundColor: '#e7e2d0' }}>
                   <h4 style={{ fontSize: '13px', fontWeight: 800, textTransform: 'uppercase', marginBottom: '10px', borderBottom: '1px solid black', paddingBottom: '4px' }}>
                     {isEnglish ? cat.title.en : cat.title.kr}
                   </h4>
                   <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
                     {cat.skills.map((skill, sIdx) => (
-                      <span key={sIdx} style={{ fontSize: '12px', border: '1px solid black', padding: '3px 8px', fontWeight: 600, backgroundColor: '#ffffff' }}>
+                      <span key={`cv-skill-${skill.name}-${sIdx}`} style={{ fontSize: '12px', border: '1px solid black', padding: '3px 8px', fontWeight: 600, backgroundColor: '#ffffff' }}>
                         {skill.name}
                       </span>
                     ))}
@@ -138,7 +138,7 @@ export default function Cv({ initialCv, initialExperiences }: CvProps) {
                   ? item.description?.en || []
                   : item.description?.kr || [];
                 return (
-                  <div key={idx} style={{ border: '2px solid black', padding: '18px 20px', backgroundColor: '#ffffff', display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                  <div key={`cv-exp-${item.company}-${item.id || idx}`} style={{ border: '2px solid black', padding: '18px 20px', backgroundColor: '#ffffff', display: 'flex', flexDirection: 'column', gap: '10px' }}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid black', paddingBottom: '8px', flexWrap: 'wrap', gap: '8px' }}>
                       <div style={{ fontWeight: 800, fontSize: '16px' }}>
                         {item.role}, {item.company}
@@ -149,7 +149,7 @@ export default function Cv({ initialCv, initialExperiences }: CvProps) {
                     </div>
                     <ul style={{ display: 'flex', flexDirection: 'column', gap: '6px', fontSize: '14px', lineHeight: 1.6, margin: 0, paddingLeft: 0, listStyle: 'none' }}>
                       {descriptions.map((desc, dIdx) => (
-                        <li key={dIdx}>- {desc}</li>
+                        <li key={`cv-desc-${item.company}-${dIdx}`}>- {desc}</li>
                       ))}
                     </ul>
                   </div>
@@ -164,7 +164,7 @@ export default function Cv({ initialCv, initialExperiences }: CvProps) {
               {isEnglish ? '04. Education' : '04. 학력'}
             </h3>
             {cv.education?.map((edu: any, idx: number) => (
-              <div key={idx} style={{ fontSize: '13px', fontWeight: 600, display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', gap: '4px' }}>
+              <div key={`cv-edu-${edu.institution || idx}-${idx}`} style={{ fontSize: '13px', fontWeight: 600, display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', gap: '4px' }}>
                 <div>{edu.institution} - {edu.degree}</div>
                 <div style={{ color: '#555' }}>{edu.period} • {edu.location}</div>
               </div>

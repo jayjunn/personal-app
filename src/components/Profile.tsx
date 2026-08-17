@@ -74,7 +74,7 @@ const Profile = ({ initialProfile }: ProfileProps) => {
             <div className={styles.skills__p}>
               {skills.map((skill, index) => (
                 <motion.span
-                  key={skill}
+                  key={`profile-skill-${skill}-${index}`}
                   className={styles.skill__tag}
                   initial={{ opacity: 0, scale: 0.9 }}
                   animate={{ opacity: 1, scale: 1 }}

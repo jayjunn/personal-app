@@ -54,7 +54,7 @@ const WorkList = ({ limit, showMoreLink = false, useSlider = false, initialWorks
               }}
               className="w-full">
               {displayedWorks.map((item, index) => (
-                <SwiperSlide key={item.id || index}>
+                <SwiperSlide key={`work-slide-${item.id ?? 'idx'}-${item.name}-${index}`}>
                   <Work
                     name={item.name}
                     img={item.img}
@@ -72,7 +72,7 @@ const WorkList = ({ limit, showMoreLink = false, useSlider = false, initialWorks
           <div className={styles.list}>
             {displayedWorks.map((item, index) => (
               <Work
-                key={item.id || index}
+                key={`work-card-${item.id ?? 'idx'}-${item.name}-${index}`}
                 name={item.name}
                 img={item.img}
                 description={isEnglish ? item.description.en : item.description.kr}
