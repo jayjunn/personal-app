@@ -57,18 +57,24 @@ export default function AdminDashboardPage() {
     }
   };
 
-  if (loading) {
-    return (
-      <div className="min-h-[70vh] flex flex-col items-center justify-center p-4">
-        <div className="brutal-card p-6 bg-[#f2eee0] max-w-sm text-center">
-          <div className="animate-spin w-8 h-8 border-4 border-black border-t-transparent rounded-full mx-auto mb-3"></div>
-          <p className="font-bold text-sm">관리자 세션 확인 중...</p>
-        </div>
-      </div>
-    );
-  }
-
+  // If user is already loaded, render dashboard immediately
   if (!user) {
+    if (loading) {
+      return (
+        <div className="min-h-[70vh] flex flex-col items-center justify-center p-4">
+          <div className="brutal-card p-6 bg-[#f2eee0] max-w-sm text-center">
+            <div className="animate-spin w-8 h-8 border-4 border-black border-t-transparent rounded-full mx-auto mb-3"></div>
+            <p className="font-bold text-sm mb-3">관리자 세션 확인 중...</p>
+            <Link
+              href="/admin/login"
+              className="text-xs font-bold underline hover:text-gray-600">
+              로그인 페이지로 바로 이동 ➔
+            </Link>
+          </div>
+        </div>
+      );
+    }
+
     return (
       <div className="min-h-[70vh] flex flex-col items-center justify-center p-4">
         <div className="brutal-card p-6 bg-[#f2eee0] max-w-sm text-center">

@@ -11,40 +11,73 @@ import {
 } from 'firebase/auth';
 import { auth } from '@/lib/firebase';
 
+export interface AdminUser {
+  email: string | null;
+  displayName: string | null;
+  uid: string;
+}
+
 interface AuthContextType {
-  user: User | null;
+  user: AdminUser | null;
   loading: boolean;
-  loginWithEmail: (email: string, pass: string) => Promise<User>;
-  loginWithGoogle: () => Promise<User>;
+  loginWithEmail: (email: string, pass: string) => Promise<AdminUser>;
+  loginWithGoogle: () => Promise<AdminUser>;
   logout: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType>({
   user: null,
   loading: true,
-  loginWithEmail: async () => ({} as User),
-  loginWithGoogle: async () => ({} as User),
-  logout: async () => {},
+  loginWithEmail: async () => ({} as AdminUser),
+  loginWithGoogle: async () => ({} as AdminUser),
+  logout: async () => { },
 });
 
-export const AuthContextProvider = ({ children }: { children: ReactNode }) => {
-  const [user, setUser] = useState<User | null>(() => auth.currentUser);
-  const [loading, setLoading] = useState<boolean>(() => !auth.currentUser);
+const STORAGE_KEY = 'portfolio_admin_user';
 
+const getInitialUser = (): AdminUser | null => {
+  if (typeof window === 'undefined') return null;
+  try {
+    const cached = localStorage.getItem(STORAGE_KEY);
+    if (cached) return JSON.parse(cached);
+  } catch (e) {
+    console.warn('Failed to read cached user session:', e);
+  }
+  return null;
+};
+
+export const AuthContextProvider = ({ children }: { children: ReactNode }) => {
+  const [user, setUser] = useState<AdminUser | null>(() => getInitialUser());
+  const [loading, setLoading] = useState<boolean>(() => !getInitialUser());
+
+  // Firebase Auth listener
   useEffect(() => {
     let timer: NodeJS.Timeout;
 
-    // Safety timeout: stop loading after 2.5s if Firebase auth is slow
     timer = setTimeout(() => {
       setLoading(false);
-    }, 2500);
+    }, 1200);
 
     try {
       const unsubscribe = onAuthStateChanged(
         auth,
         (currentUser) => {
           clearTimeout(timer);
-          setUser(currentUser);
+          if (currentUser) {
+            const adminData: AdminUser = {
+              email: currentUser.email,
+              displayName: currentUser.displayName,
+              uid: currentUser.uid,
+            };
+            setUser(adminData);
+            if (typeof window !== 'undefined') {
+              localStorage.setItem(STORAGE_KEY, JSON.stringify(adminData));
+            }
+          } else {
+            if (typeof window !== 'undefined' && !localStorage.getItem(STORAGE_KEY)) {
+              setUser(null);
+            }
+          }
           setLoading(false);
         },
         (error) => {
@@ -63,24 +96,48 @@ export const AuthContextProvider = ({ children }: { children: ReactNode }) => {
     }
   }, []);
 
-  const loginWithEmail = async (email: string, pass: string) => {
+  const loginWithEmail = async (email: string, pass: string): Promise<AdminUser> => {
     const cred = await signInWithEmailAndPassword(auth, email, pass);
-    setUser(cred.user);
+    const adminData: AdminUser = {
+      email: cred.user.email,
+      displayName: cred.user.displayName,
+      uid: cred.user.uid,
+    };
+    setUser(adminData);
     setLoading(false);
-    return cred.user;
+    if (typeof window !== 'undefined') {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(adminData));
+    }
+    return adminData;
   };
 
-  const loginWithGoogle = async () => {
+  const loginWithGoogle = async (): Promise<AdminUser> => {
     const provider = new GoogleAuthProvider();
+    provider.setCustomParameters({ prompt: 'select_account' });
     const cred = await signInWithPopup(auth, provider);
-    setUser(cred.user);
+    const adminData: AdminUser = {
+      email: cred.user.email,
+      displayName: cred.user.displayName,
+      uid: cred.user.uid,
+    };
+    setUser(adminData);
     setLoading(false);
-    return cred.user;
+    if (typeof window !== 'undefined') {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(adminData));
+    }
+    return adminData;
   };
 
   const logout = async () => {
-    await signOut(auth);
+    try {
+      await signOut(auth);
+    } catch (e) {
+      console.warn('Sign out error:', e);
+    }
     setUser(null);
+    if (typeof window !== 'undefined') {
+      localStorage.removeItem(STORAGE_KEY);
+    }
   };
 
   return (
