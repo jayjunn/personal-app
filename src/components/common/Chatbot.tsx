@@ -123,7 +123,7 @@ export default function Chatbot() {
               border-black
               dark:border-[#272a34]
               text-white
-              dark:text-amber-400
+              dark:text-cyan-400
               px-4
               py-3
               flex
@@ -149,7 +149,7 @@ export default function Chatbot() {
 
             <button
               onClick={() => setIsOpen(false)}
-              className="text-white dark:text-[#f3f4f6] font-bold hover:text-amber-400 transition-colors text-lg"
+              className="text-white dark:text-[#f3f4f6] font-bold hover:text-cyan-400 transition-colors text-lg"
               aria-label="Close Chatbot"
             >
               ✕

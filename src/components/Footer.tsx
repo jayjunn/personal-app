@@ -38,7 +38,7 @@ export default function Footer() {
             hover:bg-black
             hover:text-[#e7e2d0]
             dark:hover:bg-[#252834]
-            dark:hover:text-amber-400
+            dark:hover:text-cyan-300
             transition-colors
             shadow-[2px_2px_0px_#000000]
           "

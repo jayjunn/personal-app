@@ -58,7 +58,7 @@ export default function ChatInput({
           focus:outline-none
           focus:ring-2
           focus:ring-black
-          dark:focus:ring-amber-400
+          dark:focus:ring-cyan-400
           font-mono
         "
       />
@@ -76,13 +76,13 @@ export default function ChatInput({
           justify-center
           rounded-full
           bg-black
-          dark:bg-amber-400
+          dark:bg-cyan-400
           text-white
           dark:text-black
           transition-all
           duration-200
           hover:bg-neutral-800
-          dark:hover:bg-amber-300
+          dark:hover:bg-cyan-300
           hover:scale-105
           active:scale-90
           disabled:opacity-30

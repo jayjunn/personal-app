@@ -236,7 +236,7 @@ export default function MobileNavOverlay({
             >
               {isDark ? (
                 <>
-                  <SunIcon className="w-3.5 h-3.5 text-amber-400" />
+                  <SunIcon className="w-3.5 h-3.5 text-white" />
                   <span>LIGHT</span>
                 </>
               ) : (

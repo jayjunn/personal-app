@@ -204,7 +204,7 @@ export default function ExperienceEditor() {
                   <button
                     type="button"
                     onClick={() => handleStartEdit(idx)}
-                    className="px-3 py-1 bg-amber-400 border-2 border-black text-black font-extrabold text-xs uppercase cursor-pointer hover:bg-amber-300 transition-colors shadow-[1px_1px_0px_#000000]">
+                    className="px-3 py-1 bg-cyan-400 border-2 border-black text-black font-extrabold text-xs uppercase cursor-pointer hover:bg-cyan-300 transition-colors shadow-[1px_1px_0px_#000000]">
                     수정 ✏️
                   </button>
                   <button

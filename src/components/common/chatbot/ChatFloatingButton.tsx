@@ -164,35 +164,33 @@ export default function ChatFloatingButton({
             "
           />
 
-          {/* 6. Refined Fluid Floating Celestial Icon (조금 더 또렷하고 선명하게 보이는 유영 심볼) */}
-          <motion.div
-            animate={{
-              x: [-3, 4, -2, 3, -3],
-              y: [-4, 2, -5, 3, -4],
-              rotate: [0, 60, 150, 240, 360],
-              scale: [0.9, 1.15, 0.85, 1.1, 0.9],
-              opacity: [0.65, 0.92, 0.6, 0.88, 0.65],
-            }}
-            transition={{
-              duration: 8,
-              repeat: Infinity,
-              ease: 'easeInOut',
-            }}
-            className="relative z-30 flex items-center justify-center pointer-events-none"
-          >
-            <DreamyIcon
-              className="
-                w-5
-                h-5
-                text-white
-                drop-shadow-[0_1px_3px_rgba(0,0,0,0.75)]
-                transition-all
-                duration-500
-                group-hover:opacity-100
-                group-hover:scale-125
-              "
-            />
-          </motion.div>
+          {/* 6. Centered Subtle Breathing AI Symbol (완벽한 정중앙 고정 & 슬로우 브리딩 모션) */}
+          <div className="absolute inset-0 flex items-center justify-center z-30 pointer-events-none">
+            <motion.div
+              animate={{
+                scale: [0.94, 1.06, 0.94],
+                opacity: [0.82, 1, 0.82],
+              }}
+              transition={{
+                duration: 4.5,
+                repeat: Infinity,
+                ease: 'easeInOut',
+              }}
+              className="flex items-center justify-center"
+            >
+              <DreamyIcon
+                className="
+                  w-5
+                  h-5
+                  text-white
+                  drop-shadow-[0_1px_3px_rgba(0,0,0,0.85)]
+                  transition-transform
+                  duration-300
+                  group-hover:scale-115
+                "
+              />
+            </motion.div>
+          </div>
         </div>
 
         {/* 7. Tooltip Badge */}

@@ -47,7 +47,7 @@ export default function ChatMessageList({
             dark:border-[#2f3340]
             ${
               msg.role === 'user'
-                ? 'bg-black text-white dark:bg-amber-400 dark:text-black dark:border-amber-400 self-end shadow-[2px_2px_0px_#000000]'
+                ? 'bg-black text-white dark:bg-cyan-400 dark:text-black dark:border-cyan-400 self-end shadow-[2px_2px_0px_#000000]'
                 : 'bg-[#f4f0e3] text-black dark:bg-[#1f212a] dark:text-[#f3f4f6] self-start shadow-[2px_2px_0px_#000000]'
             }
           `}
@@ -66,7 +66,7 @@ export default function ChatMessageList({
             border-black
             dark:border-[#2f3340]
             text-black
-            dark:text-amber-400
+            dark:text-cyan-400
             self-start
             p-3
             rounded-lg
