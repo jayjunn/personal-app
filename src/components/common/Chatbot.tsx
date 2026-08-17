@@ -25,7 +25,7 @@ export default function Chatbot() {
   const [isOpen, setIsOpen] = useAtom(isChatOpenAtom);
   const [input, setInput] = useState('');
   const [messages, setMessages] = useState<Message[]>([
-    { role: 'gemini', text: '안녕하세요! 영근님의 포트폴리오에 대해 무엇이든 물어보세요.' }
+    { role: 'gemini', text: '안녕하세요! 영근님의 대해 무엇이든 물어보세요.' }
   ]);
 
   // React Query의 useMutation 사용
