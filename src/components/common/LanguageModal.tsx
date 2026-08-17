@@ -18,14 +18,14 @@ export default function LanguageModal() {
     <AnimatePresence>
       <div
         onClick={() => setIsLanguageModalOpen(false)}
-        className="fixed inset-0 bg-black/80 z-[9999] flex items-center justify-center p-5 backdrop-blur-[3px] cursor-pointer">
+        className="fixed inset-0 bg-black/80 z-[9999] flex items-center justify-center p-4 sm:p-5 backdrop-blur-[3px] cursor-pointer">
         <motion.div
           onClick={(e) => e.stopPropagation()}
           initial={{ scale: 0.9, opacity: 0, y: 20 }}
           animate={{ scale: 1, opacity: 1, y: 0 }}
           exit={{ scale: 0.9, opacity: 0, y: 20 }}
           transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-          className="bg-[#e7e2d0] border-4 border-black p-6 sm:p-8 w-full max-w-[520px] shadow-[8px_8px_0px_#000000] sm:shadow-[10px_10px_0px_#000000] flex flex-col gap-6 relative cursor-default">
+          className="bg-[#e7e2d0] border-4 border-black p-5 sm:p-8 w-full max-w-[520px] shadow-[8px_8px_0px_#000000] sm:shadow-[10px_10px_0px_#000000] flex flex-col gap-6 relative cursor-default">
           {/* Header Bar */}
           <div className="flex items-center justify-between border-b-[3px] border-black pb-4">
             <div className="flex items-center gap-2">
@@ -61,46 +61,46 @@ export default function LanguageModal() {
             <button
               type="button"
               onClick={() => handleSelect('ENGLISH')}
-              className={`w-full p-4 sm:p-5 border-[3px] border-black flex items-center justify-between transition-all duration-150 shadow-[4px_4px_0px_#000000] cursor-pointer ${
+              className={`w-auto p-3.5 sm:p-5 border-[3px] border-black flex items-center justify-between gap-3 transition-all duration-150 shadow-[4px_4px_0px_#000000] cursor-pointer ${
                 language === 'ENGLISH'
                   ? 'bg-black text-[#e7e2d0]'
                   : 'bg-white text-black hover:bg-neutral-100'
               }`}>
-              <div className="flex items-center gap-3.5 text-left">
-                <span className="text-2xl sm:text-3xl">🇬🇧</span>
-                <div className="flex flex-col gap-0.5">
-                  <span className="text-base font-black uppercase">
+              <div className="flex items-center gap-3 text-left min-w-0 flex-1">
+                <span className="text-2xl sm:text-3xl shrink-0">🇬🇧</span>
+                <div className="flex flex-col gap-0.5 min-w-0 flex-1">
+                  <span className="text-sm sm:text-base font-black uppercase truncate">
                     ENGLISH
                   </span>
-                  <span className="text-xs opacity-80 font-semibold">
+                  <span className="text-[11px] sm:text-xs opacity-80 font-semibold truncate">
                     Browse portfolio & resume in English
                   </span>
                 </div>
               </div>
-              <span className="text-lg font-black">➔</span>
+              <span className="text-lg font-black shrink-0">➔</span>
             </button>
 
             {/* Korean Option */}
             <button
               type="button"
               onClick={() => handleSelect('KOREAN')}
-              className={`w-full p-4 sm:p-5 border-[3px] border-black flex items-center justify-between transition-all duration-150 shadow-[4px_4px_0px_#000000] cursor-pointer ${
+              className={`w-auto p-3.5 sm:p-5 border-[3px] border-black flex items-center justify-between gap-3 w-auto transition-all duration-150 shadow-[4px_4px_0px_#000000] cursor-pointer ${
                 language === 'KOREAN'
                   ? 'bg-black text-[#e7e2d0]'
                   : 'bg-white text-black hover:bg-neutral-100'
               }`}>
-              <div className="flex items-center gap-3.5 text-left">
-                <span className="text-2xl sm:text-3xl">🇰🇷</span>
-                <div className="flex flex-col gap-0.5">
-                  <span className="text-base font-black uppercase">
+              <div className="flex items-center gap-3 text-left min-w-0 flex-1">
+                <span className="text-2xl sm:text-3xl shrink-0">🇰🇷</span>
+                <div className="flex flex-col gap-0.5 min-w-0 flex-1">
+                  <span className="text-sm sm:text-base font-black uppercase truncate">
                     한국어 (KOREAN)
                   </span>
-                  <span className="text-xs opacity-80 font-semibold">
+                  <span className="text-[11px] sm:text-xs opacity-80 font-semibold truncate">
                     프로젝트 설명 및 이력서를 한국어로 보기
                   </span>
                 </div>
               </div>
-              <span className="text-lg font-black">➔</span>
+              <span className="text-lg font-black shrink-0">➔</span>
             </button>
           </div>
 
