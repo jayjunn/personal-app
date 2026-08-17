@@ -18,13 +18,14 @@ const Work = (props: WorkProps) => {
   const { name, img, description, stacks, link, company, priority = false } = props;
 
   return (
-    <TiltCard className="w-full">
+    <TiltCard className="w-full h-full flex flex-col">
       <div
         className="
           w-full
+          h-full
           flex
           flex-col
-          justify-start
+          justify-between
           items-center
           border-[2.5px]
           border-black
@@ -62,6 +63,7 @@ const Work = (props: WorkProps) => {
             text-sm
             uppercase
             tracking-tight
+            shrink-0
           "
         >
           <span>{name}</span>
@@ -108,6 +110,7 @@ const Work = (props: WorkProps) => {
             overflow-hidden
             group
             cursor-pointer
+            shrink-0
           "
           aria-label={name}
         >
@@ -134,13 +137,13 @@ const Work = (props: WorkProps) => {
             flex
             flex-col
             justify-between
-            flex-grow
+            flex-1
             gap-4
             bg-[#e7e2d0]
             dark:bg-[#16171e]
           "
         >
-          <p className="text-xs sm:text-sm font-medium leading-relaxed text-black dark:text-[#d1d5db] m-0">
+          <p className="text-xs sm:text-sm font-medium leading-relaxed text-black dark:text-[#d1d5db] m-0 flex-1">
             {description}
           </p>
           <div className="flex flex-wrap gap-2 mt-auto pt-3 border-t border-black/20 dark:border-white/10">

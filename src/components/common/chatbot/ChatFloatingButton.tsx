@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
+import { DreamyIcon } from '@/components/icons';
 
 interface ChatFloatingButtonProps {
   isOpen: boolean;
@@ -54,7 +55,7 @@ export default function ChatFloatingButton({
         "
         aria-label="Open AI Assistant"
       >
-        {/* 2. Pure 3D Crystal Glass Sphere (레퍼런스와 일치하는 순수 글래스 구체) */}
+        {/* 2. Pure 3D Crystal Glass Sphere (Siri 스타일 글래스 구체) */}
         <div
           className="
             relative
@@ -162,9 +163,39 @@ export default function ChatFloatingButton({
               pointer-events-none
             "
           />
+
+          {/* 6. Refined Fluid Floating Celestial Icon (조금 더 또렷하고 선명하게 보이는 유영 심볼) */}
+          <motion.div
+            animate={{
+              x: [-3, 4, -2, 3, -3],
+              y: [-4, 2, -5, 3, -4],
+              rotate: [0, 60, 150, 240, 360],
+              scale: [0.9, 1.15, 0.85, 1.1, 0.9],
+              opacity: [0.65, 0.92, 0.6, 0.88, 0.65],
+            }}
+            transition={{
+              duration: 8,
+              repeat: Infinity,
+              ease: 'easeInOut',
+            }}
+            className="relative z-30 flex items-center justify-center pointer-events-none"
+          >
+            <DreamyIcon
+              className="
+                w-5
+                h-5
+                text-white
+                drop-shadow-[0_1px_3px_rgba(0,0,0,0.75)]
+                transition-all
+                duration-500
+                group-hover:opacity-100
+                group-hover:scale-125
+              "
+            />
+          </motion.div>
         </div>
 
-        {/* 6. Tooltip Badge */}
+        {/* 7. Tooltip Badge */}
         <span
           className="
             absolute

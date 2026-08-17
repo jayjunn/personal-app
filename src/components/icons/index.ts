@@ -4,6 +4,7 @@ export { default as LogoutIcon } from './LogoutIcon';
 export { default as GoogleIcon } from './GoogleIcon';
 export { default as AiSparkleIcon } from './AiSparkleIcon';
 export { default as SendIcon } from './SendIcon';
+export { default as DreamyIcon } from './DreamyIcon';
 export { GlobeIcon } from './GlobeIcon';
 export { AnglesRightIcon } from './AnglesRightIcon';
 export { SunIcon } from './SunIcon';

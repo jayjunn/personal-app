@@ -105,7 +105,7 @@ const WorkList = ({
               className="w-full"
             >
               {filteredWorks.map((item, index) => (
-                <SwiperSlide key={`work-slide-${item.id ?? 'idx'}-${item.name}-${index}`}>
+                <SwiperSlide className="!h-auto flex" key={`work-slide-${item.id ?? 'idx'}-${item.name}-${index}`}>
                   <Work
                     name={item.name}
                     img={item.img}
@@ -122,7 +122,7 @@ const WorkList = ({
         ) : (
           <motion.div
             layout
-            className="w-full grid grid-cols-1 md:grid-cols-2 gap-6"
+            className="w-full grid grid-cols-1 md:grid-cols-2 gap-6 items-stretch"
           >
             <AnimatePresence mode="popLayout">
               {filteredWorks.map((item, index) => (
@@ -133,6 +133,7 @@ const WorkList = ({
                   animate={{ opacity: 1, scale: 1 }}
                   exit={{ opacity: 0, scale: 0.95 }}
                   transition={{ duration: 0.2 }}
+                  className="h-full flex"
                 >
                   <Work
                     name={item.name}
