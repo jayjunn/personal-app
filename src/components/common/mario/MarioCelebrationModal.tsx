@@ -3,6 +3,7 @@
 import React, { useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import confetti from 'canvas-confetti';
+import { useLanguage } from '@/hooks/useLanguage';
 
 interface MarioCelebrationModalProps {
   isOpen: boolean;
@@ -13,6 +14,8 @@ export default function MarioCelebrationModal({
   isOpen,
   onClose,
 }: MarioCelebrationModalProps) {
+  const { isEnglish } = useLanguage();
+
   useEffect(() => {
     if (!isOpen) return;
 
@@ -151,23 +154,33 @@ export default function MarioCelebrationModal({
           >
             {/* Badge */}
             <div className="bg-black text-[#e7e2d0] border-2 border-black px-4 py-1 font-mono font-black text-xs uppercase tracking-widest animate-pulse">
-              ★ STAGE CLEAR ★
+              {isEnglish ? '★ STAGE CLEAR ★' : '★ 스테이지 클리어 ★'}
             </div>
 
             {/* Title */}
             <h2 className="text-3xl sm:text-4xl font-black uppercase tracking-tight text-black m-0 leading-tight">
-              CONGRATULATIONS!
+              {isEnglish ? 'CONGRATULATIONS!' : '축하합니다!'}
             </h2>
 
             {/* Score Callout */}
             <div className="bg-amber-300 border-[3px] border-black px-5 py-2 font-mono font-black text-lg sm:text-xl shadow-[3px_3px_0px_#000000] text-black">
-              🪙 500 PTS REACHED! 🌟
+              {isEnglish ? '🪙 500 PTS REACHED! 🌟' : '🪙 500점 달성! 🌟'}
             </div>
 
             <p className="text-xs sm:text-sm font-extrabold text-neutral-800 font-mono leading-relaxed m-0">
-              YOU UNLOCKED THE SECRET BONUS!
-              <br />
-              THANK YOU FOR EXPLORING YOUNGGEUN’S PORTFOLIO!
+              {isEnglish ? (
+                <>
+                  YOU UNLOCKED THE SECRET BONUS!
+                  <br />
+                  THANK YOU FOR EXPLORING YOUNGGEUN’S PORTFOLIO!
+                </>
+              ) : (
+                <>
+                  시크릿 보너스를 달성하셨습니다!
+                  <br />
+                  영근의 포트폴리오를 둘러봐 주셔서 감사합니다!
+                </>
+              )}
             </p>
 
             {/* Continue / Reset button */}
@@ -198,7 +211,7 @@ export default function MarioCelebrationModal({
                 cursor-pointer
               "
             >
-              PLAY AGAIN ➔
+              {isEnglish ? 'PLAY AGAIN ➔' : '다시 플레이하기 ➔'}
             </button>
           </motion.div>
         </motion.div>
