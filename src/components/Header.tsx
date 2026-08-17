@@ -11,6 +11,7 @@ import { MenuIcon } from './icons';
 export default function Header() {
   const [isLangOpen, setIsLangOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
 
   const { language, setLanguage, isEnglish } = useLanguage();
   const profile = isEnglish ? profileData.en : profileData.kr;
@@ -23,6 +24,16 @@ export default function Header() {
     setLanguage(type);
     setIsLangOpen(false);
   };
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 25);
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll();
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   useEffect(() => {
     if (isMobileMenuOpen) {
@@ -67,10 +78,10 @@ export default function Header() {
             items-center
             px-4
             sm:px-8
-            pt-5
-            sm:pt-6
-            pb-3
-            sm:pb-4
+            pt-4
+            sm:pt-5
+            pb-2.5
+            sm:pb-3
           "
         >
           <Link
@@ -79,7 +90,7 @@ export default function Header() {
               setIsLangOpen(false);
               setIsMobileMenuOpen(false);
             }}
-            className="cursor-pointer group"
+            className="cursor-pointer group flex flex-col md:flex-row md:items-baseline md:gap-3"
           >
             <h1
               className="

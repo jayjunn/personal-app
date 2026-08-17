@@ -94,7 +94,7 @@ export default async function RootLayout({
                 <CommandPalette />
                 <div className="flex-1 flex flex-col">
                   <Header />
-                  <div className="flex-1 pt-[4.85rem] sm:pt-[5.25rem] md:pt-[10.25rem]">
+                  <div className="flex-1 pt-[4.75rem] sm:pt-[5.25rem] md:pt-[9.75rem]">
                     {children}
                   </div>
                 </div>

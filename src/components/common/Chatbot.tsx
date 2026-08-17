@@ -97,17 +97,19 @@ export default function Chatbot() {
       {/* Chat Window */}
       {isOpen && (
         <div
+          style={{ zIndex: 999999 }}
           className="
             fixed
-            bottom-24
+            bottom-20
             right-4
             sm:right-6
             w-[calc(100vw-2rem)]
             sm:w-96
             max-w-[calc(100vw-2rem)]
             sm:max-w-96
-            h-[500px]
-            max-h-[calc(100dvh-120px)]
+            h-[480px]
+            max-h-[calc(100dvh-190px)]
+            md:max-h-[calc(100dvh-210px)]
             bg-[#e7e2d0]
             dark:bg-[#16171e]
             border-[3px]
@@ -115,7 +117,6 @@ export default function Chatbot() {
             dark:border-[#272a34]
             rounded-xl
             shadow-[8px_8px_0px_rgba(0,0,0,1)]
-            z-[10000]
             flex
             flex-col
             overflow-hidden

@@ -27,7 +27,7 @@ export default function DesktopNav({
   const { isDark, toggleTheme } = useTheme();
 
   return (
-    <nav className="hidden md:block w-full mt-4 sm:mt-5 px-4 sm:px-8 pb-2">
+    <nav className="hidden md:block w-full px-4 sm:px-8 pb-3.5 mt-2">
       <ul
         className="
           w-full
@@ -38,7 +38,7 @@ export default function DesktopNav({
           dark:border-[#272a34]
           px-4
           sm:px-6
-          py-3.5
+          py-3
           flex
           items-center
           justify-between
