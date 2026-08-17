@@ -3,7 +3,7 @@
 import React from 'react';
 import { experienceData as defaultExperienceData } from '../data/portfolioData';
 import { ExperienceItem } from '../service/portfolioService';
-import { useUserContext } from '../context/userContext';
+import { useLanguage } from '@/hooks/useLanguage';
 import PageWrap from './common/PageWrap';
 
 interface ExperienceProps {
@@ -13,7 +13,7 @@ interface ExperienceProps {
 }
 
 export default function Experience({ limit, showMoreLink = false, initialExperiences }: ExperienceProps) {
-  const { isEnglish } = useUserContext();
+  const { isEnglish } = useLanguage();
 
   const experiences = initialExperiences || defaultExperienceData;
   const displayedExperiences = limit ? experiences.slice(0, limit) : experiences;

@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useUserContext } from '@/context/userContext';
+import { useLanguage } from '@/hooks/useLanguage';
 
 interface Particle {
   id: number;
@@ -12,7 +12,7 @@ interface Particle {
 }
 
 export default function MarioCompanion() {
-  const { isEnglish } = useUserContext();
+  const { isEnglish } = useLanguage();
   const [pos, setPos] = useState({ x: 120, y: 300 });
   const [direction, setDirection] = useState<1 | -1>(1);
   const [isJumping, setIsJumping] = useState(false);

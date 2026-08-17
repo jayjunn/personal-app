@@ -1,28 +1,13 @@
 'use client';
 
-import React, { createContext, useContext, useEffect, useState, ReactNode } from 'react';
-import {
-  signInWithEmailAndPassword,
-  signInWithPopup,
-  GoogleAuthProvider,
-  signOut,
-  onAuthStateChanged,
-} from 'firebase/auth';
+// AuthProvider: mounts Firebase onAuthStateChanged listener and writes to authAtom.
+// No longer manages state internally — all state lives in authAtom.ts.
+
+import React, { useEffect, ReactNode } from 'react';
+import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from '@/lib/firebase';
-
-export interface AdminUser {
-  email: string | null;
-  displayName: string | null;
-  uid: string;
-}
-
-interface AuthContextType {
-  user: AdminUser | null;
-  loading: boolean;
-  loginWithEmail: (email: string, pass: string) => Promise<AdminUser>;
-  loginWithGoogle: () => Promise<AdminUser>;
-  logout: () => Promise<void>;
-}
+import { useSetAtom } from 'jotai';
+import { adminUserAtom, authLoadingAtom, AdminUser } from '@/store/authAtom';
 
 const STORAGE_KEY = 'portfolio_admin_user';
 
@@ -37,26 +22,16 @@ const getInitialUser = (): AdminUser | null => {
   return null;
 };
 
-const AuthContext = createContext<AuthContextType>({
-  user: null,
-  loading: false,
-  loginWithEmail: async () => ({} as AdminUser),
-  loginWithGoogle: async () => ({} as AdminUser),
-  logout: async () => {},
-});
-
-export const AuthContextProvider = ({ children }: { children: ReactNode }) => {
-  const [user, setUser] = useState<AdminUser | null>(null);
-  const [loading, setLoading] = useState<boolean>(true);
+export const AuthProvider = ({ children }: { children: ReactNode }) => {
+  const setUser = useSetAtom(adminUserAtom);
+  const setLoading = useSetAtom(authLoadingAtom);
 
   useEffect(() => {
-    // Read cached user on client mount
+    // Hydrate from localStorage immediately to avoid flash
     const cached = getInitialUser();
-    if (cached) {
-      setUser(cached);
-    }
+    if (cached) setUser(cached);
 
-    if (!auth || !auth.app) {
+    if (!auth?.app) {
       setLoading(false);
       return;
     }
@@ -94,63 +69,7 @@ export const AuthContextProvider = ({ children }: { children: ReactNode }) => {
       console.warn('Firebase auth listener error:', err);
       setLoading(false);
     }
-  }, []);
+  }, [setUser, setLoading]);
 
-  const loginWithEmail = async (email: string, pass: string): Promise<AdminUser> => {
-    if (!auth || !auth.app) {
-      throw new Error('Firebase Auth가 올바르게 초기화되지 않았습니다.');
-    }
-    const cred = await signInWithEmailAndPassword(auth, email, pass);
-    const adminData: AdminUser = {
-      email: cred.user.email,
-      displayName: cred.user.displayName,
-      uid: cred.user.uid,
-    };
-    setUser(adminData);
-    if (typeof window !== 'undefined') {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(adminData));
-    }
-    return adminData;
-  };
-
-  const loginWithGoogle = async (): Promise<AdminUser> => {
-    if (!auth || !auth.app) {
-      throw new Error('Firebase Auth가 올바르게 초기화되지 않았습니다. 환경변수를 확인해주세요.');
-    }
-    const provider = new GoogleAuthProvider();
-    provider.setCustomParameters({ prompt: 'select_account' });
-    const cred = await signInWithPopup(auth, provider);
-    const adminData: AdminUser = {
-      email: cred.user.email,
-      displayName: cred.user.displayName,
-      uid: cred.user.uid,
-    };
-    setUser(adminData);
-    if (typeof window !== 'undefined') {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(adminData));
-    }
-    return adminData;
-  };
-
-  const logout = async () => {
-    try {
-      if (auth && auth.app) {
-        await signOut(auth);
-      }
-    } catch (e) {
-      console.warn('Sign out error:', e);
-    }
-    setUser(null);
-    if (typeof window !== 'undefined') {
-      localStorage.removeItem(STORAGE_KEY);
-    }
-  };
-
-  return (
-    <AuthContext.Provider value={{ user, loading, loginWithEmail, loginWithGoogle, logout }}>
-      {children}
-    </AuthContext.Provider>
-  );
+  return <>{children}</>;
 };
-
-export const useAuth = () => useContext(AuthContext);

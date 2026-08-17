@@ -18,11 +18,13 @@ export default function ProfileEditor() {
     initialData: defaultProfile as unknown as ProfileDataType,
   });
 
+
   useEffect(() => {
     if (remoteProfile) {
       setProfile(remoteProfile);
     }
   }, [remoteProfile]);
+
 
   const saveMutation = useMutation({
     mutationFn: (newProfile: ProfileDataType) => updateProfile(newProfile),

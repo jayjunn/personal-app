@@ -21,11 +21,13 @@ export default function WorksEditor() {
     initialData: defaultWorks as unknown as WorkItem[],
   });
 
+
   useEffect(() => {
-    if (remoteWorks) {
+    if (remoteWorks && remoteWorks.length > 0) {
       setWorks(remoteWorks);
     }
   }, [remoteWorks]);
+
 
   const saveMutation = useMutation({
     mutationFn: (newWorks: WorkItem[]) => updateWorks(newWorks),

@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Language from '../../public/image/language.svg';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useUserContext } from '../context/userContext';
+import { useLanguage } from '@/hooks/useLanguage';
 import { profileData } from '../data/portfolioData';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -12,7 +12,7 @@ import { usePathname } from 'next/navigation';
 const Header = () => {
   const [selectOn, setSelectOn] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const { user, setLanguage, isEnglish } = useUserContext();
+  const { language, setLanguage, isEnglish } = useLanguage();
   const pathname = usePathname();
   const langRef = useRef<HTMLLIElement>(null);
 
@@ -107,7 +107,7 @@ const Header = () => {
                       target="_blank"
                       rel="noopener noreferrer"
                       onClick={() => setSelectOn(false)}
-                      className="px-2.5 py-1 font-black text-xs lg:text-sm uppercase tracking-wider text-black hover:bg-black hover:text-[#e7e2d0] transition-colors flex items-center gap-1">
+                      className="px-2.5 py-1 font-black text-xs lg:text-sm uppercase tracking-wider text-black hover:bg-black hover:text-white transition-colors flex items-center gap-1">
                       <span>{item.title}</span>
                       <span className="text-[10px]">↗</span>
                     </a>
@@ -117,8 +117,8 @@ const Header = () => {
                       onClick={() => setSelectOn(false)}
                       className={`px-2.5 py-1 font-black text-xs lg:text-sm uppercase tracking-wider transition-all ${
                         isActive
-                          ? 'bg-black text-[#e7e2d0] shadow-[2px_2px_0px_#000000]'
-                          : 'text-black hover:bg-black hover:text-[#e7e2d0]'
+                          ? 'bg-black text-white'
+                          : 'text-black hover:bg-black hover:text-white'
                       }`}>
                       {item.title}
                     </Link>
@@ -145,7 +145,7 @@ const Header = () => {
                 className="w-4 h-4"
               />
               <span className="text-[11px] font-black font-mono">
-                {user.language === 'ENGLISH' ? 'EN' : 'KR'}
+                {language === 'ENGLISH' ? 'EN' : 'KR'}
               </span>
             </button>
 
@@ -159,23 +159,23 @@ const Header = () => {
                   className="absolute top-[calc(100%+8px)] right-0 bg-[#e7e2d0] border-[3px] border-black shadow-[4px_4px_0px_#000000] p-2.5 min-w-[145px] z-[100] flex flex-col gap-1.5 list-none m-0">
                   <li
                     className={`px-3 py-1.5 text-xs font-extrabold cursor-pointer flex items-center gap-2 transition-colors ${
-                      user.language === 'ENGLISH'
-                        ? 'bg-black text-[#e7e2d0]'
-                        : 'text-black hover:bg-black hover:text-[#e7e2d0]'
+                      language === 'ENGLISH'
+                        ? 'bg-black text-white'
+                        : 'text-black hover:bg-black hover:text-white'
                     }`}
                     onClick={() => handleLanguageSelect('ENGLISH')}>
                     <span>🇬🇧</span>
-                    <span>English {user.language === 'ENGLISH' && '✓'}</span>
+                    <span>English {language === 'ENGLISH' && '✓'}</span>
                   </li>
                   <li
                     className={`px-3 py-1.5 text-xs font-extrabold cursor-pointer flex items-center gap-2 transition-colors ${
-                      user.language === 'KOREAN'
-                        ? 'bg-black text-[#e7e2d0]'
-                        : 'text-black hover:bg-black hover:text-[#e7e2d0]'
+                      language === 'KOREAN'
+                        ? 'bg-black text-white'
+                        : 'text-black hover:bg-black hover:text-white'
                     }`}
                     onClick={() => handleLanguageSelect('KOREAN')}>
                     <span>🇰🇷</span>
-                    <span>한국어 {user.language === 'KOREAN' && '✓'}</span>
+                    <span>한국어 {language === 'KOREAN' && '✓'}</span>
                   </li>
                 </motion.ul>
               )}
@@ -270,8 +270,8 @@ const Header = () => {
                   type="button"
                   onClick={() => setLanguage('KOREAN')}
                   className={`px-3 py-1.5 text-[11px] font-mono font-black transition-colors ${
-                    user.language === 'KOREAN'
-                      ? 'bg-black text-[#e7e2d0]'
+                    language === 'KOREAN'
+                      ? 'bg-black text-white'
                       : 'text-black hover:bg-neutral-100'
                   }`}>
                   🇰🇷 한국어 (KR)
@@ -281,8 +281,8 @@ const Header = () => {
                   type="button"
                   onClick={() => setLanguage('ENGLISH')}
                   className={`px-3 py-1.5 text-[11px] font-mono font-black transition-colors ${
-                    user.language === 'ENGLISH'
-                      ? 'bg-black text-[#e7e2d0]'
+                    language === 'ENGLISH'
+                      ? 'bg-black text-white'
                       : 'text-black hover:bg-neutral-100'
                   }`}>
                   🇬🇧 English (EN)

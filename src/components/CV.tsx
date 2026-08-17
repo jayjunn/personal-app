@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { useUserContext } from '../context/userContext';
+import { useLanguage } from '@/hooks/useLanguage';
 import { cvData as defaultCv, experienceData as defaultExperiences, skillCategories } from '../data/portfolioData';
 import { CVDataType, ExperienceItem } from '../service/portfolioService';
 import PageWrap from './common/PageWrap';
@@ -12,7 +12,7 @@ interface CvProps {
 }
 
 export default function Cv({ initialCv, initialExperiences }: CvProps) {
-  const { isEnglish } = useUserContext();
+  const { isEnglish } = useLanguage();
 
   const activeCvData = initialCv || {};
   const cv = isEnglish

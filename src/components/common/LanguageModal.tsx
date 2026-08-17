@@ -1,11 +1,11 @@
 'use client';
 
 import React from 'react';
-import { useUserContext } from '@/context/userContext';
+import { useLanguage } from '@/hooks/useLanguage';
 import { motion, AnimatePresence } from 'framer-motion';
 
 export default function LanguageModal() {
-  const { isLanguageModalOpen, setIsLanguageModalOpen, setLanguage, user } = useUserContext();
+  const { language, isLanguageModalOpen, setIsLanguageModalOpen, setLanguage } = useLanguage();
 
   if (!isLanguageModalOpen) return null;
 
@@ -62,7 +62,7 @@ export default function LanguageModal() {
               type="button"
               onClick={() => handleSelect('ENGLISH')}
               className={`w-full p-4 sm:p-5 border-[3px] border-black flex items-center justify-between transition-all duration-150 shadow-[4px_4px_0px_#000000] cursor-pointer ${
-                user.language === 'ENGLISH'
+                language === 'ENGLISH'
                   ? 'bg-black text-[#e7e2d0]'
                   : 'bg-white text-black hover:bg-neutral-100'
               }`}>
@@ -85,7 +85,7 @@ export default function LanguageModal() {
               type="button"
               onClick={() => handleSelect('KOREAN')}
               className={`w-full p-4 sm:p-5 border-[3px] border-black flex items-center justify-between transition-all duration-150 shadow-[4px_4px_0px_#000000] cursor-pointer ${
-                user.language === 'KOREAN'
+                language === 'KOREAN'
                   ? 'bg-black text-[#e7e2d0]'
                   : 'bg-white text-black hover:bg-neutral-100'
               }`}>

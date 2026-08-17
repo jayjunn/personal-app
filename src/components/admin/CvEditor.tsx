@@ -21,11 +21,13 @@ export default function CvEditor() {
     queryFn: getCVSettings,
   });
 
+
   useEffect(() => {
     if (remoteCv) {
       setCvSettings(remoteCv);
     }
   }, [remoteCv]);
+
 
   const saveMutation = useMutation({
     mutationFn: (newCv: CVDataType) => updateCVSettings(newCv),

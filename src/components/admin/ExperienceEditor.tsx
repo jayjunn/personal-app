@@ -18,11 +18,13 @@ export default function ExperienceEditor() {
     initialData: defaultExperiences as unknown as ExperienceItem[],
   });
 
+
   useEffect(() => {
-    if (remoteExperiences) {
+    if (remoteExperiences && remoteExperiences.length > 0) {
       setExperiences(remoteExperiences);
     }
   }, [remoteExperiences]);
+
 
   const saveMutation = useMutation({
     mutationFn: (newExps: ExperienceItem[]) => updateExperiences(newExps),

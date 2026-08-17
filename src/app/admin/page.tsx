@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { useAuth } from '@/context/authContext';
+import { useAuth } from '@/hooks/useAuth';
 import Link from 'next/link';
 import PageWrap from '@/components/common/PageWrap';
 import ProfileEditor from '@/components/admin/ProfileEditor';

@@ -3,7 +3,7 @@
 import React from 'react';
 import anglesRight from '../../public/image/anglesRight.svg';
 import Image from 'next/image';
-import { useUserContext } from '../context/userContext';
+import { useLanguage } from '@/hooks/useLanguage';
 import { profileData as defaultProfileData } from '../data/portfolioData';
 import { ProfileDataType } from '../service/portfolioService';
 import { motion } from 'framer-motion';
@@ -16,7 +16,7 @@ const Profile = ({ initialProfile }: ProfileProps) => {
   const handleScrollDown = () => {
     document.getElementById('works-section')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   };
-  const { isEnglish } = useUserContext();
+  const { isEnglish } = useLanguage();
 
   const activeData = initialProfile || (defaultProfileData as unknown as ProfileDataType);
   const profile = isEnglish ? activeData.en : activeData.kr;

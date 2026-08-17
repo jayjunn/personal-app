@@ -5,13 +5,13 @@ import Image from 'next/image';
 import Link from 'next/link';
 import PageWrap from './common/PageWrap';
 import EmailForm from './EmailForm';
-import { useUserContext } from '../context/userContext';
+import { useLanguage } from '@/hooks/useLanguage';
 import linkedin from '../../public/image/linkedin.svg';
 import github from '../../public/image/github.svg';
 import envelope from '../../public/image/envelope.svg';
 
 export default function Contact() {
-  const { isEnglish } = useUserContext();
+  const { isEnglish } = useLanguage();
 
   return (
     <PageWrap title="Contact">

@@ -4,7 +4,7 @@ import React from 'react';
 import Work from './Work';
 import { workData as defaultWorkData } from '../data/portfolioData';
 import { Project } from '../service/portfolioService';
-import { useUserContext } from '../context/userContext';
+import { useLanguage } from '@/hooks/useLanguage';
 import PageWrap from './common/PageWrap';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination, Navigation, Autoplay } from 'swiper/modules';
@@ -21,7 +21,7 @@ interface WorkListProps {
 }
 
 const WorkList = ({ limit, showMoreLink = false, useSlider = false, initialWorks }: WorkListProps) => {
-  const { isEnglish } = useUserContext();
+  const { isEnglish } = useLanguage();
 
   const works = initialWorks || defaultWorkData;
   const displayedWorks = limit ? works.slice(0, limit) : works;

@@ -2,7 +2,7 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { useAuth } from '@/context/authContext';
+import { useAuth } from '@/hooks/useAuth';
 
 export default function Footer() {
   const { user } = useAuth();
