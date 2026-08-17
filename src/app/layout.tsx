@@ -8,13 +8,20 @@ import LanguageInitializer from '../components/common/LanguageInitializer';
 import LanguageModal from '../components/common/LanguageModal';
 import Chatbot from '../components/common/Chatbot';
 
+
+export const viewport = {
+  width: 'device-width',
+  initialScale: 1,
+};
+
+
 export const metadata: Metadata = {
   title: { default: 'Younggeun Jun', template: 'Younggeun Jun | %s' },
   description: 'Software Engineer Younggeun Jun',
   openGraph: {
     title: 'Younggeun Jun | Software Engineer',
     description: 'Software Engineer Younggeun Jun',
-    url: 'https:/younggeun-jun.vercel.app', 
+    url: 'https://younggeun-jun.vercel.app', 
     siteName: 'Younggeun Jun',
     images: [
       {

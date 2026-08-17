@@ -104,7 +104,7 @@ export default function Chatbot() {
               value={input}
               onChange={(e) => setInput(e.target.value)}
               placeholder="메시지를 입력하세요..."
-              className="flex-1 px-3 py-2 border-2 border-black rounded text-sm focus:outline-none font-mono"
+              className="flex-1 px-3 py-2 border-2 border-black rounded text-base focus:outline-none font-mono"
             />
             <button
               type="submit"
