@@ -5,7 +5,7 @@ import styles from '../app/styles/Header.module.css';
 import Language from '../../public/image/language.svg';
 import { motion } from 'framer-motion';
 import { useUserContext } from '../context/userContext';
-import { profileData } from '../../data';
+import { profileData } from '../data/portfolioData';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -21,15 +21,19 @@ const Header = () => {
 
   const handleLanguageSelect = (type: string) => {
     const newUser = { ...user, language: type };
-    localStorage.setItem('user', JSON.stringify(newUser));
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('user', JSON.stringify(newUser));
+    }
     setUser(newUser);
     setSelectOn(false);
   };
 
   const navList = [
     { title: 'Home', link: `/` },
+    { title: 'Works', link: `/works` },
+    { title: 'Experience', link: `/experience` },
     { title: 'Tech Blog', link: `https://velog.io/@jayjunn/posts` },
-    { title: 'CV', link: `cv` },
+    { title: 'CV', link: `/cv` },
     { title: 'Contact', link: `/contact` },
   ];
 
@@ -66,8 +70,8 @@ const Header = () => {
             </React.Fragment>
           ))}
           <li className={styles.language} key={`button`}>
-            <button className={styles.language__icon} onClick={handleLanguageButton}>
-              <Image src={Language} className="w-[24px] md:w-[40px] lg:w-[50px]" alt="language" width="30" height="30" />
+            <button className={styles.language__icon} onClick={handleLanguageButton} aria-label="Toggle Language">
+              <Image src={Language} className="w-[24px] md:w-[32px]" alt="language" width="30" height="30" />
             </button>
             {selectOn && (
               <motion.ul
@@ -96,4 +100,5 @@ const Header = () => {
     </header>
   );
 };
+
 export default Header;

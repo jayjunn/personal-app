@@ -2,20 +2,11 @@
 
 import React from 'react';
 import Profile from '../components/Profile';
-import Experience from '../components/Experience';
-import WorkList from '../components/WorkList';
-import { SWRConfig } from 'swr';
 
-export default function page() {
+export default function HomePage() {
   return (
-    <SWRConfig
-      value={{
-        refreshInterval: 3000,
-        fetcher: (resource, init) => fetch(resource, init).then((res) => res.json()),
-      }}>
+    <div>
       <Profile />
-      <Experience />
-      <WorkList /> 
-    </SWRConfig>
+    </div>
   );
 }

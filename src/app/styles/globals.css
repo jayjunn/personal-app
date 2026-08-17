@@ -8,19 +8,20 @@ body {
   margin: 0;
   font-family: Arial, Helvetica, sans-serif;
   font-weight: 600;
-  /* font-size: 40px; */
-  margin: 0px;
   background-color: #e7e2d0;
+  color: #000000;
   box-sizing: border-box;
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
+  min-height: 100vh;
 }
 
 a {
   color: inherit;
   text-decoration: none;
 }
+
 p {
   margin: 0;
 }
@@ -32,14 +33,19 @@ p {
 h1 {
   font-family: Arial, Helvetica, sans-serif;
   font-weight: 600;
-  font-size: 40px;
+  font-size: 36px;
+  margin: 0px;
+}
+
+h2, h3, h4, h5 {
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: 600;
   margin: 0px;
 }
 
 @media screen and (max-width: 767px) {
-  /* 모바일 */
   body {
-    font-size: 18px;
+    font-size: 16px;
   }
 
   h1 {
@@ -60,10 +66,7 @@ li {
   padding: 0;
 }
 
-h1,
-h2,
-h3,
-h4,
-h5 {
-  margin: 0;
+::selection {
+  background-color: #000000;
+  color: #e7e2d0;
 }

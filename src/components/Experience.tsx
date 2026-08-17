@@ -2,16 +2,12 @@
 
 import React from 'react';
 import styles from '../app/styles/Experience.module.css';
-import { experienceData } from '../../data';
+import { experienceData } from '../data/portfolioData';
 import { useUserContext } from '../context/userContext';
 import PageWrap from './common/PageWrap';
 
 export default function Experience() {
   const { isEnglish } = useUserContext();
-
-  const handleExperienceClick = (company: string) => {
-    document.getElementById(`${company.toLocaleLowerCase()}`)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  };
 
   const languageSelector = (description: { en: string[]; kr: string[] }) => {
     return isEnglish ? description.en : description.kr;
@@ -19,16 +15,16 @@ export default function Experience() {
 
   return (
     <PageWrap title="Experience">
-      <ul className={`${styles.experience__list} ${styles.open}`}>
+      <ul className={styles.experience__list}>
         {experienceData.map(({ role, company, description }, index) => (
-          <li className={styles.experience} key={index} onClick={() => handleExperienceClick(company)}>
+          <li className={styles.experience} key={index} id={company.toLowerCase().replace(/\s+/g, '-')}>
             <div className={styles.experience__name}>
-              <h5 className={styles.role}>{role},</h5>
-              <h5>{company}</h5>
+              <span className={styles.role}>{role},</span>
+              <span className={styles.company}>{company}</span>
             </div>
             <ul className={styles.descriptions}>
-              {languageSelector(description).map((item, index) => (
-                <li className={styles.description} key={index}>
+              {languageSelector(description).map((item, dIndex) => (
+                <li className={styles.description} key={dIndex}>
                   <p>- {item}</p>
                 </li>
               ))}

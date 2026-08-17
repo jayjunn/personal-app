@@ -1,9 +1,9 @@
 .contents {
-  width: 100vw;
+  width: 100%;
   max-width: 1400px;
-}
-
-@media screen and (max-width: 1250px) {
-  .contents {
-  }
+  margin: 0 auto;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: #e7e2d0;
 }
