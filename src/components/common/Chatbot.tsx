@@ -4,20 +4,35 @@ import { useEffect, useRef, useState } from 'react';
 import { useAtom } from 'jotai';
 import { isChatOpenAtom } from '@/context/chatStore';
 import { useMutation } from '@tanstack/react-query';
+import { useLanguage } from '@/hooks/useLanguage';
 
 interface Message {
   role: 'user' | 'gemini';
   text: string;
 }
 
-// API 호출 함수
-const fetchGeminiResponse = async (prompt: string) => {
+interface GeminiRequest {
+  prompt: string;
+  language: 'English' | 'Korean';
+}
+
+// =========================================================
+// Gemini API 호출
+// =========================================================
+
+const fetchGeminiResponse = async ({
+  prompt,
+  language,
+}: GeminiRequest) => {
   const res = await fetch('/api/gemini', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ prompt }),
+    body: JSON.stringify({
+      prompt,
+      language,
+    }),
   });
 
   const data = await res.json();
@@ -31,16 +46,30 @@ const fetchGeminiResponse = async (prompt: string) => {
 
 export default function Chatbot() {
   const [isOpen, setIsOpen] = useAtom(isChatOpenAtom);
+
   const [input, setInput] = useState('');
 
+  // 현재 사이트 언어
+  const { isEnglish } = useLanguage();
+
   const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  // =========================================================
+  // Initial message
+  // =========================================================
 
   const [messages, setMessages] = useState<Message[]>([
     {
       role: 'gemini',
-      text: '안녕하세요! 영근님의 대해 무엇이든 물어보세요.',
+      text: isEnglish
+        ? 'Hi! Ask me anything about Younggeun.'
+        : '안녕하세요! 영근님에 대해 무엇이든 물어보세요.',
     },
   ]);
+
+  // =========================================================
+  // Gemini Mutation
+  // =========================================================
 
   const mutation = useMutation({
     mutationFn: fetchGeminiResponse,
@@ -50,7 +79,11 @@ export default function Chatbot() {
         ...prev,
         {
           role: 'gemini',
-          text: data || '응답을 받지 못했습니다.',
+          text:
+            data ||
+            (isEnglish
+              ? 'I could not get a response.'
+              : '응답을 받지 못했습니다.'),
         },
       ]);
     },
@@ -60,14 +93,16 @@ export default function Chatbot() {
         ...prev,
         {
           role: 'gemini',
-          text: '오류가 발생했습니다. 다시 시도해 주세요.',
+          text: isEnglish
+            ? 'Something went wrong. Please try again.'
+            : '오류가 발생했습니다. 다시 시도해 주세요.',
         },
       ]);
     },
   });
 
   // =========================================================
-  // 자동 스크롤
+  // Auto scroll
   // =========================================================
 
   useEffect(() => {
@@ -79,6 +114,10 @@ export default function Chatbot() {
     });
   }, [messages, mutation.isPending, isOpen]);
 
+  // =========================================================
+  // Submit
+  // =========================================================
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -88,6 +127,7 @@ export default function Chatbot() {
 
     setInput('');
 
+    // 화면에 사용자 메시지 추가
     setMessages((prev) => [
       ...prev,
       {
@@ -96,7 +136,11 @@ export default function Chatbot() {
       },
     ]);
 
-    mutation.mutate(userMessage);
+    // 현재 사이트 언어를 Gemini에 전달
+    mutation.mutate({
+      prompt: userMessage,
+      language: isEnglish ? 'English' : 'Korean',
+    });
   };
 
   return (
@@ -323,6 +367,7 @@ export default function Chatbot() {
             >
               ✕
             </button>
+
           </div>
 
 
@@ -352,14 +397,13 @@ export default function Chatbot() {
                   rounded-lg
                   border-2
                   border-black
-                  ${
-                    msg.role === 'user'
-                      ? `
+                  ${msg.role === 'user'
+                    ? `
                         bg-black
                         text-white
                         self-end
                       `
-                      : `
+                    : `
                         bg-[#f4f0e3]
                         text-black
                         self-start
@@ -386,11 +430,10 @@ export default function Chatbot() {
                   animate-pulse
                 "
               >
-                생각 중...
+                {isEnglish ? 'Thinking...' : '생각 중...'}
               </div>
             )}
 
-            {/* Scroll target */}
             <div ref={messagesEndRef} />
 
           </div>
@@ -417,7 +460,11 @@ export default function Chatbot() {
               type="text"
               value={input}
               onChange={(e) => setInput(e.target.value)}
-              placeholder="메시지를 입력하세요..."
+              placeholder={
+                isEnglish
+                  ? 'Ask me anything...'
+                  : '무엇이든 물어보세요...'
+              }
               className="
                 flex-1
                 min-w-0
@@ -438,10 +485,7 @@ export default function Chatbot() {
             />
 
 
-            {/* =================================================
-                SEND BUTTON
-            ================================================== */}
-
+            {/* Send Button */}
             <button
               type="submit"
               disabled={mutation.isPending || !input.trim()}
@@ -494,6 +538,7 @@ export default function Chatbot() {
             </button>
 
           </form>
+
         </div>
       )}
     </>
