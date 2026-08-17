@@ -10,8 +10,22 @@ import LanguageModal from '../components/common/LanguageModal';
 export const metadata: Metadata = {
   title: { default: 'Younggeun Jun', template: 'Younggeun Jun | %s' },
   description: 'Software Engineer Younggeun Jun',
+  openGraph: {
+    title: 'Younggeun Jun | Software Engineer',
+    description: 'Software Engineer Younggeun Jun',
+    url: 'https:/younggeun-jun.vercel.app', 
+    siteName: 'Younggeun Jun',
+    images: [
+      {
+        url: 'https://younggeun-jun.vercel.app/image/og-image.png',
+        width: 1200,
+        height: 630,
+      },
+    ],
+    locale: 'ko_KR',
+    type: 'website',
+  },
 };
-
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
