@@ -40,12 +40,8 @@ const Profile = ({ initialProfile }: ProfileProps) => {
   return (
     <section className="w-full flex flex-col md:flex-row items-stretch border-b-[3px] border-black box-border">
       {/* Left Column: Headline & About */}
-      <motion.div
-        className="flex-1 py-5 flex flex-col border-b-[3px] md:border-b-0 md:border-r-[3px] border-black group"
-        initial={{ opacity: 0, x: -20 }}
-        animate={{ opacity: 1, x: 0 }}
-        transition={{ duration: 0.5, ease: 'easeOut' }}>
-        <p className="p-5 sm:p-7 md:p-8 uppercase text-lg sm:text-xl font-bold leading-snug m-0 text-black">
+      <div className="flex-1 py-5 flex flex-col border-b-[3px] md:border-b-0 md:border-r-[3px] border-black group">
+        <p className="p-5 sm:p-7 md:p-8 uppercase text-lg sm:text-xl font-black leading-snug m-0 text-black">
           {profile.headLine}
         </p>
         <div className="border-t-[3px] border-black flex-grow flex flex-col">
@@ -57,20 +53,16 @@ const Profile = ({ initialProfile }: ProfileProps) => {
               width={30}
               height={30}
             />
-            <span className="font-extrabold tracking-tight text-lg uppercase">ABOUT</span>
+            <span className="font-extrabold tracking-tight text-lg uppercase text-black">ABOUT</span>
           </div>
-          <div className="text-sm sm:text-base leading-relaxed font-medium p-5 sm:p-8 text-neutral-900">
+          <div className="text-sm sm:text-base leading-relaxed font-medium p-5 sm:p-8 text-black">
             {profile.about}
           </div>
         </div>
-      </motion.div>
+      </div>
 
       {/* Right Column: Skills & Scroll Arrow */}
-      <motion.div
-        className="flex-1 py-5 flex flex-col justify-between"
-        initial={{ opacity: 0, x: 20 }}
-        animate={{ opacity: 1, x: 0 }}
-        transition={{ duration: 0.5, ease: 'easeOut', delay: 0.1 }}>
+      <div className="flex-1 py-5 flex flex-col justify-between">
         <div className="group">
           <div className="px-4 sm:px-8">
             <div className="bg-black text-[#e7e2d0] flex items-center h-14 sm:h-16 gap-3 px-4 sm:px-6">
@@ -92,10 +84,7 @@ const Profile = ({ initialProfile }: ProfileProps) => {
               {skills.map((skill, index) => (
                 <motion.span
                   key={`profile-skill-${skill}-${index}`}
-                  className="border-2 border-black rounded-lg px-3 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm font-extrabold tracking-wide bg-[#e7e2d0] shadow-[2px_2px_0px_#000000] hover:shadow-[4px_4px_0px_#000000] hover:bg-white hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all cursor-default"
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ duration: 0.3, delay: index * 0.04 }}
+                  className="border-2 border-black rounded-lg px-3 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm font-extrabold tracking-wide bg-[#e7e2d0] text-black shadow-[2px_2px_0px_#000000] hover:shadow-[4px_4px_0px_#000000] hover:bg-white hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all cursor-default"
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.96 }}>
                   {skill}
@@ -114,7 +103,7 @@ const Profile = ({ initialProfile }: ProfileProps) => {
             <Image src={anglesRight} alt="scroll down" width={36} height={36} className="w-9 h-9" />
           </button>
         </div>
-      </motion.div>
+      </div>
     </section>
   );
 };
