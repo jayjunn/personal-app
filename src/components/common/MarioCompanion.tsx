@@ -214,23 +214,23 @@ export default function MarioCompanion() {
       <button
         type="button"
         onClick={() => setIsActive(true)}
-        className="fixed bottom-6 right-6 z-[9990] bg-black text-[#e7e2d0] border-2 border-black px-3.5 py-2 font-mono text-xs font-extrabold shadow-[3px_3px_0px_#000000] cursor-pointer hover:bg-neutral-800 transition-colors">
-        🎮 소환하기 (Mario ON)
+        className="fixed bottom-6 right-6 z-[8000] bg-black text-[#e7e2d0] border-2 border-black px-3.5 py-2 font-mono text-xs font-extrabold shadow-[3px_3px_0px_#000000] cursor-pointer hover:bg-neutral-800 transition-colors">
+        🎮 {isEnglish ? 'Summon (Mario ON)' : '소환하기 (Mario ON)'}
       </button>
     );
   }
 
   return (
     <>
-      {/* Floating Score Badge / Controls (Highest z-index so always clickable) */}
-      <div className="fixed bottom-4 right-4 z-[99999] flex items-center gap-2 bg-[#e7e2d0] border-2 border-black px-2.5 py-1 shadow-[2px_2px_0px_#000000] font-mono text-xs font-extrabold pointer-events-auto select-none">
+      {/* Floating Score Badge / Controls */}
+      <div className="fixed bottom-4 right-4 z-[8500] flex items-center gap-2 bg-[#e7e2d0] border-2 border-black px-2.5 py-1 shadow-[2px_2px_0px_#000000] font-mono text-xs font-extrabold pointer-events-auto select-none">
         <span>🪙 {score} PTS</span>
         <button
           type="button"
           onClick={() => setIsActive(false)}
           className="ml-1 px-1.5 py-0.5 bg-black text-[#e7e2d0] hover:bg-neutral-800 transition-colors text-[10px] font-mono font-bold uppercase cursor-pointer"
-          title="캐릭터 숨기기">
-          숨기기
+          title={isEnglish ? 'Hide Character' : '캐릭터 숨기기'}>
+          {isEnglish ? 'HIDE' : '숨기기'}
         </button>
       </div>
 
@@ -243,7 +243,7 @@ export default function MarioCompanion() {
             animate={{ opacity: 0, y: p.y - 65, scale: 1.3 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.9, ease: 'easeOut' }}
-            className="fixed pointer-events-none z-[9999] font-black text-amber-600 font-mono text-base drop-shadow-[2px_2px_0px_#000000]">
+            className="fixed pointer-events-none z-[8100] font-black text-amber-600 font-mono text-base drop-shadow-[2px_2px_0px_#000000]">
             {p.text}
           </motion.div>
         ))}
@@ -252,7 +252,7 @@ export default function MarioCompanion() {
       {/* Mario Pixel Character Container */}
       <div
         ref={containerRef}
-        className="fixed left-0 top-0 z-[9995] cursor-pointer select-none pointer-events-auto touch-manipulation"
+        className="fixed left-0 top-0 z-[8050] cursor-pointer select-none pointer-events-auto touch-manipulation"
         style={{
           transform: `translate3d(120px, 300px, 0)`,
         }}

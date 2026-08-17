@@ -116,6 +116,8 @@ const Header = () => {
           w-full
           bg-[#e7e2d0]/95
           backdrop-blur-md
+          border-b-[3px]
+          border-black
         "
       >
         {/* =================================================
@@ -476,7 +478,7 @@ const Header = () => {
             className="
               fixed
               inset-0
-              z-[99999]
+              z-[999999]
               w-screen
               h-[100dvh]
               bg-[#e7e2d0]

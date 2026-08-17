@@ -149,7 +149,7 @@ export default function Chatbot() {
           AI FLOATING BUTTON
       ====================================================== */}
 
-      <div className="fixed bottom-20 right-6 z-[9999]">
+      <div className="fixed bottom-20 right-6 z-[8000]">
 
         {/* Outer breathing glow */}
         <div
@@ -305,7 +305,7 @@ export default function Chatbot() {
             border-black
             rounded-xl
             shadow-[8px_8px_0px_rgba(0,0,0,1)]
-            z-[9999]
+            z-[8500]
             flex
             flex-col
             overflow-hidden
