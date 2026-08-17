@@ -117,8 +117,9 @@ export default function MarioCompanion() {
         const dy = targetRef.current.y - cur.y;
         const dist = Math.hypot(dx, dy);
 
-        if (dist > 45) {
-          const speed = Math.min(dist * 0.06, 7.5);
+        // 마우스와 충분한 여유 거리(95px)를 두고 정지하여 다른 요소 클릭 방해 금지
+        if (dist > 95) {
+          const speed = Math.min((dist - 80) * 0.08, 6.5);
           cur.vx = (dx / dist) * speed;
           cur.vy = (dy / dist) * speed;
           setDirection(dx >= 0 ? 1 : -1);
@@ -221,15 +222,15 @@ export default function MarioCompanion() {
 
   return (
     <>
-      {/* Floating Score Badge / Controls */}
-      <div className="fixed bottom-4 right-4 z-[9990] flex items-center gap-2 bg-[#e7e2d0] border-2 border-black px-2.5 py-1 shadow-[2px_2px_0px_#000000] font-mono text-xs font-extrabold">
+      {/* Floating Score Badge / Controls (Highest z-index so always clickable) */}
+      <div className="fixed bottom-4 right-4 z-[99999] flex items-center gap-2 bg-[#e7e2d0] border-2 border-black px-2.5 py-1 shadow-[2px_2px_0px_#000000] font-mono text-xs font-extrabold pointer-events-auto select-none">
         <span>🪙 {score} PTS</span>
         <button
           type="button"
           onClick={() => setIsActive(false)}
-          className="ml-1 text-neutral-600 cursor-pointer text-[11px] underline hover:text-black"
+          className="ml-1 px-1.5 py-0.5 bg-black text-[#e7e2d0] hover:bg-neutral-800 transition-colors text-[10px] font-mono font-bold uppercase cursor-pointer"
           title="캐릭터 숨기기">
-          [숨기기]
+          숨기기
         </button>
       </div>
 
