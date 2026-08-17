@@ -6,6 +6,7 @@ import anglesRight from '../../public/image/anglesRight.svg';
 import Image from 'next/image';
 import { useUserContext } from '../context/userContext';
 import { profileData } from '../data/portfolioData';
+import { motion } from 'framer-motion';
 
 const Profile = () => {
   const handleScrollDown = () => {
@@ -32,7 +33,11 @@ const Profile = () => {
 
   return (
     <section className={styles.container}>
-      <div className={styles.left__row}>
+      <motion.div
+        className={styles.left__row}
+        initial={{ opacity: 0, x: -20 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ duration: 0.5, ease: 'easeOut' }}>
         <p className={styles.about__headLine}>{profile.headLine}</p>
         <div className={styles.about__container}>
           <div className={styles.about__title}>
@@ -43,8 +48,13 @@ const Profile = () => {
           </div>
           <div className={styles.about__p}>{profile.about}</div>
         </div>
-      </div>
-      <div className={styles.right__row}>
+      </motion.div>
+
+      <motion.div
+        className={styles.right__row}
+        initial={{ opacity: 0, x: 20 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ duration: 0.5, ease: 'easeOut', delay: 0.1 }}>
         <div className={styles.skills__container}>
           <div className={styles.skill__first}>
             <div className={styles.skills__header}>
@@ -53,13 +63,20 @@ const Profile = () => {
             </div>
           </div>
           <div className={styles.skills__content}>
-            <ul className={`${styles.skills__p} flex flex-wrap gap-3`}>
-              {skills.map((skill) => (
-                <li key={skill} className="border-[2px] border-black rounded-[8px] px-3 py-1 text-xs font-bold tracking-wider">
+            <div className={styles.skills__p}>
+              {skills.map((skill, index) => (
+                <motion.span
+                  key={skill}
+                  className={styles.skill__tag}
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.3, delay: index * 0.04 }}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.96 }}>
                   {skill}
-                </li>
+                </motion.span>
               ))}
-            </ul>
+            </div>
           </div>
         </div>
         <div className={styles.arrow__container}>
@@ -67,7 +84,7 @@ const Profile = () => {
             <Image className={styles.down__arrow} src={anglesRight} alt="scroll down" width="35" height="35" />
           </button>
         </div>
-      </div>
+      </motion.div>
     </section>
   );
 };

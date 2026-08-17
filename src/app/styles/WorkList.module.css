@@ -1,5 +1,6 @@
 .wrapper {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   width: 100%;
   padding-top: 10px;
@@ -13,6 +14,61 @@
   gap: 40px 30px;
   width: 100%;
   justify-items: center;
+}
+
+.sliderContainer {
+  margin-top: 24px;
+  width: 100%;
+  position: relative;
+  padding-bottom: 40px;
+}
+
+.sliderContainer :global(.swiper-slide) {
+  height: auto;
+  display: flex;
+  justify-content: center;
+}
+
+.sliderContainer :global(.swiper-pagination) {
+  bottom: 0px !important;
+}
+
+.sliderContainer :global(.swiper-pagination-bullet) {
+  width: 10px;
+  height: 10px;
+  background-color: black;
+  opacity: 0.3;
+  border-radius: 2px;
+  transition: all 0.2s ease;
+}
+
+.sliderContainer :global(.swiper-pagination-bullet-active) {
+  opacity: 1;
+  width: 28px;
+  background-color: black;
+}
+
+.sliderContainer :global(.swiper-button-prev),
+.sliderContainer :global(.swiper-button-next) {
+  color: black;
+  width: 36px;
+  height: 36px;
+  background-color: #e7e2d0;
+  border: 2px solid black;
+  box-shadow: 2px 2px 0px black;
+  transition: all 0.2s ease;
+}
+
+.sliderContainer :global(.swiper-button-prev):hover,
+.sliderContainer :global(.swiper-button-next):hover {
+  transform: translate(-1px, -1px);
+  box-shadow: 3px 3px 0px black;
+}
+
+.sliderContainer :global(.swiper-button-prev)::after,
+.sliderContainer :global(.swiper-button-next)::after {
+  font-size: 14px;
+  font-weight: 900;
 }
 
 @media screen and (max-width: 1024px) {

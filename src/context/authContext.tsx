@@ -2,7 +2,6 @@
 
 import React, { createContext, useContext, useEffect, useState, ReactNode } from 'react';
 import {
-  User,
   signInWithEmailAndPassword,
   signInWithPopup,
   GoogleAuthProvider,
@@ -25,14 +24,6 @@ interface AuthContextType {
   logout: () => Promise<void>;
 }
 
-const AuthContext = createContext<AuthContextType>({
-  user: null,
-  loading: true,
-  loginWithEmail: async () => ({} as AdminUser),
-  loginWithGoogle: async () => ({} as AdminUser),
-  logout: async () => { },
-});
-
 const STORAGE_KEY = 'portfolio_admin_user';
 
 const getInitialUser = (): AdminUser | null => {
@@ -46,23 +37,23 @@ const getInitialUser = (): AdminUser | null => {
   return null;
 };
 
+const AuthContext = createContext<AuthContextType>({
+  user: null,
+  loading: false,
+  loginWithEmail: async () => ({} as AdminUser),
+  loginWithGoogle: async () => ({} as AdminUser),
+  logout: async () => {},
+});
+
 export const AuthContextProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<AdminUser | null>(() => getInitialUser());
-  const [loading, setLoading] = useState<boolean>(() => !getInitialUser());
+  const [loading, setLoading] = useState<boolean>(false);
 
-  // Firebase Auth listener
   useEffect(() => {
-    let timer: NodeJS.Timeout;
-
-    timer = setTimeout(() => {
-      setLoading(false);
-    }, 1200);
-
     try {
       const unsubscribe = onAuthStateChanged(
         auth,
         (currentUser) => {
-          clearTimeout(timer);
           if (currentUser) {
             const adminData: AdminUser = {
               email: currentUser.email,
@@ -73,26 +64,18 @@ export const AuthContextProvider = ({ children }: { children: ReactNode }) => {
             if (typeof window !== 'undefined') {
               localStorage.setItem(STORAGE_KEY, JSON.stringify(adminData));
             }
-          } else {
-            if (typeof window !== 'undefined' && !localStorage.getItem(STORAGE_KEY)) {
-              setUser(null);
-            }
           }
           setLoading(false);
         },
         (error) => {
           console.warn('Firebase onAuthStateChanged error:', error);
-          clearTimeout(timer);
           setLoading(false);
         }
       );
 
-      return () => {
-        clearTimeout(timer);
-        unsubscribe();
-      };
+      return () => unsubscribe();
     } catch (err) {
-      console.warn('Firebase auth initialization error:', err);
+      console.warn('Firebase auth listener error:', err);
     }
   }, []);
 
@@ -104,7 +87,6 @@ export const AuthContextProvider = ({ children }: { children: ReactNode }) => {
       uid: cred.user.uid,
     };
     setUser(adminData);
-    setLoading(false);
     if (typeof window !== 'undefined') {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(adminData));
     }
@@ -121,7 +103,6 @@ export const AuthContextProvider = ({ children }: { children: ReactNode }) => {
       uid: cred.user.uid,
     };
     setUser(adminData);
-    setLoading(false);
     if (typeof window !== 'undefined') {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(adminData));
     }

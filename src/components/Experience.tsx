@@ -5,6 +5,7 @@ import styles from '../app/styles/Experience.module.css';
 import { experienceData } from '../data/portfolioData';
 import { useUserContext } from '../context/userContext';
 import PageWrap from './common/PageWrap';
+import { motion } from 'framer-motion';
 
 interface ExperienceProps {
   limit?: number;
@@ -26,8 +27,15 @@ export default function Experience({ limit, showMoreLink = false }: ExperiencePr
       moreLink={showMoreLink ? '/experience' : undefined}
       moreText={isEnglish ? 'VIEW ALL EXPERIENCES ➔' : '전체 경력 보기 ➔'}>
       <ul className={styles.experience__list}>
-        {displayedExperiences.map(({ role, company, description }, index) => (
-          <li className={styles.experience} key={index} id={company.toLowerCase().replace(/\s+/g, '-')}>
+        {displayedExperiences.map(({ role, company, description, stacks }, index) => (
+          <motion.li
+            className={styles.experience}
+            key={index}
+            id={company.toLowerCase().replace(/\s+/g, '-')}
+            initial={{ opacity: 0, y: 15 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.4, delay: index * 0.1 }}>
             <div className={styles.experience__name}>
               <span className={styles.role}>{role},</span>
               <span className={styles.company}>{company}</span>
@@ -39,7 +47,16 @@ export default function Experience({ limit, showMoreLink = false }: ExperiencePr
                 </li>
               ))}
             </ul>
-          </li>
+            {stacks && (
+              <div className={styles.experience__stacks}>
+                {stacks.map((stack, sIdx) => (
+                  <span key={sIdx} className={styles.stack__badge}>
+                    {stack}
+                  </span>
+                ))}
+              </div>
+            )}
+          </motion.li>
         ))}
       </ul>
     </PageWrap>

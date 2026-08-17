@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 450 160" width="100%" height="100%">
+  <g transform="translate(30, 24)">
+    <!-- Bank Vault / Shield -->
+    <rect x="0" y="5" width="85" height="85" rx="20" fill="#000000"/>
+    <text x="42.5" y="66" font-family="'Arial Black', Arial, sans-serif" font-weight="900" font-size="54" fill="#E7E2D0" text-anchor="middle">H</text>
+    
+    <!-- Wordmark -->
+    <text x="110" y="55" font-family="'Arial Black', Arial, sans-serif" font-weight="900" font-size="42" fill="#000000" letter-spacing="1">HUMBLE</text>
+    <text x="112" y="86" font-family="Arial, sans-serif" font-weight="700" font-size="18" fill="#555555" letter-spacing="5">MOBILE BANK</text>
+  </g>
+</svg>

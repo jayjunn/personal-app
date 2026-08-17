@@ -12,12 +12,12 @@ export default function HomePage() {
       {/* 1. Profile (Headline, About & Skills) */}
       <Profile />
 
-      {/* 2. Works Preview (2 Featured Projects) */}
+      {/* 2. Works Preview (Interactive Swiper Slider with eBay & COS first) */}
       <div id="works-section">
-        <WorkList limit={2} showMoreLink={true} />
+        <WorkList useSlider={true} showMoreLink={true} />
       </div>
 
-      {/* 3. Experience Preview (2 Recent Companies) */}
+      {/* 3. Experience Preview (eBay & COS First) */}
       <div id="experiences">
         <Experience limit={2} showMoreLink={true} />
       </div>

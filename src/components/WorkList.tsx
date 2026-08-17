@@ -6,13 +6,20 @@ import Work from './Work';
 import { workData } from '../data/portfolioData';
 import { useUserContext } from '../context/userContext';
 import PageWrap from './common/PageWrap';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Pagination, Navigation, Autoplay } from 'swiper/modules';
+
+import 'swiper/css';
+import 'swiper/css/pagination';
+import 'swiper/css/navigation';
 
 interface WorkListProps {
   limit?: number;
   showMoreLink?: boolean;
+  useSlider?: boolean;
 }
 
-const WorkList = ({ limit, showMoreLink = false }: WorkListProps) => {
+const WorkList = ({ limit, showMoreLink = false, useSlider = false }: WorkListProps) => {
   const { isEnglish } = useUserContext();
 
   const displayedWorks = limit ? workData.slice(0, limit) : workData;
@@ -23,19 +30,57 @@ const WorkList = ({ limit, showMoreLink = false }: WorkListProps) => {
       moreLink={showMoreLink ? '/works' : undefined}
       moreText={isEnglish ? 'VIEW ALL WORKS ➔' : '전체 프로젝트 보기 ➔'}>
       <div className={styles.wrapper}>
-        <div className={styles.list}>
-          {displayedWorks.map((item, index) => (
-            <Work
-              key={index}
-              name={item.name}
-              img={item.img}
-              description={isEnglish ? item.description.en : item.description.kr}
-              stacks={item.stacks}
-              link={item.link}
-              company={item.company}
-            />
-          ))}
-        </div>
+        {useSlider ? (
+          <div className={styles.sliderContainer}>
+            <Swiper
+              modules={[Pagination, Navigation, Autoplay]}
+              spaceBetween={24}
+              slidesPerView={1}
+              breakpoints={{
+                768: {
+                  slidesPerView: 2,
+                  spaceBetween: 24,
+                },
+              }}
+              navigation
+              pagination={{ clickable: true }}
+              autoplay={{
+                delay: 4500,
+                disableOnInteraction: false,
+                pauseOnMouseEnter: true,
+              }}
+              className="w-full">
+              {displayedWorks.map((item, index) => (
+                <SwiperSlide key={index}>
+                  <Work
+                    name={item.name}
+                    img={item.img}
+                    description={isEnglish ? item.description.en : item.description.kr}
+                    stacks={item.stacks}
+                    link={item.link}
+                    company={item.company}
+                    priority={index === 0}
+                  />
+                </SwiperSlide>
+              ))}
+            </Swiper>
+          </div>
+        ) : (
+          <div className={styles.list}>
+            {displayedWorks.map((item, index) => (
+              <Work
+                key={index}
+                name={item.name}
+                img={item.img}
+                description={isEnglish ? item.description.en : item.description.kr}
+                stacks={item.stacks}
+                link={item.link}
+                company={item.company}
+                priority={index === 0}
+              />
+            ))}
+          </div>
+        )}
       </div>
     </PageWrap>
   );

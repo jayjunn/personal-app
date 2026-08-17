@@ -265,7 +265,7 @@ export default function ExperienceEditor() {
                     type="text"
                     value={editItem.company}
                     onChange={(e) => setEditItem({ ...editItem, company: e.target.value })}
-                    placeholder="예: eBay Japan / Blocko"
+                    placeholder="예: eBay / Blocko"
                     className="w-full p-2.5 bg-white border-2 border-black text-sm"
                   />
                 </div>

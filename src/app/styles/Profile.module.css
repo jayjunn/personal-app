@@ -1,7 +1,7 @@
 .container {
   display: flex;
   justify-content: flex-start;
-  align-items: flex-start;
+  align-items: stretch;
   border-bottom: 3px solid black;
 }
 
@@ -9,6 +9,8 @@
   flex: 1;
   padding: 20px 0px;
   border-right: 3px solid black;
+  display: flex;
+  flex-direction: column;
 }
 
 .left__row:hover .about__arrow {
@@ -29,6 +31,7 @@
 
 .about__container {
   border-top: 3px solid black;
+  flex-grow: 1;
 }
 
 .about__arrow {
@@ -60,6 +63,9 @@
 .right__row {
   flex: 1;
   padding: 20px 0px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .skills__container:hover .icon {
@@ -96,25 +102,48 @@
 }
 
 .skills__p {
-  padding: 24px 0px;
-  font-size: 14px;
-  font-weight: 600;
+  padding: 28px 0px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.skill__tag {
+  border: 2px solid black;
+  border-radius: 8px;
+  padding: 8px 16px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  background-color: #e7e2d0;
+  box-shadow: 2px 2px 0px black;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+  cursor: default;
+}
+
+.skill__tag:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 4px 4px 0px black;
+  background-color: #ffffff;
 }
 
 .arrow__container {
-  padding-top: 20px;
-  height: 100%;
+  padding: 24px 0;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
 .down__arrow {
-  height: 100%;
   filter: invert(0%) sepia(0%) saturate(7500%) hue-rotate(211deg) brightness(102%) contrast(90%);
   transform: rotate(45deg);
   width: 40px;
   height: 40px;
+  transition: transform 0.3s ease;
+}
+
+.down__arrow:hover {
+  transform: rotate(45deg) scale(1.15);
 }
 
 @media screen and (max-width: 767px) {
@@ -149,13 +178,19 @@
   }
 
   .skills__content {
-    padding: 0px;
+    padding: 0px 16px;
     border-bottom: 3px solid black;
   }
 
   .skills__p {
-    font-size: 13px;
-    padding: 16px 10px;
+    font-size: 12px;
+    padding: 18px 0px;
+    gap: 8px;
+  }
+
+  .skill__tag {
+    padding: 6px 12px;
+    font-size: 12px;
   }
 
   .about__headLine {

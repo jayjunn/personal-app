@@ -71,7 +71,13 @@ const Header = () => {
           ))}
           <li className={styles.language} key={`button`}>
             <button className={styles.language__icon} onClick={handleLanguageButton} aria-label="Toggle Language">
-              <Image src={Language} className="w-[24px] md:w-[32px]" alt="language" width="30" height="30" />
+              <Image
+                src={Language}
+                alt="language"
+                width={28}
+                height={28}
+                style={{ width: '28px', height: '28px' }}
+              />
             </button>
             {selectOn && (
               <motion.ul
