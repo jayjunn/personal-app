@@ -2,7 +2,6 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import { DreamyIcon } from '@/components/icons';
 
 interface ChatFloatingButtonProps {
   isOpen: boolean;
@@ -14,7 +13,7 @@ export default function ChatFloatingButton({
   onToggle,
 }: ChatFloatingButtonProps) {
   return (
-    <div className="fixed bottom-20 right-6 z-[8000] select-none">
+    <div className="fixed bottom-20 right-6 z-[9995] select-none">
       {/* 1. Deep Midnight Violet Ambient Aura (구체 바깥으로 은은하게 퍼지는 심해 오라) */}
       <motion.div
         animate={{
@@ -163,37 +162,9 @@ export default function ChatFloatingButton({
               pointer-events-none
             "
           />
-
-          {/* 6. Centered Subtle Breathing AI Symbol (완벽한 정중앙 고정 & 슬로우 브리딩 모션) */}
-          <div className="absolute inset-0 flex items-center justify-center z-30 pointer-events-none">
-            <motion.div
-              animate={{
-                scale: [0.94, 1.06, 0.94],
-                opacity: [0.82, 1, 0.82],
-              }}
-              transition={{
-                duration: 4.5,
-                repeat: Infinity,
-                ease: 'easeInOut',
-              }}
-              className="flex items-center justify-center"
-            >
-              <DreamyIcon
-                className="
-                  w-5
-                  h-5
-                  text-white
-                  drop-shadow-[0_1px_3px_rgba(0,0,0,0.85)]
-                  transition-transform
-                  duration-300
-                  group-hover:scale-115
-                "
-              />
-            </motion.div>
-          </div>
         </div>
 
-        {/* 7. Tooltip Badge */}
+        {/* Tooltip Badge */}
         <span
           className="
             absolute
