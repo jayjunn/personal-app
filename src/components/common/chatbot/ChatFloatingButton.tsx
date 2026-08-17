@@ -13,17 +13,38 @@ export default function ChatFloatingButton({
   onToggle,
 }: ChatFloatingButtonProps) {
   return (
-    <div className="fixed bottom-20 right-6 z-[8000]">
-      {/* Outer breathing glow */}
+    <div className="fixed bottom-20 right-6 z-[8000] select-none">
+      {/* 1. Deep Radiant Supernova Aura (Cyan / Electric Violet / Pure Ice) */}
       <div
         className="
           absolute
-          inset-[-12px]
+          -inset-4
           rounded-full
-          bg-white/20
+          bg-gradient-to-r
+          from-cyan-500
+          via-blue-600
+          to-fuchsia-600
           blur-2xl
+          opacity-70
+          dark:opacity-90
           animate-pulse
+          pointer-events-none
         "
+      />
+
+      {/* 2. Expanding Cosmic Ripple Wave */}
+      <div
+        className="
+          absolute
+          -inset-3
+          rounded-full
+          border-2
+          border-cyan-400/60
+          dark:border-cyan-300/80
+          animate-ping
+          pointer-events-none
+        "
+        style={{ animationDuration: '3s' }}
       />
 
       <button
@@ -37,75 +58,83 @@ export default function ChatFloatingButton({
           items-center
           justify-center
           transition-all
-          duration-500
-          hover:scale-110
+          duration-300
+          hover:scale-115
           active:scale-95
           group
+          cursor-pointer
         "
-        aria-label="Open Chatbot"
+        aria-label="Open AI Assistant"
       >
-        {/* Outer glow */}
+        {/* 3. Fast Rotating Chromatic Conic Ring (Cyan / Blue / Violet / Magenta) */}
         <span
           className="
             absolute
-            inset-[-10px]
+            -inset-1.5
             rounded-full
-            bg-gradient-to-r
-            from-cyan-300/0
-            via-white/40
-            to-purple-300/0
-            blur-xl
-            opacity-80
-            animate-pulse
+            bg-[conic-gradient(from_0deg,#06b6d4,#3b82f6,#8b5cf6,#d946ef,#06b6d4)]
+            blur-[3px]
+            animate-[spin_3s_linear_infinite]
+            opacity-90
+            group-hover:opacity-100
+            group-hover:blur-[5px]
+            transition-all
           "
         />
 
-        {/* Rotating aura */}
+        {/* 4. Sharp High-Contrast Ring Border */}
         <span
           className="
             absolute
-            inset-[-4px]
+            -inset-0.5
             rounded-full
-            bg-[conic-gradient(from_0deg,transparent,rgba(255,255,255,0.9),rgba(150,200,255,0.8),transparent)]
-            blur-[2px]
-            animate-[spin_4s_linear_infinite]
+            bg-gradient-to-tr
+            from-cyan-400
+            via-blue-400
+            to-fuchsia-400
+            animate-[spin_6s_linear_infinite_reverse]
           "
         />
 
-        {/* Main AI orb */}
+        {/* 5. Main AI Core Orb */}
         <span
           className="
             relative
             w-14
             h-14
             rounded-full
-            bg-black
+            bg-[#0d0e12]
             flex
             items-center
             justify-center
             overflow-hidden
-            border
-            border-white/40
-            shadow-[0_0_15px_rgba(255,255,255,0.5),0_0_40px_rgba(120,180,255,0.25)]
+            border-2
+            border-white/80
+            shadow-[0_0_20px_rgba(6,182,212,0.8),0_0_40px_rgba(139,92,246,0.6),inset_0_0_15px_rgba(255,255,255,0.3)]
+            group-hover:shadow-[0_0_30px_rgba(6,182,212,1),0_0_60px_rgba(139,92,246,0.9),inset_0_0_20px_rgba(255,255,255,0.6)]
+            transition-all
+            duration-300
           "
         >
-          {/* Inner light */}
+          {/* Inner pulsating cosmic core */}
           <span
             className="
               absolute
-              w-8
-              h-8
+              w-10
+              h-10
               rounded-full
               bg-gradient-to-br
-              from-white
-              via-cyan-200
-              to-purple-400
+              from-cyan-300
+              via-blue-400
+              to-fuchsia-500
               blur-md
-              opacity-80
+              opacity-85
+              group-hover:opacity-100
               animate-pulse
             "
           />
 
+          {/* AI Sparkle Icon with Bold Dramatic Glow */}
           <AiSparkleIcon
             className="
               w-7
@@ -113,40 +142,47 @@ export default function ChatFloatingButton({
               relative
               z-10
               text-white
-              drop-shadow-[0_0_8px_rgba(255,255,255,0.9)]
+              drop-shadow-[0_0_10px_#ffffff]
+              drop-shadow-[0_0_18px_#38bdf8]
+              drop-shadow-[0_0_28px_#818cf8]
               transition-transform
-              duration-500
+              duration-300
+              group-hover:scale-120
               group-hover:rotate-12
             "
           />
         </span>
 
-        {/* Status indicator */}
+        {/* 6. Online Status Glow Dot */}
         <span
           className="
             absolute
-            top-1
-            right-1
-            w-3.5
-            h-3.5
+            top-0
+            right-0
+            w-4
+            h-4
             bg-emerald-400
             rounded-full
             border-2
             border-black
-            shadow-[0_0_8px_#34d399]
+            shadow-[0_0_10px_#34d399,0_0_20px_#10b981]
+            animate-pulse
           "
         />
 
-        {/* Tooltip Badge */}
+        {/* 7. Tooltip Badge */}
         <span
           className="
             absolute
             -top-7
             right-0
             bg-[#e7e2d0]
+            dark:bg-[#16171e]
             text-black
-            border
+            dark:text-cyan-300
+            border-2
             border-black
+            dark:border-cyan-400/40
             text-[9px]
             font-mono
             font-black
@@ -155,9 +191,11 @@ export default function ChatFloatingButton({
             shadow-[2px_2px_0px_#000000]
             whitespace-nowrap
             pointer-events-none
+            transition-transform
+            group-hover:-translate-y-1
           "
         >
-          AI ASSISTANT
+          ✨ AI ASSISTANT
         </span>
       </button>
     </div>

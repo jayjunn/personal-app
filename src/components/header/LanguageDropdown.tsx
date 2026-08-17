@@ -19,7 +19,7 @@ export default function LanguageDropdown({
   onSelect,
   onClose,
 }: LanguageDropdownProps) {
-  const containerRef = useRef<HTMLLIElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -40,7 +40,7 @@ export default function LanguageDropdown({
   }, [isOpen, onClose]);
 
   return (
-    <li ref={containerRef} className="relative flex items-center">
+    <div ref={containerRef} className="relative flex items-center">
       <button
         type="button"
         onClick={onToggle}
@@ -52,14 +52,19 @@ export default function LanguageDropdown({
           px-3
           py-1.5
           bg-[#e7e2d0]
+          dark:bg-[#1f212a]
           border-[1.5px]
           border-black
+          dark:border-[#2f3340]
           cursor-pointer
           hover:bg-black
           hover:text-[#e7e2d0]
+          dark:hover:bg-[#2e3240]
+          dark:hover:text-white
           transition-colors
           shadow-[1px_1px_0px_#000000]
           text-black
+          dark:text-[#f3f4f6]
         "
       >
         <GlobeIcon className="w-4 h-4 stroke-current" />
@@ -80,8 +85,10 @@ export default function LanguageDropdown({
               top-[calc(100%+8px)]
               right-0
               bg-[#e7e2d0]
+              dark:bg-[#1a1c24]
               border-[3px]
               border-black
+              dark:border-[#2f3340]
               shadow-[4px_4px_0px_#000000]
               p-2.5
               min-w-[145px]
@@ -106,8 +113,8 @@ export default function LanguageDropdown({
                 gap-2
                 ${
                   language === 'ENGLISH'
-                    ? 'bg-black text-white'
-                    : 'text-black hover:bg-black hover:text-white'
+                    ? 'bg-black text-white dark:bg-white dark:text-black'
+                    : 'text-black dark:text-[#f3f4f6] hover:bg-black hover:text-white dark:hover:bg-[#252834] dark:hover:text-white'
                 }
               `}
             >
@@ -128,8 +135,8 @@ export default function LanguageDropdown({
                 gap-2
                 ${
                   language === 'KOREAN'
-                    ? 'bg-black text-white'
-                    : 'text-black hover:bg-black hover:text-white'
+                    ? 'bg-black text-white dark:bg-white dark:text-black'
+                    : 'text-black dark:text-[#f3f4f6] hover:bg-black hover:text-white dark:hover:bg-[#252834] dark:hover:text-white'
                 }
               `}
             >
@@ -139,6 +146,6 @@ export default function LanguageDropdown({
           </motion.ul>
         )}
       </AnimatePresence>
-    </li>
+    </div>
   );
 }

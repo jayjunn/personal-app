@@ -25,7 +25,9 @@ export default function ChatInput({
         p-3
         border-t-[3px]
         border-black
+        dark:border-[#272a34]
         bg-[#ded8c4]
+        dark:bg-[#1f212a]
         flex
         gap-2
         items-center
@@ -44,15 +46,19 @@ export default function ChatInput({
           px-3
           py-2
           bg-[#f4f0e3]
+          dark:bg-[#16171e]
           border-2
           border-black
+          dark:border-[#2f3340]
           rounded
           text-base
           text-black
+          dark:text-[#f3f4f6]
           placeholder:text-neutral-500
           focus:outline-none
           focus:ring-2
           focus:ring-black
+          dark:focus:ring-amber-400
           font-mono
         "
       />
@@ -70,10 +76,13 @@ export default function ChatInput({
           justify-center
           rounded-full
           bg-black
+          dark:bg-amber-400
           text-white
+          dark:text-black
           transition-all
           duration-200
           hover:bg-neutral-800
+          dark:hover:bg-amber-300
           hover:scale-105
           active:scale-90
           disabled:opacity-30

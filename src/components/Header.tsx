@@ -50,9 +50,13 @@ export default function Header() {
           z-[9990]
           w-full
           bg-[#e7e2d0]/95
+          dark:bg-[#0d0e12]/95
           backdrop-blur-md
           border-b-[3px]
           border-black
+          dark:border-[#272a34]
+          transition-colors
+          duration-200
         "
       >
         <section
@@ -86,6 +90,7 @@ export default function Header() {
                 uppercase
                 tracking-tight
                 text-black
+                dark:text-[#f3f4f6]
                 m-0
                 group-hover:opacity-85
                 transition-opacity
@@ -102,6 +107,7 @@ export default function Header() {
                 uppercase
                 tracking-wider
                 text-neutral-600
+                dark:text-neutral-400
                 mt-0.5
               "
             >
@@ -121,24 +127,27 @@ export default function Header() {
               flex
               items-center
               justify-center
-              w-9
-              h-9
+              gap-2
+              px-3.5
+              py-2
               bg-[#e7e2d0]
+              dark:bg-[#16171e]
               border-2
               border-black
-              shadow-[2px_2px_0px_#000000]
+              dark:border-[#272a34]
+              text-black
+              dark:text-[#f3f4f6]
+              shadow-[3px_3px_0px_#000000]
               active:translate-x-0.5
               active:translate-y-0.5
               active:shadow-none
-              hover:bg-black
-              text-black
-              hover:text-white
-              transition-all
               cursor-pointer
-              box-border
             "
           >
-            <MenuIcon className="w-5 h-5 stroke-current" />
+            <MenuIcon className="w-4 h-4 stroke-current" />
+            <span className="text-xs font-mono font-black tracking-wider">
+              MENU
+            </span>
           </button>
         </section>
 

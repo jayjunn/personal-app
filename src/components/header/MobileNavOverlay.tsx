@@ -5,6 +5,8 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { NAV_LIST } from './navData';
+import { useTheme } from '@/providers/ThemeProvider';
+import { SunIcon, MoonIcon } from '@/components/icons';
 
 interface MobileNavOverlayProps {
   isOpen: boolean;
@@ -22,6 +24,7 @@ export default function MobileNavOverlay({
   onSetLanguage,
 }: MobileNavOverlayProps) {
   const pathname = usePathname();
+  const { isDark, toggleTheme } = useTheme();
 
   return (
     <AnimatePresence>
@@ -38,39 +41,39 @@ export default function MobileNavOverlay({
             w-screen
             h-[100dvh]
             bg-[#e7e2d0]
-            text-black
+            dark:bg-[#121212]
             flex
             flex-col
-            overflow-hidden
+            justify-between
+            p-5
+            sm:p-8
+            box-border
+            overflow-y-auto
             overscroll-none
-            border-b-[3px]
-            border-black
           "
         >
-          {/* Top Bar */}
+          {/* Top Bar inside Overlay */}
           <div
             className="
-              w-full
               flex
               items-center
               justify-between
-              px-6
-              sm:px-8
-              pt-6
               pb-4
               border-b-[3px]
               border-black
+              dark:border-[#e7e2d0]
               bg-[#e7e2d0]
+              dark:bg-[#121212]
               shrink-0
             "
           >
             <div className="flex flex-col">
               <span
-                className="text-lg sm:text-xl font-black uppercase tracking-tight"
+                className="text-lg sm:text-xl font-black uppercase tracking-tight text-black dark:text-[#e7e2d0]"
               >
                 {profileName}
               </span>
-              <span className="text-[10px] font-extrabold uppercase tracking-wider text-neutral-600 font-mono">
+              <span className="text-[10px] font-extrabold uppercase tracking-wider text-neutral-600 dark:text-neutral-400 font-mono">
                 NAVIGATION DIRECTORY
               </span>
             </div>
@@ -78,73 +81,39 @@ export default function MobileNavOverlay({
             <button
               type="button"
               onClick={onClose}
-              aria-label="Close Navigation Menu"
               className="
-                flex
-                items-center
-                justify-center
-                gap-1.5
-                px-3
-                py-1.5
+                p-2
                 bg-[#e7e2d0]
+                dark:bg-[#1a1a1a]
                 border-2
                 border-black
-                font-mono
-                text-xs
+                dark:border-[#e7e2d0]
+                text-black
+                dark:text-[#e7e2d0]
                 font-black
-                uppercase
+                text-lg
+                leading-none
                 shadow-[2px_2px_0px_#000000]
+                dark:shadow-[2px_2px_0px_#e7e2d0]
                 active:translate-x-0.5
                 active:translate-y-0.5
                 active:shadow-none
-                hover:bg-black
-                hover:text-white
-                transition-all
+                cursor-pointer
               "
+              aria-label="Close Menu"
             >
-              <span>✕</span>
-              <span>CLOSE</span>
+              ✕
             </button>
           </div>
 
-          {/* Nav List */}
-          <div
-            className="
-              flex-1
-              min-h-0
-              flex
-              flex-col
-              items-center
-              justify-center
-              w-full
-              px-6
-              sm:px-8
-              overflow-hidden
-            "
-          >
-            <div className="w-full max-w-sm">
+          {/* Navigation Links */}
+          <nav className="my-auto py-6 flex flex-col justify-center">
+            <ul className="flex flex-col gap-3.5 list-none p-0 m-0 w-full">
               {NAV_LIST.map((item, index) => {
                 const isActive = !item.isExternal && pathname === item.link;
 
                 return (
-                  <motion.div
-                    key={`mobile-${item.title}`}
-                    initial={{ opacity: 0, y: 15 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{
-                      delay: index * 0.04 + 0.06,
-                      duration: 0.2,
-                    }}
-                    className="
-                      w-full
-                      border-b
-                      border-black/20
-                      py-3
-                      flex
-                      items-center
-                      justify-center
-                    "
-                  >
+                  <li key={`mobile-nav-${item.title}-${index}`}>
                     {item.isExternal ? (
                       <a
                         href={item.link}
@@ -154,23 +123,34 @@ export default function MobileNavOverlay({
                         className="
                           flex
                           items-center
-                          justify-center
-                          gap-2
-                          text-2xl
-                          sm:text-3xl
-                          font-black
-                          uppercase
-                          tracking-tight
+                          justify-between
+                          px-4
+                          py-3
+                          border-2
+                          border-black
+                          dark:border-[#e7e2d0]
+                          bg-[#e7e2d0]
+                          dark:bg-[#1a1a1a]
                           text-black
-                          active:scale-95
-                          transition-transform
+                          dark:text-[#e7e2d0]
+                          font-black
+                          text-base
+                          uppercase
+                          tracking-wider
+                          shadow-[3px_3px_0px_#000000]
+                          dark:shadow-[3px_3px_0px_#e7e2d0]
+                          active:translate-x-0.5
+                          active:translate-y-0.5
+                          active:shadow-none
+                          hover:bg-black
+                          hover:text-white
+                          dark:hover:bg-[#e7e2d0]
+                          dark:hover:text-black
+                          transition-colors
                         "
                       >
-                        <span className="font-mono text-xs font-bold text-neutral-500">
-                          0{index + 1}.
-                        </span>
                         <span>{item.title}</span>
-                        <span className="text-lg font-mono">↗</span>
+                        <span className="text-xs">↗</span>
                       </a>
                     ) : (
                       <Link
@@ -179,66 +159,106 @@ export default function MobileNavOverlay({
                         className={`
                           flex
                           items-center
-                          justify-center
-                          gap-2
-                          text-2xl
-                          sm:text-3xl
+                          justify-between
+                          px-4
+                          py-3
+                          border-2
+                          border-black
+                          dark:border-[#e7e2d0]
                           font-black
+                          text-base
                           uppercase
-                          tracking-tight
-                          text-black
-                          active:scale-95
-                          transition-transform
+                          tracking-wider
+                          shadow-[3px_3px_0px_#000000]
+                          dark:shadow-[3px_3px_0px_#e7e2d0]
+                          active:translate-x-0.5
+                          active:translate-y-0.5
+                          active:shadow-none
+                          transition-all
                           ${
                             isActive
-                              ? 'underline underline-offset-8 decoration-2'
-                              : ''
+                              ? 'bg-black text-white dark:bg-[#e7e2d0] dark:text-black'
+                              : 'bg-[#e7e2d0] dark:bg-[#1a1a1a] text-black dark:text-[#e7e2d0] hover:bg-black hover:text-white dark:hover:bg-[#e7e2d0] dark:hover:text-black'
                           }
                         `}
                       >
-                        <span className="font-mono text-xs font-bold text-neutral-500">
-                          0{index + 1}.
-                        </span>
                         <span>{item.title}</span>
-                        {isActive && (
-                          <span className="text-[10px] font-mono bg-black text-[#e7e2d0] px-1.5 py-0.5 border border-black ml-1">
-                            ACTIVE
-                          </span>
-                        )}
+                        <span>➔</span>
                       </Link>
                     )}
-                  </motion.div>
+                  </li>
                 );
               })}
-            </div>
-          </div>
+            </ul>
+          </nav>
 
-          {/* Bottom Bar */}
+          {/* Bottom Bar inside Overlay: Theme & Language */}
           <div
             className="
-              w-full
               flex
-              flex-col
               items-center
-              justify-center
+              justify-between
+              flex-wrap
               gap-3
+              pt-4
               border-t-[3px]
               border-black
-              pt-4
-              pb-6
-              px-6
+              dark:border-[#e7e2d0]
               bg-[#e7e2d0]
+              dark:bg-[#121212]
               shrink-0
             "
           >
+            {/* Theme Toggle Button */}
+            <button
+              type="button"
+              onClick={toggleTheme}
+              className="
+                flex
+                items-center
+                gap-2
+                px-3
+                py-1.5
+                border-2
+                border-black
+                dark:border-[#e7e2d0]
+                bg-[#e7e2d0]
+                dark:bg-[#1a1a1a]
+                text-black
+                dark:text-[#e7e2d0]
+                shadow-[2px_2px_0px_#000000]
+                dark:shadow-[2px_2px_0px_#e7e2d0]
+                text-[11px]
+                font-mono
+                font-black
+                cursor-pointer
+              "
+            >
+              {isDark ? (
+                <>
+                  <SunIcon className="w-3.5 h-3.5 text-amber-400" />
+                  <span>LIGHT</span>
+                </>
+              ) : (
+                <>
+                  <MoonIcon className="w-3.5 h-3.5 text-black" />
+                  <span>DARK</span>
+                </>
+              )}
+            </button>
+
+            {/* Language Switch */}
             <div
               className="
                 flex
                 items-center
                 border-2
                 border-black
+                dark:border-[#e7e2d0]
                 bg-[#e7e2d0]
+                dark:bg-[#1a1a1a]
                 shadow-[2px_2px_0px_#000000]
+                dark:shadow-[2px_2px_0px_#e7e2d0]
               "
             >
               <button
@@ -252,12 +272,12 @@ export default function MobileNavOverlay({
                   font-black
                   ${
                     language === 'KOREAN'
-                      ? 'bg-black text-white'
-                      : 'text-black hover:bg-[#d4ceb8]'
+                      ? 'bg-black text-white dark:bg-[#e7e2d0] dark:text-black'
+                      : 'text-black dark:text-[#e7e2d0] hover:bg-[#d4ceb8] dark:hover:bg-[#262626]'
                   }
                 `}
               >
-                🇰🇷 한국어
+                🇰🇷 KR
               </button>
 
               <button
@@ -271,25 +291,17 @@ export default function MobileNavOverlay({
                   font-black
                   ${
                     language === 'ENGLISH'
-                      ? 'bg-black text-white'
-                      : 'text-black hover:bg-[#d4ceb8]'
+                      ? 'bg-black text-white dark:bg-[#e7e2d0] dark:text-black'
+                      : 'text-black dark:text-[#e7e2d0] hover:bg-[#d4ceb8] dark:hover:bg-[#262626]'
                   }
                 `}
               >
-                🇬🇧 English
+                🇬🇧 EN
               </button>
             </div>
 
-            <div className="flex items-center justify-center gap-3 text-[10px] font-mono font-bold text-neutral-600">
-              <span>© YOUNGGEUN JUN</span>
-              <span>•</span>
-              <Link
-                href="/admin"
-                onClick={onClose}
-                className="underline hover:text-black"
-              >
-                ADMIN
-              </Link>
+            <div className="w-full text-center text-[10px] font-mono font-bold text-neutral-600 dark:text-neutral-400 pt-1">
+              <span>© YOUNGGEUN JUN • ALL RIGHTS RESERVED</span>
             </div>
           </div>
         </motion.div>

@@ -16,12 +16,11 @@ export default function WorksEditor() {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   const { data: remoteWorks, isLoading } = useWorksQuery();
-
-  useEffect(() => {
-    if (remoteWorks && remoteWorks.length > 0) {
-      setWorks(remoteWorks);
-    }
-  }, [remoteWorks]);
+  const [prevRemote, setPrevRemote] = useState<WorkItem[] | undefined>(undefined);
+  if (remoteWorks && remoteWorks !== prevRemote && remoteWorks.length > 0) {
+    setPrevRemote(remoteWorks);
+    setWorks(remoteWorks);
+  }
 
   const saveMutation = useUpdateWorksMutation();
 

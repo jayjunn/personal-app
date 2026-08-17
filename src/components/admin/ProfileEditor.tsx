@@ -12,12 +12,11 @@ export default function ProfileEditor() {
   const [message, setMessage] = useState<{ text: string; type: 'success' | 'error' } | null>(null);
 
   const { data: remoteProfile, isLoading } = useProfileQuery();
-
-  useEffect(() => {
-    if (remoteProfile) {
-      setProfile(remoteProfile);
-    }
-  }, [remoteProfile]);
+  const [prevRemote, setPrevRemote] = useState<ProfileDataType | undefined>(undefined);
+  if (remoteProfile && remoteProfile !== prevRemote) {
+    setPrevRemote(remoteProfile);
+    setProfile(remoteProfile);
+  }
 
   const saveMutation = useUpdateProfileMutation();
 

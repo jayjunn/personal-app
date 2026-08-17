@@ -6,3 +6,5 @@ export { default as AiSparkleIcon } from './AiSparkleIcon';
 export { default as SendIcon } from './SendIcon';
 export { GlobeIcon } from './GlobeIcon';
 export { AnglesRightIcon } from './AnglesRightIcon';
+export { SunIcon } from './SunIcon';
+export { MoonIcon } from './MoonIcon';

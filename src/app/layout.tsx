@@ -3,11 +3,15 @@ import { cookies } from 'next/headers';
 import './styles/globals.css';
 import ReactQueryProvider from '@/providers/ReactQueryProvider';
 import { LanguageProvider } from '@/providers/LanguageProvider';
+import { ThemeProvider } from '@/providers/ThemeProvider';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import AuthInitializer from '../components/common/AuthInitializer';
 import Chatbot from '../components/common/Chatbot';
+import CommandPalette from '../components/common/CommandPalette';
+import SpotlightCursor from '../components/common/SpotlightCursor';
 import { COOKIE_NAME, LanguageType } from '@/constants/language';
+import { THEME_COOKIE_NAME, ThemeType } from '@/constants/theme';
 
 export const dynamic = 'force-dynamic';
 
@@ -42,28 +46,40 @@ export default async function RootLayout({
   children: React.ReactNode;
 }) {
   const cookieStore = await cookies();
-  const cookie = cookieStore.get(COOKIE_NAME);
+  const langCookie = cookieStore.get(COOKIE_NAME);
+  const themeCookie = cookieStore.get(THEME_COOKIE_NAME);
+
   const initialLanguage: LanguageType =
-    cookie?.value === 'ENGLISH' || cookie?.value === 'KOREAN'
-      ? (cookie.value as LanguageType)
+    langCookie?.value === 'ENGLISH' || langCookie?.value === 'KOREAN'
+      ? (langCookie.value as LanguageType)
       : 'KOREAN';
 
+  const initialTheme: ThemeType =
+    themeCookie?.value === 'dark' ? 'dark' : 'light';
+
   return (
-    <html lang={initialLanguage === 'ENGLISH' ? 'en' : 'ko'}>
-      <body>
-        <main className="w-full max-w-[1400px] mx-auto min-h-screen flex flex-col justify-between bg-[#e7e2d0]">
+    <html
+      lang={initialLanguage === 'ENGLISH' ? 'en' : 'ko'}
+      className={initialTheme === 'dark' ? 'dark' : ''}
+    >
+      <body className="bg-[#e7e2d0] dark:bg-[#0d0e12] text-black dark:text-[#f3f4f6] transition-colors duration-200">
+        <main className="w-full max-w-[1400px] mx-auto min-h-screen flex flex-col justify-between bg-[#e7e2d0] dark:bg-[#0d0e12] transition-colors duration-200">
           <ReactQueryProvider>
-            <LanguageProvider initialLanguage={initialLanguage}>
-              <AuthInitializer />
-              <div className="flex-1 flex flex-col">
-                <Header />
-                <div className="flex-1 pt-24 sm:pt-28 md:pt-[11.5rem]">
-                  {children}
+            <ThemeProvider initialTheme={initialTheme}>
+              <LanguageProvider initialLanguage={initialLanguage}>
+                <AuthInitializer />
+                <SpotlightCursor />
+                <CommandPalette />
+                <div className="flex-1 flex flex-col">
+                  <Header />
+                  <div className="flex-1 pt-[4.85rem] sm:pt-[5.25rem] md:pt-[10.25rem]">
+                    {children}
+                  </div>
                 </div>
-              </div>
-              <Footer />
-              <Chatbot />
-            </LanguageProvider>
+                <Footer />
+                <Chatbot />
+              </LanguageProvider>
+            </ThemeProvider>
           </ReactQueryProvider>
         </main>
       </body>

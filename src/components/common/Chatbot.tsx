@@ -99,10 +99,12 @@ export default function Chatbot() {
             right-6
             w-80
             sm:w-96
-            h-[450px]
+            h-[460px]
             bg-[#e7e2d0]
+            dark:bg-[#16171e]
             border-[3px]
             border-black
+            dark:border-[#272a34]
             rounded-xl
             shadow-[8px_8px_0px_rgba(0,0,0,1)]
             z-[8500]
@@ -116,7 +118,12 @@ export default function Chatbot() {
           <div
             className="
               bg-black
+              dark:bg-[#1f212a]
+              border-b-2
+              border-black
+              dark:border-[#272a34]
               text-white
+              dark:text-amber-400
               px-4
               py-3
               flex
@@ -127,22 +134,22 @@ export default function Chatbot() {
             <div className="flex items-center gap-2">
               <span
                 className="
-                  w-2
-                  h-2
+                  w-2.5
+                  h-2.5
                   rounded-full
-                  bg-white
-                  shadow-[0_0_8px_rgba(255,255,255,0.9)]
+                  bg-cyan-400
+                  shadow-[0_0_10px_#22d3ee]
                   animate-pulse
                 "
               />
-              <span className="font-black text-sm uppercase tracking-wider">
+              <span className="font-black text-sm uppercase tracking-wider text-white dark:text-[#f3f4f6]">
                 AI Assistant
               </span>
             </div>
 
             <button
               onClick={() => setIsOpen(false)}
-              className="text-white font-bold hover:text-gray-300 transition-colors text-lg"
+              className="text-white dark:text-[#f3f4f6] font-bold hover:text-amber-400 transition-colors text-lg"
               aria-label="Close Chatbot"
             >
               ✕

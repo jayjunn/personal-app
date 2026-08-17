@@ -17,12 +17,11 @@ export default function CvEditor() {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   const { data: remoteCv, isLoading } = useCvSettingsQuery();
-
-  useEffect(() => {
-    if (remoteCv) {
-      setCvSettings(remoteCv);
-    }
-  }, [remoteCv]);
+  const [prevRemote, setPrevRemote] = useState<CVDataType | undefined>(undefined);
+  if (remoteCv && remoteCv !== prevRemote) {
+    setPrevRemote(remoteCv);
+    setCvSettings(remoteCv);
+  }
 
   const saveMutation = useUpdateCvSettingsMutation();
 

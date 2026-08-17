@@ -31,21 +31,24 @@ export default function ChatMessageList({
         gap-3
         font-mono
         text-sm
+        bg-[#e7e2d0]
+        dark:bg-[#16171e]
       "
     >
       {messages.map((msg, index) => (
         <div
           key={index}
           className={`
-            max-w-[82%]
+            max-w-[85%]
             p-3
             rounded-lg
             border-2
             border-black
+            dark:border-[#2f3340]
             ${
               msg.role === 'user'
-                ? 'bg-black text-white self-end'
-                : 'bg-[#f4f0e3] text-black self-start'
+                ? 'bg-black text-white dark:bg-amber-400 dark:text-black dark:border-amber-400 self-end shadow-[2px_2px_0px_#000000]'
+                : 'bg-[#f4f0e3] text-black dark:bg-[#1f212a] dark:text-[#f3f4f6] self-start shadow-[2px_2px_0px_#000000]'
             }
           `}
         >
@@ -58,13 +61,19 @@ export default function ChatMessageList({
         <div
           className="
             bg-[#f4f0e3]
+            dark:bg-[#1f212a]
             border-2
             border-black
+            dark:border-[#2f3340]
             text-black
+            dark:text-amber-400
             self-start
             p-3
             rounded-lg
             animate-pulse
+            font-mono
+            text-xs
+            font-bold
           "
         >
           {isEnglish ? 'Thinking...' : '생각 중...'}

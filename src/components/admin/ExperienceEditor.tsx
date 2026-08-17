@@ -12,12 +12,11 @@ export default function ExperienceEditor() {
   const [message, setMessage] = useState<{ text: string; type: 'success' | 'error' } | null>(null);
 
   const { data: remoteExperiences, isLoading } = useExperiencesQuery();
-
-  useEffect(() => {
-    if (remoteExperiences && remoteExperiences.length > 0) {
-      setExperiences(remoteExperiences);
-    }
-  }, [remoteExperiences]);
+  const [prevRemote, setPrevRemote] = useState<ExperienceItem[] | undefined>(undefined);
+  if (remoteExperiences && remoteExperiences !== prevRemote && remoteExperiences.length > 0) {
+    setPrevRemote(remoteExperiences);
+    setExperiences(remoteExperiences);
+  }
 
   const saveMutation = useUpdateExperiencesMutation();
 
