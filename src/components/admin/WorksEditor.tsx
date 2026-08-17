@@ -4,7 +4,6 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { WorkItem, getWorks, updateWorks } from '@/service/portfolioService';
 import { workData as defaultWorks } from '@/data/portfolioData';
-import styles from '@/app/styles/Admin.module.css';
 
 export default function WorksEditor() {
   const queryClient = useQueryClient();
@@ -16,7 +15,6 @@ export default function WorksEditor() {
   const [message, setMessage] = useState<{ text: string; type: 'success' | 'error' } | null>(null);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
-  // TanStack Query: fetch works
   const { data: remoteWorks, isLoading } = useQuery({
     queryKey: ['works'],
     queryFn: getWorks,
@@ -29,7 +27,6 @@ export default function WorksEditor() {
     }
   }, [remoteWorks]);
 
-  // TanStack Query: mutation to save works
   const saveMutation = useMutation({
     mutationFn: (newWorks: WorkItem[]) => updateWorks(newWorks),
     onSuccess: () => {
@@ -175,12 +172,14 @@ export default function WorksEditor() {
   };
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+    <div className="flex flex-col gap-6 w-full">
       {/* Header Bar */}
-      <div className={styles.editorHeader}>
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b-2 border-black pb-4">
         <div>
-          <h2 className={styles.editorTitle}>프로젝트 (Works) 관리</h2>
-          <p className={styles.editorSubtitle}>
+          <h2 className="text-xl sm:text-2xl font-black uppercase m-0 tracking-tight">
+            프로젝트 (Works) 관리
+          </h2>
+          <p className="text-xs sm:text-sm text-neutral-600 font-semibold mt-1">
             홈 화면 슬라이더 및 `/works`에 표시되는 프로젝트 목록을 추가, 편집합니다.
           </p>
         </div>
@@ -188,58 +187,59 @@ export default function WorksEditor() {
         <button
           type="button"
           onClick={handleStartAdd}
-          className={styles.btnPrimary}>
+          className="px-4 py-2.5 bg-black text-[#e7e2d0] border-2 border-black font-extrabold text-xs uppercase cursor-pointer hover:bg-neutral-800 transition-colors shadow-[2px_2px_0px_#000000] self-start sm:self-auto">
           + 새 프로젝트 추가
         </button>
       </div>
 
       {message && (
         <div
-          style={{
-            padding: '14px 20px',
-            border: '2px solid #000',
-            fontWeight: 700,
-            fontSize: '13px',
-            backgroundColor: message.type === 'success' ? '#d1fae5' : '#fee2e2',
-            color: message.type === 'success' ? '#065f46' : '#991b1b',
-          }}>
+          className={`p-3.5 sm:p-4 border-2 border-black font-bold text-xs sm:text-sm ${
+            message.type === 'success'
+              ? 'bg-emerald-100 text-emerald-900'
+              : 'bg-rose-100 text-rose-900'
+          }`}>
           {message.text}
         </div>
       )}
 
       {/* Projects Grid */}
-      <div className={styles.grid2}>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
         {isLoading ? (
-          <div style={{ gridColumn: '1 / -1', padding: '40px', textAlign: 'center', backgroundColor: '#fff', border: '2px dashed #000', fontFamily: 'monospace' }}>
+          <div className="col-span-full p-10 text-center bg-white border-2 border-dashed border-black font-mono text-sm">
             데이터를 불러오는 중입니다...
           </div>
         ) : works.length === 0 ? (
-          <div style={{ gridColumn: '1 / -1', padding: '40px', textAlign: 'center', backgroundColor: '#fff', border: '2px dashed #000', fontFamily: 'monospace' }}>
+          <div className="col-span-full p-10 text-center bg-white border-2 border-dashed border-black font-mono text-sm">
             등록된 프로젝트가 없습니다. 상단의 [+ 새 프로젝트 추가] 버튼을 눌러주세요.
           </div>
         ) : (
           works.map((work, idx) => (
-            <div key={`admin-work-${work.id ?? 'idx'}-${work.name}-${idx}`} className={styles.itemCard}>
+            <div
+              key={`admin-work-${work.id ?? 'idx'}-${work.name}-${idx}`}
+              className="border-[2.5px] border-black bg-white p-4 sm:p-5 flex flex-col justify-between gap-4 shadow-[3px_3px_0px_#000000]">
               <div>
-                <div className={styles.itemCardHeader}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                    <span className={styles.adminBadge}>#{idx + 1}</span>
-                    <h3 className={styles.itemCardTitle}>{work.name}</h3>
+                <div className="flex items-center justify-between border-b border-black pb-2 flex-wrap gap-2">
+                  <div className="flex items-center gap-2.5">
+                    <span className="px-2 py-0.5 bg-black text-[#e7e2d0] font-mono font-bold text-xs">
+                      #{idx + 1}
+                    </span>
+                    <h3 className="text-base sm:text-lg font-black uppercase m-0">{work.name}</h3>
                   </div>
                   {work.company && (
-                    <span style={{ backgroundColor: '#e7e2d0', padding: '2px 8px', border: '1px solid #000', fontSize: '12px', fontWeight: 700 }}>
+                    <span className="bg-[#e7e2d0] px-2 py-0.5 border border-black text-xs font-bold font-mono">
                       {work.company}
                     </span>
                   )}
                 </div>
 
                 {work.img && (
-                  <div style={{ width: '100%', height: '180px', backgroundColor: '#f0f0f0', border: '2px solid #000', margin: '14px 0', overflow: 'hidden' }}>
+                  <div className="w-full h-44 bg-neutral-100 border-2 border-black my-3 overflow-hidden">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
                       src={work.img}
                       alt={work.name}
-                      style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                      className="w-full h-full object-contain p-2"
                       onError={(e) => {
                         (e.target as HTMLImageElement).src =
                           'https://placehold.co/600x400/e7e2d0/0c0c0c?text=' +
@@ -249,26 +249,28 @@ export default function WorksEditor() {
                   </div>
                 )}
 
-                <p style={{ fontSize: '13px', color: '#444', lineHeight: 1.5, marginBottom: '12px' }}>
+                <p className="text-xs sm:text-sm text-neutral-700 leading-relaxed mb-3">
                   {work.description?.kr || work.description?.en || '설명 없음'}
                 </p>
 
-                <div className={styles.tagList}>
+                <div className="flex flex-wrap gap-1.5">
                   {work.stacks?.map((stack, sIdx) => (
-                    <span key={`admin-work-stack-${work.name}-${stack}-${sIdx}`} className={styles.tagChip}>
+                    <span
+                      key={`admin-work-stack-${work.name}-${stack}-${sIdx}`}
+                      className="text-[11px] font-bold border border-black px-2 py-0.5 bg-[#f5f0df]">
                       {stack}
                     </span>
                   ))}
                 </div>
               </div>
 
-              <div style={{ borderTop: '2px solid rgba(0,0,0,0.15)', paddingTop: '14px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <div style={{ display: 'flex', border: '2px solid #000' }}>
+              <div className="border-t border-black/20 pt-3 flex justify-between items-center flex-wrap gap-2">
+                <div className="flex border-2 border-black">
                   <button
                     type="button"
                     disabled={idx === 0}
                     onClick={() => handleMove(idx, 'up')}
-                    style={{ padding: '6px 10px', background: '#e7e2d0', borderRight: '1px solid #000', cursor: 'pointer', fontWeight: 700 }}
+                    className="px-2.5 py-1 bg-[#e7e2d0] border-r border-black cursor-pointer font-bold text-xs hover:bg-black hover:text-[#e7e2d0] disabled:opacity-40"
                     title="위로 이동">
                     ▲
                   </button>
@@ -276,23 +278,22 @@ export default function WorksEditor() {
                     type="button"
                     disabled={idx === works.length - 1}
                     onClick={() => handleMove(idx, 'down')}
-                    style={{ padding: '6px 10px', background: '#e7e2d0', cursor: 'pointer', fontWeight: 700 }}
+                    className="px-2.5 py-1 bg-[#e7e2d0] cursor-pointer font-bold text-xs hover:bg-black hover:text-[#e7e2d0] disabled:opacity-40"
                     title="아래로 이동">
                     ▼
                   </button>
                 </div>
-                <div style={{ display: 'flex', gap: '8px' }}>
+                <div className="flex gap-2">
                   <button
                     type="button"
                     onClick={() => handleStartEdit(idx)}
-                    className={styles.btnWarning}>
+                    className="px-3 py-1 bg-amber-400 border-2 border-black text-black font-extrabold text-xs uppercase cursor-pointer hover:bg-amber-300 transition-colors shadow-[1px_1px_0px_#000000]">
                     수정 ✏️
                   </button>
                   <button
                     type="button"
                     onClick={() => handleDelete(idx)}
-                    className={styles.btnDanger}
-                    style={{ padding: '8px 14px' }}>
+                    className="px-3 py-1 bg-rose-500 text-white border-2 border-black font-extrabold text-xs uppercase cursor-pointer hover:bg-rose-600 transition-colors shadow-[1px_1px_0px_#000000]">
                     삭제 🗑️
                   </button>
                 </div>
@@ -303,33 +304,25 @@ export default function WorksEditor() {
       </div>
 
       {/* Footer */}
-      <div
-        style={{
-          paddingTop: '24px',
-          borderTop: '2px solid #000000',
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-        }}>
-        <span style={{ fontSize: '13px', color: '#555', fontFamily: 'monospace' }}>
+      <div className="pt-5 border-t-2 border-black flex flex-col sm:flex-row justify-between items-center gap-3">
+        <span className="text-xs sm:text-sm text-neutral-600 font-mono">
           총 <strong>{works.length}</strong>개의 프로젝트가 등록되어 있습니다.
         </span>
         <button
           type="button"
           disabled={saveMutation.isPending}
           onClick={handleSaveAll}
-          className={styles.btnPrimary}
-          style={{ padding: '14px 32px', fontSize: '14px' }}>
+          className="w-full sm:w-auto px-8 py-3.5 bg-black text-[#e7e2d0] border-2 border-black font-black text-sm uppercase cursor-pointer hover:bg-neutral-800 transition-colors shadow-[3px_3px_0px_#000000] disabled:opacity-50">
           {saveMutation.isPending ? '저장 처리 중...' : '💾 프로젝트 목록 전체 저장'}
         </button>
       </div>
 
       {/* Edit / Add Modal */}
       {editItem && (
-        <div className={styles.modalBackdrop}>
-          <div className={styles.modalBox}>
-            <div className={styles.modalHeader}>
-              <h3 className={styles.modalTitle}>
+        <div className="fixed inset-0 bg-black/70 z-[9999] flex items-center justify-center p-4 backdrop-blur-xs">
+          <div className="bg-[#e7e2d0] border-4 border-black p-5 sm:p-7 w-full max-w-[650px] max-h-[90vh] overflow-y-auto shadow-[8px_8px_0px_#000000] flex flex-col gap-4">
+            <div className="flex items-center justify-between border-b-[3px] border-black pb-3">
+              <h3 className="text-lg sm:text-xl font-black uppercase m-0">
                 {editingIndex === -1 ? '신규 프로젝트 등록' : `프로젝트 수정: ${editItem.name}`}
               </h3>
               <button
@@ -338,86 +331,84 @@ export default function WorksEditor() {
                   setEditingIndex(null);
                   setEditItem(null);
                 }}
-                className={styles.modalCloseBtn}>
+                className="text-xl font-black cursor-pointer hover:rotate-90 transition-transform">
                 ✕
               </button>
             </div>
 
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-              <div className={styles.grid2}>
-                <div className={styles.formGroup} style={{ margin: 0 }}>
-                  <label className={styles.label}>프로젝트명 (Project Name)</label>
+            <div className="flex flex-col gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div className="flex flex-col gap-1">
+                  <label className="text-xs font-black uppercase">프로젝트명 (Project Name)</label>
                   <input
                     type="text"
                     value={editItem.name}
                     onChange={(e) => setEditItem({ ...editItem, name: e.target.value })}
                     placeholder="예: Airbnb Clone / Portfolio 2026"
-                    className={styles.input}
+                    className="w-full p-2.5 bg-white border-2 border-black text-sm font-semibold outline-none"
                   />
                 </div>
-                <div className={styles.formGroup} style={{ margin: 0 }}>
-                  <label className={styles.label}>구분 / 소속 (Company / Tag)</label>
+                <div className="flex flex-col gap-1">
+                  <label className="text-xs font-black uppercase">구분 / 소속 (Company / Tag)</label>
                   <input
                     type="text"
                     value={editItem.company || ''}
                     onChange={(e) => setEditItem({ ...editItem, company: e.target.value })}
                     placeholder="예: Toy Project, Freelance, 회사명"
-                    className={styles.input}
+                    className="w-full p-2.5 bg-white border-2 border-black text-sm font-semibold outline-none"
                   />
                 </div>
               </div>
 
               {/* Image URL & Upload */}
-              <div className={styles.formGroup} style={{ margin: 0 }}>
-                <label className={styles.label}>이미지 (Image URL / Upload)</label>
-                <div style={{ display: 'flex', gap: '10px' }}>
+              <div className="flex flex-col gap-1">
+                <label className="text-xs font-black uppercase">이미지 (Image URL / Upload)</label>
+                <div className="flex flex-col sm:flex-row gap-2">
                   <input
                     type="text"
                     value={editItem.img}
                     onChange={(e) => setEditItem({ ...editItem, img: e.target.value })}
                     placeholder="https://res.cloudinary.com/..."
-                    className={styles.input}
-                    style={{ flex: 1 }}
+                    className="flex-1 p-2.5 bg-white border-2 border-black text-sm font-semibold outline-none"
                   />
                   <input
                     type="file"
                     ref={fileInputRef}
                     onChange={handleImageUpload}
                     accept="image/*"
-                    style={{ display: 'none' }}
+                    className="hidden"
                     id="img-upload-input"
                   />
                   <label
                     htmlFor="img-upload-input"
-                    className={styles.btnSecondary}
-                    style={{ whiteSpace: 'nowrap' }}>
+                    className="px-4 py-2.5 bg-white border-2 border-black text-black font-extrabold text-xs uppercase cursor-pointer hover:bg-black hover:text-[#e7e2d0] transition-colors whitespace-nowrap text-center shadow-[2px_2px_0px_#000000]">
                     {uploading ? '업로드 중...' : '📁 파일 업로드'}
                   </label>
                 </div>
                 {editItem.img && (
-                  <div style={{ width: '160px', height: '100px', border: '2px solid #000', marginTop: '10px', overflow: 'hidden' }}>
+                  <div className="w-36 h-24 border-2 border-black mt-2 bg-white overflow-hidden p-1">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src={editItem.img} alt="preview" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                    <img src={editItem.img} alt="preview" className="w-full h-full object-contain" />
                   </div>
                 )}
               </div>
 
               {/* Link */}
-              <div className={styles.formGroup} style={{ margin: 0 }}>
-                <label className={styles.label}>배포 / 깃허브 링크 (Link URL)</label>
+              <div className="flex flex-col gap-1">
+                <label className="text-xs font-black uppercase">배포 / 깃허브 링크 (Link URL)</label>
                 <input
                   type="text"
                   value={editItem.link}
                   onChange={(e) => setEditItem({ ...editItem, link: e.target.value })}
                   placeholder="https://github.com/... or https://..."
-                  className={styles.input}
+                  className="w-full p-2.5 bg-white border-2 border-black text-sm font-semibold outline-none"
                 />
               </div>
 
               {/* Descriptions */}
-              <div className={styles.grid2}>
-                <div className={styles.formGroup} style={{ margin: 0 }}>
-                  <label className={styles.label}>영문 설명 (EN Description)</label>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div className="flex flex-col gap-1">
+                  <label className="text-xs font-black uppercase">영문 설명 (EN Description)</label>
                   <textarea
                     rows={3}
                     value={editItem.description?.en || ''}
@@ -428,11 +419,11 @@ export default function WorksEditor() {
                       })
                     }
                     placeholder="This project is built with..."
-                    className={styles.textarea}
+                    className="w-full p-2.5 bg-white border-2 border-black text-sm font-semibold outline-none resize-y"
                   />
                 </div>
-                <div className={styles.formGroup} style={{ margin: 0 }}>
-                  <label className={styles.label}>국문 설명 (KR Description)</label>
+                <div className="flex flex-col gap-1">
+                  <label className="text-xs font-black uppercase">국문 설명 (KR Description)</label>
                   <textarea
                     rows={3}
                     value={editItem.description?.kr || ''}
@@ -443,50 +434,40 @@ export default function WorksEditor() {
                       })
                     }
                     placeholder="이 프로젝트는 사용자 경험 중심의..."
-                    className={styles.textarea}
+                    className="w-full p-2.5 bg-white border-2 border-black text-sm font-semibold outline-none resize-y"
                   />
                 </div>
               </div>
 
               {/* Stacks Tags */}
-              <div className={styles.formGroup} style={{ margin: 0 }}>
-                <label className={styles.label}>기술 태그 (Stacks)</label>
-                <div style={{ display: 'flex', gap: '10px' }}>
+              <div className="flex flex-col gap-1">
+                <label className="text-xs font-black uppercase">기술 태그 (Stacks)</label>
+                <div className="flex gap-2">
                   <input
                     type="text"
                     value={tagInput}
                     onChange={(e) => setTagInput(e.target.value)}
                     onKeyDown={handleAddTag}
-                    placeholder="태그 입력 후 Enter 또는 추가 클릭 (예: NEXT.JS, TAILWIND)"
-                    className={styles.input}
-                    style={{ flex: 1, textTransform: 'uppercase' }}
+                    placeholder="태그 입력 후 Enter (예: NEXT.JS, TAILWIND)"
+                    className="flex-1 p-2.5 bg-white border-2 border-black text-sm font-semibold uppercase outline-none"
                   />
                   <button
                     type="button"
                     onClick={handleAddTag}
-                    className={styles.btnPrimary}
-                    style={{ whiteSpace: 'nowrap' }}>
+                    className="px-4 py-2.5 bg-black text-[#e7e2d0] border-2 border-black font-extrabold text-xs uppercase cursor-pointer hover:bg-neutral-800 transition-colors whitespace-nowrap shadow-[2px_2px_0px_#000000]">
                     + 추가
                   </button>
                 </div>
-                <div
-                  style={{
-                    display: 'flex',
-                    flexWrap: 'wrap',
-                    gap: '8px',
-                    padding: '14px',
-                    backgroundColor: '#fff',
-                    border: '2px solid #000',
-                    marginTop: '8px',
-                    minHeight: '48px',
-                  }}>
+                <div className="flex flex-wrap gap-2 p-3 bg-white border-2 border-black mt-2 min-h-[48px]">
                   {editItem.stacks?.map((stack, sIdx) => (
-                    <span key={`admin-edit-stack-${stack}-${sIdx}`} className={styles.tagChip}>
+                    <span
+                      key={`admin-edit-stack-${stack}-${sIdx}`}
+                      className="inline-flex items-center gap-1.5 px-2.5 py-0.5 bg-[#e7e2d0] border border-black text-xs font-black uppercase">
                       <span>{stack}</span>
                       <button
                         type="button"
                         onClick={() => handleRemoveTag(stack)}
-                        className={styles.tagDeleteBtn}
+                        className="text-neutral-500 hover:text-red-600 font-black cursor-pointer leading-none"
                         title="제거">
                         &times;
                       </button>
@@ -497,20 +478,20 @@ export default function WorksEditor() {
             </div>
 
             {/* Modal Actions */}
-            <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '12px', marginTop: '16px', borderTop: '2px solid #000', paddingTop: '16px' }}>
+            <div className="flex justify-end gap-3 mt-3 border-t-2 border-black pt-3">
               <button
                 type="button"
                 onClick={() => {
                   setEditingIndex(null);
                   setEditItem(null);
                 }}
-                className={styles.btnSecondary}>
+                className="px-4 py-2 bg-white text-black border-2 border-black font-extrabold text-xs uppercase cursor-pointer hover:bg-neutral-200 transition-colors">
                 취소
               </button>
               <button
                 type="button"
                 onClick={handleSaveModal}
-                className={styles.btnPrimary}>
+                className="px-5 py-2 bg-black text-[#e7e2d0] border-2 border-black font-extrabold text-xs uppercase cursor-pointer hover:bg-neutral-800 transition-colors shadow-[2px_2px_0px_#000000]">
                 목록에 반영 ➔
               </button>
             </div>

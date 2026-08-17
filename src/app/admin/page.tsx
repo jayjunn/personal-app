@@ -4,7 +4,6 @@ import React, { useState } from 'react';
 import { useAuth } from '@/context/authContext';
 import Link from 'next/link';
 import PageWrap from '@/components/common/PageWrap';
-import styles from '@/app/styles/Admin.module.css';
 import ProfileEditor from '@/components/admin/ProfileEditor';
 import ExperienceEditor from '@/components/admin/ExperienceEditor';
 import WorksEditor from '@/components/admin/WorksEditor';
@@ -84,18 +83,20 @@ export default function AdminDashboardPage() {
   if (!user) {
     return (
       <PageWrap title="ADMIN CONSOLE" moreLink="/" moreText="← BACK TO HOME">
-        <div className={styles.loginContainer}>
-          <div className={styles.loginCard}>
-            <div className={styles.loginHeader}>
-              <span className={styles.adminBadge}>ADMIN ACCESS</span>
-              <h1 className={styles.headerTitle}>관리자 로그인</h1>
-              <p className={styles.headerSubtitle}>
+        <div className="py-10 flex justify-center items-center w-full">
+          <div className="w-full max-w-[480px] bg-white border-[3px] border-black p-6 sm:p-8 shadow-[6px_6px_0px_#000000] flex flex-col gap-5">
+            <div className="text-center flex flex-col items-center gap-2">
+              <span className="px-3 py-1 bg-black text-[#e7e2d0] font-mono font-bold text-xs">
+                ADMIN ACCESS
+              </span>
+              <h1 className="text-2xl font-black uppercase tracking-tight m-0">관리자 로그인</h1>
+              <p className="text-xs text-neutral-600 font-semibold m-0">
                 포트폴리오 콘텐츠 및 이력서 수정을 위해 로그인해주세요.
               </p>
             </div>
 
             {loginError && (
-              <div style={{ padding: '14px', backgroundColor: '#fee2e2', border: '2px solid #000', color: '#991b1b', fontSize: '13px', fontWeight: 700 }}>
+              <div className="p-3.5 bg-rose-100 border-2 border-black text-rose-900 text-xs font-bold">
                 ⚠️ {loginError}
               </div>
             )}
@@ -104,8 +105,8 @@ export default function AdminDashboardPage() {
               type="button"
               onClick={handleGoogleLoginDirect}
               disabled={loggingIn}
-              className={styles.googleBtn}>
-              <svg style={{ width: '20px', height: '20px' }} viewBox="0 0 24 24">
+              className="w-full p-4 bg-white border-[2.5px] border-black text-black font-extrabold text-sm uppercase flex items-center justify-between shadow-[3px_3px_0px_#000000] hover:bg-neutral-100 transition-colors cursor-pointer disabled:opacity-50">
+              <svg className="w-5 h-5" viewBox="0 0 24 24">
                 <path
                   fill="#4285F4"
                   d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
@@ -127,10 +128,10 @@ export default function AdminDashboardPage() {
               <span>➔</span>
             </button>
 
-            <div style={{ textAlign: 'center', marginTop: '10px' }}>
+            <div className="text-center mt-2">
               <Link
                 href="/admin/login"
-                style={{ fontSize: '13px', fontWeight: 700, textDecoration: 'underline' }}>
+                className="text-xs font-bold text-neutral-800 underline hover:text-black">
                 이메일 / 비밀번호로 로그인하기 ➔
               </Link>
             </div>
@@ -143,44 +144,48 @@ export default function AdminDashboardPage() {
   // Authenticated Dashboard View
   return (
     <PageWrap title="ADMIN CONSOLE">
-      <div className={styles.adminContainer}>
+      <div className="mt-6 flex flex-col gap-6 w-full">
         {/* Top Header Card */}
-        <div className={styles.headerBanner}>
-          <div className={styles.headerLeft}>
-            <div className={styles.badgeRow}>
-              <span className={styles.adminBadge}>ADMIN CONTROL PANEL</span>
-              <span className={styles.userBadge}>
-                <span className={styles.liveDot}></span>
+        <div className="border-[3px] border-black bg-white p-5 sm:p-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 shadow-[4px_4px_0px_#000000]">
+          <div className="flex flex-col gap-1.5">
+            <div className="flex items-center gap-2 flex-wrap">
+              <span className="px-2.5 py-0.5 bg-black text-[#e7e2d0] font-mono font-black text-xs uppercase">
+                ADMIN CONTROL PANEL
+              </span>
+              <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 bg-emerald-100 border border-black text-emerald-900 font-mono font-bold text-xs">
+                <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
                 {user.email || user.displayName || 'ADMIN'}
               </span>
             </div>
-            <h1 className={styles.headerTitle}>포트폴리오 콘텐츠 관리 시스템</h1>
-            <p className={styles.headerSubtitle}>
+            <h1 className="text-xl sm:text-2xl font-black uppercase tracking-tight m-0">
+              포트폴리오 콘텐츠 관리 시스템
+            </h1>
+            <p className="text-xs sm:text-sm text-neutral-600 font-semibold m-0">
               수정한 내용은 저장 즉시 포트폴리오 웹사이트에 반영됩니다.
             </p>
           </div>
 
-          <div className={styles.headerActions}>
+          <div className="flex flex-wrap gap-2.5 w-full md:w-auto">
             <button
               type="button"
               disabled={seeding}
               onClick={handleSeedData}
               title="기본 데이터를 Firestore에 한 번에 등록합니다."
-              className={styles.btnInfo}>
+              className="px-3.5 py-2 bg-blue-600 text-white border-2 border-black font-extrabold text-xs uppercase cursor-pointer hover:bg-blue-700 transition-colors shadow-[2px_2px_0px_#000000] disabled:opacity-50">
               {seeding ? '주입 중...' : '⚡ 초기 데이터 동기화 (Seed)'}
             </button>
             <Link
               href="/"
               target="_blank"
-              className={styles.btnSecondary}>
+              className="px-3.5 py-2 bg-white text-black border-2 border-black font-extrabold text-xs uppercase cursor-pointer hover:bg-neutral-100 transition-colors shadow-[2px_2px_0px_#000000] no-underline">
               🌐 웹사이트 보기 ↗
             </Link>
             <button
               type="button"
               onClick={handleLogout}
-              className={styles.btnDanger}
+              className="inline-flex items-center gap-1.5 px-3.5 py-2 bg-rose-600 text-white border-2 border-black font-extrabold text-xs uppercase cursor-pointer hover:bg-rose-700 transition-colors shadow-[2px_2px_0px_#000000]"
               title="관리자 세션을 종료하고 로그아웃합니다.">
-              <svg style={{ width: '16px', height: '16px' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
               </svg>
               <span>로그아웃</span>
@@ -189,19 +194,23 @@ export default function AdminDashboardPage() {
         </div>
 
         {seedNotice && (
-          <div className={styles.noticeBanner}>
+          <div className="p-4 bg-emerald-100 border-2 border-black text-emerald-900 font-bold text-xs sm:text-sm flex items-center gap-2">
             <span>✅</span>
             <span>{seedNotice}</span>
           </div>
         )}
 
         {/* Tabs Navigation Bar */}
-        <div>
-          <div className={styles.tabsNav}>
+        <div className="flex flex-col gap-0 w-full">
+          <div className="flex border-b-[3px] border-black flex-wrap bg-[#ded8c4]">
             <button
               type="button"
               onClick={() => setActiveTab('profile')}
-              className={`${styles.tabBtn} ${activeTab === 'profile' ? styles.tabBtnActive : ''}`}>
+              className={`px-4 sm:px-6 py-3 font-black text-xs sm:text-sm uppercase flex items-center gap-2 border-r-2 border-black cursor-pointer transition-colors ${
+                activeTab === 'profile'
+                  ? 'bg-black text-[#e7e2d0]'
+                  : 'bg-transparent text-black hover:bg-black/10'
+              }`}>
               <span>👤</span>
               <span>Profile (프로필)</span>
             </button>
@@ -209,7 +218,11 @@ export default function AdminDashboardPage() {
             <button
               type="button"
               onClick={() => setActiveTab('experience')}
-              className={`${styles.tabBtn} ${activeTab === 'experience' ? styles.tabBtnActive : ''}`}>
+              className={`px-4 sm:px-6 py-3 font-black text-xs sm:text-sm uppercase flex items-center gap-2 border-r-2 border-black cursor-pointer transition-colors ${
+                activeTab === 'experience'
+                  ? 'bg-black text-[#e7e2d0]'
+                  : 'bg-transparent text-black hover:bg-black/10'
+              }`}>
               <span>💼</span>
               <span>Experience (경력)</span>
             </button>
@@ -217,7 +230,11 @@ export default function AdminDashboardPage() {
             <button
               type="button"
               onClick={() => setActiveTab('works')}
-              className={`${styles.tabBtn} ${activeTab === 'works' ? styles.tabBtnActive : ''}`}>
+              className={`px-4 sm:px-6 py-3 font-black text-xs sm:text-sm uppercase flex items-center gap-2 border-r-2 border-black cursor-pointer transition-colors ${
+                activeTab === 'works'
+                  ? 'bg-black text-[#e7e2d0]'
+                  : 'bg-transparent text-black hover:bg-black/10'
+              }`}>
               <span>🚀</span>
               <span>Works (프로젝트)</span>
             </button>
@@ -225,14 +242,18 @@ export default function AdminDashboardPage() {
             <button
               type="button"
               onClick={() => setActiveTab('cv')}
-              className={`${styles.tabBtn} ${activeTab === 'cv' ? styles.tabBtnActive : ''}`}>
+              className={`px-4 sm:px-6 py-3 font-black text-xs sm:text-sm uppercase flex items-center gap-2 cursor-pointer transition-colors ${
+                activeTab === 'cv'
+                  ? 'bg-black text-[#e7e2d0]'
+                  : 'bg-transparent text-black hover:bg-black/10'
+              }`}>
               <span>📄</span>
               <span>CV / Resume 설정</span>
             </button>
           </div>
 
           {/* Tab Content Box */}
-          <div className={styles.tabContentBox}>
+          <div className="border-[3px] border-t-0 border-black bg-[#e7e2d0] p-4 sm:p-6 shadow-[4px_4px_0px_#000000]">
             {activeTab === 'profile' && <ProfileEditor />}
             {activeTab === 'experience' && <ExperienceEditor />}
             {activeTab === 'works' && <WorksEditor />}

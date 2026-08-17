@@ -1,6 +1,5 @@
 import type { Metadata } from 'next';
 import './styles/globals.css';
-import styles from './styles/app.module.css';
 import { UserContextProvider } from '../context/userContext';
 import { AuthContextProvider } from '../context/authContext';
 import ReactQueryProvider from '../context/queryProvider';
@@ -17,7 +16,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en">
       <body>
-        <main className={`${styles.contents} min-h-screen flex flex-col justify-between`}>
+        <main className="w-full max-w-[1400px] mx-auto min-h-screen flex flex-col justify-between bg-[#e7e2d0]">
           <ReactQueryProvider>
             <UserContextProvider>
               <AuthContextProvider>

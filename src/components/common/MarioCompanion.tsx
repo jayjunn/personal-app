@@ -14,13 +14,15 @@ interface Particle {
 export default function MarioCompanion() {
   const { isEnglish } = useUserContext();
   const [pos, setPos] = useState({ x: 120, y: 300 });
-  const [direction, setDirection] = useState<1 | -1>(1); // 1: right, -1: left
+  const [direction, setDirection] = useState<1 | -1>(1);
   const [isJumping, setIsJumping] = useState(false);
   const [isChasing, setIsChasing] = useState(false);
   const [actionText, setActionText] = useState<string | null>(null);
   const [particles, setParticles] = useState<Particle[]>([]);
   const [score, setScore] = useState(0);
   const [isActive, setIsActive] = useState(true);
+
+  const containerRef = useRef<HTMLDivElement>(null);
 
   const targetRef = useRef<{ x: number; y: number }>({ x: 120, y: 300 });
   const posRef = useRef<{ x: number; y: number; vx: number; vy: number }>({
@@ -49,29 +51,53 @@ export default function MarioCompanion() {
     }, 1200);
   };
 
-  // Track Mouse Movement for Chasing
+  // Track Mouse & Mobile Touch Movement for Chasing
   useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      // Calculate distance to mouse
-      const dx = e.clientX - posRef.current.x;
-      const dy = e.clientY - posRef.current.y;
-      const dist = Math.hypot(dx, dy);
+    const handlePointerMove = (e: PointerEvent) => {
+      // 마우스일 때만 호버 거리(320) 체크로 따라가기 유발
+      if (e.pointerType === 'mouse') {
+        const dx = e.clientX - posRef.current.x;
+        const dy = e.clientY - posRef.current.y;
+        const dist = Math.hypot(dx, dy);
 
-      // If mouse is within 280px or moves quickly, switch to chasing mode
-      if (dist < 320) {
-        stateRef.current = 'CHASING';
-        targetRef.current = { x: e.clientX, y: e.clientY };
-        setIsChasing(true);
-      } else {
-        if (stateRef.current === 'CHASING' && dist > 450) {
+        if (dist < 320) {
+          stateRef.current = 'CHASING';
+          targetRef.current = { x: e.clientX, y: e.clientY };
+          setIsChasing(true);
+        } else if (stateRef.current === 'CHASING' && dist > 450) {
           stateRef.current = 'ROAMING';
           setIsChasing(false);
         }
       }
     };
 
-    window.addEventListener('mousemove', handleMouseMove);
-    return () => window.removeEventListener('mousemove', handleMouseMove);
+    const handlePointerDown = (e: PointerEvent) => {
+      // 터치 또는 클릭 시 그 위치로 무조건 달려오게 함
+      stateRef.current = 'CHASING';
+      targetRef.current = { x: e.clientX, y: e.clientY };
+      setIsChasing(true);
+    };
+
+    const handlePointerUp = () => {
+      setTimeout(() => {
+        if (stateRef.current === 'CHASING') {
+          stateRef.current = 'ROAMING';
+          setIsChasing(false);
+        }
+      }, 3000);
+    };
+
+    window.addEventListener('pointermove', handlePointerMove, { passive: true });
+    window.addEventListener('pointerdown', handlePointerDown, { passive: true });
+    window.addEventListener('pointerup', handlePointerUp, { passive: true });
+    window.addEventListener('pointercancel', handlePointerUp, { passive: true });
+
+    return () => {
+      window.removeEventListener('pointermove', handlePointerMove);
+      window.removeEventListener('pointerdown', handlePointerDown);
+      window.removeEventListener('pointerup', handlePointerUp);
+      window.removeEventListener('pointercancel', handlePointerUp);
+    };
   }, []);
 
   // Main 60FPS Physics & Animation Loop
@@ -83,11 +109,10 @@ export default function MarioCompanion() {
     const loop = () => {
       frameCountRef.current++;
       const cur = posRef.current;
-      const maxX = typeof window !== 'undefined' ? window.innerWidth - 60 : 1000;
+      const maxX = typeof window !== 'undefined' ? window.innerWidth - 65 : 1000;
       const maxY = typeof window !== 'undefined' ? window.innerHeight - 70 : 800;
 
       if (stateRef.current === 'CHASING') {
-        // Run towards mouse target
         const dx = targetRef.current.x - cur.x;
         const dy = targetRef.current.y - cur.y;
         const dist = Math.hypot(dx, dy);
@@ -98,32 +123,26 @@ export default function MarioCompanion() {
           cur.vy = (dy / dist) * speed;
           setDirection(dx >= 0 ? 1 : -1);
 
-          // Bouncing hop while running
           if (frameCountRef.current % 14 === 0) {
             setIsJumping(true);
             setTimeout(() => setIsJumping(false), 240);
           }
         } else {
-          // Reached mouse!
           cur.vx = 0;
           cur.vy = 0;
         }
       } else {
-        // ROAMING MODE: Bounce and wander around the screen
         if (frameCountRef.current % 180 === 0) {
-          // Randomly change wander speed/direction
           cur.vx = (Math.random() * 3 + 1.2) * (Math.random() > 0.5 ? 1 : -1);
-          cur.vy = (Math.random() * 2 - 1);
+          cur.vy = Math.random() * 2 - 1;
           setDirection(cur.vx >= 0 ? 1 : -1);
         }
 
-        // Periodic jumping bounce
         if (frameCountRef.current % 60 === 0) {
           setIsJumping(true);
           setTimeout(() => setIsJumping(false), 320);
         }
 
-        // Screen boundary collision bounce
         if (cur.x <= 20) {
           cur.x = 20;
           cur.vx = Math.abs(cur.vx) || 2;
@@ -146,11 +165,12 @@ export default function MarioCompanion() {
       cur.x += cur.vx;
       cur.y += cur.vy;
 
-      // Keep inside bounds
       cur.x = Math.max(10, Math.min(maxX, cur.x));
       cur.y = Math.max(50, Math.min(maxY, cur.y));
 
-      setPos({ x: cur.x, y: cur.y });
+      if (containerRef.current) {
+        containerRef.current.style.transform = `translate3d(${cur.x}px, ${cur.y}px, 0)`;
+      }
 
       animId = requestAnimationFrame(loop);
     };
@@ -159,7 +179,6 @@ export default function MarioCompanion() {
     return () => cancelAnimationFrame(animId);
   }, [isActive]);
 
-  // Click interaction: Mario High Jump & Coin Pop!
   const handleClick = (e: React.MouseEvent | React.TouchEvent) => {
     e.stopPropagation();
     stateRef.current = 'CLICKED';
@@ -172,9 +191,8 @@ export default function MarioCompanion() {
 
     const randomCheer = cheers[Math.floor(Math.random() * cheers.length)];
     showSpeech(randomCheer);
-    spawnParticle(pos.x + 15, pos.y - 30, '🪙 +100');
+    spawnParticle(posRef.current.x + 15, posRef.current.y - 30, '🪙 +100');
 
-    // High jump physics boost
     posRef.current.vy = -8;
     setTimeout(() => {
       setIsJumping(false);
@@ -195,21 +213,7 @@ export default function MarioCompanion() {
       <button
         type="button"
         onClick={() => setIsActive(true)}
-        style={{
-          position: 'fixed',
-          bottom: '24px',
-          right: '24px',
-          zIndex: 9990,
-          backgroundColor: '#000000',
-          color: '#e7e2d0',
-          border: '2px solid #000000',
-          padding: '8px 14px',
-          fontFamily: 'monospace',
-          fontSize: '12px',
-          fontWeight: 800,
-          boxShadow: '3px 3px 0px #000000',
-          cursor: 'pointer',
-        }}>
+        className="fixed bottom-6 right-6 z-[9990] bg-black text-[#e7e2d0] border-2 border-black px-3.5 py-2 font-mono text-xs font-extrabold shadow-[3px_3px_0px_#000000] cursor-pointer hover:bg-neutral-800 transition-colors">
         🎮 소환하기 (Mario ON)
       </button>
     );
@@ -218,36 +222,12 @@ export default function MarioCompanion() {
   return (
     <>
       {/* Floating Score Badge / Controls */}
-      <div
-        style={{
-          position: 'fixed',
-          bottom: '16px',
-          right: '16px',
-          zIndex: 9990,
-          display: 'flex',
-          alignItems: 'center',
-          gap: '8px',
-          backgroundColor: '#e7e2d0',
-          border: '2px solid #000000',
-          padding: '4px 10px',
-          boxShadow: '2px 2px 0px #000000',
-          fontFamily: 'monospace',
-          fontSize: '11px',
-          fontWeight: 800,
-        }}>
+      <div className="fixed bottom-4 right-4 z-[9990] flex items-center gap-2 bg-[#e7e2d0] border-2 border-black px-2.5 py-1 shadow-[2px_2px_0px_#000000] font-mono text-xs font-extrabold">
         <span>🪙 {score} PTS</span>
         <button
           type="button"
           onClick={() => setIsActive(false)}
-          style={{
-            marginLeft: '4px',
-            background: 'none',
-            border: 'none',
-            color: '#666',
-            cursor: 'pointer',
-            fontSize: '10px',
-            textDecoration: 'underline',
-          }}
+          className="ml-1 text-neutral-600 cursor-pointer text-[11px] underline hover:text-black"
           title="캐릭터 숨기기">
           [숨기기]
         </button>
@@ -262,16 +242,7 @@ export default function MarioCompanion() {
             animate={{ opacity: 0, y: p.y - 65, scale: 1.3 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.9, ease: 'easeOut' }}
-            style={{
-              position: 'fixed',
-              pointerEvents: 'none',
-              zIndex: 9999,
-              fontWeight: 900,
-              fontSize: '15px',
-              fontFamily: 'monospace',
-              color: '#d97706',
-              textShadow: '2px 2px 0px #000000',
-            }}>
+            className="fixed pointer-events-none z-[9999] font-black text-amber-600 font-mono text-base drop-shadow-[2px_2px_0px_#000000]">
             {p.text}
           </motion.div>
         ))}
@@ -279,20 +250,12 @@ export default function MarioCompanion() {
 
       {/* Mario Pixel Character Container */}
       <div
+        ref={containerRef}
+        className="fixed left-0 top-0 z-[9995] cursor-pointer select-none pointer-events-auto touch-manipulation"
         style={{
-          position: 'fixed',
-          left: 0,
-          top: 0,
-          transform: `translate3d(${pos.x}px, ${pos.y}px, 0)`,
-          zIndex: 9995,
-          cursor: 'pointer',
-          userSelect: 'none',
-          pointerEvents: 'auto',
-          touchAction: 'manipulation',
-          transition: 'transform 0.05s linear',
+          transform: `translate3d(120px, 300px, 0)`,
         }}
         onClick={handleClick}
-        onTouchStart={handleClick}
         onMouseEnter={handleMouseEnter}>
         {/* Speech Bubble */}
         <AnimatePresence>
@@ -302,36 +265,9 @@ export default function MarioCompanion() {
               animate={{ opacity: 1, scale: 1, y: -48 }}
               exit={{ opacity: 0, scale: 0.6, y: -20 }}
               transition={{ type: 'spring', stiffness: 400, damping: 25 }}
-              style={{
-                position: 'absolute',
-                top: 0,
-                left: '50%',
-                transform: 'translateX(-50%)',
-                backgroundColor: '#ffffff',
-                border: '2px solid #000000',
-                boxShadow: '3px 3px 0px #000000',
-                padding: '5px 10px',
-                fontSize: '12px',
-                fontWeight: 900,
-                whiteSpace: 'nowrap',
-                fontFamily: 'monospace',
-                color: '#000000',
-                zIndex: 10,
-              }}>
+              className="absolute top-0 left-1/2 -translate-x-1/2 bg-white border-2 border-black shadow-[3px_3px_0px_#000000] px-2.5 py-1 text-xs font-black whitespace-nowrap font-mono text-black z-10">
               {actionText}
-              <div
-                style={{
-                  position: 'absolute',
-                  bottom: '-6px',
-                  left: '50%',
-                  transform: 'translateX(-50%)',
-                  width: 0,
-                  height: 0,
-                  borderLeft: '5px solid transparent',
-                  borderRight: '5px solid transparent',
-                  borderTop: '6px solid #000000',
-                }}
-              />
+              <div className="absolute -bottom-1.5 left-1/2 -translate-x-1/2 w-0 h-0 border-l-[5px] border-l-transparent border-r-[5px] border-r-transparent border-t-[6px] border-t-black" />
             </motion.div>
           )}
         </AnimatePresence>
@@ -348,20 +284,13 @@ export default function MarioCompanion() {
               ? { duration: 0.28, ease: 'easeOut' }
               : { repeat: Infinity, duration: isChasing ? 0.25 : 0.6, ease: 'easeInOut' },
           }}
-          style={{
-            width: '52px',
-            height: '52px',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            filter: 'drop-shadow(3px 3px 0px rgba(0, 0, 0, 0.7))',
-          }}>
+          className="w-[52px] h-[52px] flex items-center justify-center drop-shadow-[3px_3px_0px_rgba(0,0,0,0.7)]">
           {/* Authentic 8-bit SVG Pixel Mario */}
           <svg
             viewBox="0 0 16 16"
             width="52"
             height="52"
-            style={{ imageRendering: 'pixelated', shapeRendering: 'crispEdges' }}>
+            className="[image-rendering:pixelated] [shape-rendering:crispEdges]">
             {/* Red Cap */}
             <rect x="3" y="1" width="5" height="1" fill="#e11d48" />
             <rect x="2" y="2" width="9" height="1" fill="#e11d48" />
@@ -424,7 +353,6 @@ export default function MarioCompanion() {
 
             {/* Brown Shoes */}
             {isJumping ? (
-              // Jump Pose Shoes
               <>
                 <rect x="1" y="14" width="3" height="1" fill="#6d4c41" />
                 <rect x="8" y="14" width="3" height="1" fill="#6d4c41" />
@@ -432,7 +360,6 @@ export default function MarioCompanion() {
                 <rect x="8" y="15" width="4" height="1" fill="#6d4c41" />
               </>
             ) : (
-              // Walk / Stand Pose Shoes
               <>
                 <rect x="1" y="14" width="3" height="1" fill="#6d4c41" />
                 <rect x="8" y="14" width="3" height="1" fill="#6d4c41" />

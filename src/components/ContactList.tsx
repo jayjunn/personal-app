@@ -1,40 +1,39 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
-import styles from '../app/styles/Header.module.css';
 import linkedin from '../../public/image/linkedin.svg';
 import github from '../../public/image/github.svg';
 import envelope from '../../public/image/envelope.svg';
 
 export default function ContactList() {
   return (
-    <section className={styles.second__header}>
-      <div className={styles.contact}>
-        <span className={styles.find__me}>FIND ME</span>
+    <section className="w-full flex items-center justify-between px-4 sm:px-8 py-5 border-b-[3px] border-black flex-wrap gap-3 box-border">
+      <div className="flex items-center">
+        <span className="text-base sm:text-lg font-black uppercase tracking-tight">FIND ME</span>
       </div>
-      <div className={styles.find__arrows}>
-        <span> {`>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>`}</span>
+      <div className="hidden md:inline font-mono font-black tracking-widest text-neutral-800">
+        <span>{`>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>`}</span>
       </div>
-      <ul className={styles.socials}>
-        <li className={styles.social}>
-          <Link href="https://github.com/jayjunn" target="_blank">
+      <ul className="flex items-center gap-4 sm:gap-5 list-none m-0 p-0">
+        <li className="hover:scale-110 transition-transform">
+          <Link href="https://github.com/jayjunn" target="_blank" aria-label="GitHub">
             <Image
-              className={styles.social}
               src={github}
               alt="github"
-              width="40"
-              height="40"
+              width={36}
+              height={36}
+              className="w-9 h-9"
             />
           </Link>
         </li>
-        <li className={styles.social}>
-          <Link href="https://www.linkedin.com/in/younggeun" target="_blank">
-            <Image className={styles.social} src={linkedin} alt="linkedin" width="40" height="40" />
+        <li className="hover:scale-110 transition-transform">
+          <Link href="https://www.linkedin.com/in/younggeun" target="_blank" aria-label="LinkedIn">
+            <Image src={linkedin} alt="linkedin" width={36} height={36} className="w-9 h-9" />
           </Link>
         </li>
-        <li className={styles.email}>
-          <Link href="mailto:jayjunn@outlook.com">
-            <Image className={styles.social} src={envelope} alt="email" width="40" height="40" />
+        <li className="hover:scale-110 transition-transform">
+          <Link href="mailto:jayjunn@outlook.com" aria-label="Email">
+            <Image src={envelope} alt="email" width={36} height={36} className="w-9 h-9" />
           </Link>
         </li>
       </ul>

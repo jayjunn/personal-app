@@ -3,9 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '@/context/authContext';
 import { useRouter } from 'next/navigation';
-import Link from 'next/link';
 import PageWrap from '@/components/common/PageWrap';
-import styles from '@/app/styles/Admin.module.css';
 
 export default function AdminLoginPage() {
   const { user, loading, loginWithEmail, loginWithGoogle } = useAuth();
@@ -77,18 +75,20 @@ export default function AdminLoginPage() {
 
   return (
     <PageWrap title="ADMIN LOGIN" moreLink="/" moreText="← BACK TO HOME">
-      <div className={styles.loginContainer}>
-        <div className={styles.loginCard}>
-          <div className={styles.loginHeader}>
-            <span className={styles.adminBadge}>ADMIN CONTROL ACCESS</span>
-            <h1 className={styles.headerTitle}>관리자 로그인</h1>
-            <p className={styles.headerSubtitle}>
+      <div className="py-10 flex justify-center items-center w-full">
+        <div className="w-full max-w-[480px] bg-white border-[3px] border-black p-6 sm:p-8 shadow-[6px_6px_0px_#000000] flex flex-col gap-5">
+          <div className="text-center flex flex-col items-center gap-2">
+            <span className="px-3 py-1 bg-black text-[#e7e2d0] font-mono font-bold text-xs">
+              ADMIN CONTROL ACCESS
+            </span>
+            <h1 className="text-2xl font-black uppercase tracking-tight m-0">관리자 로그인</h1>
+            <p className="text-xs text-neutral-600 font-semibold m-0">
               포트폴리오 콘텐츠 및 이력서 수정을 위해 로그인해주세요.
             </p>
           </div>
 
           {errorMsg && (
-            <div style={{ padding: '14px', backgroundColor: '#fee2e2', border: '2px solid #000', color: '#991b1b', fontSize: '13px', fontWeight: 700 }}>
+            <div className="p-3.5 bg-rose-100 border-2 border-black text-rose-900 text-xs font-bold">
               ⚠️ {errorMsg}
             </div>
           )}
@@ -97,8 +97,8 @@ export default function AdminLoginPage() {
             type="button"
             onClick={handleGoogleLogin}
             disabled={googleLoading || submitting}
-            className={styles.googleBtn}>
-            <svg style={{ width: '20px', height: '20px' }} viewBox="0 0 24 24">
+            className="w-full p-4 bg-white border-[2.5px] border-black text-black font-extrabold text-sm uppercase flex items-center justify-between shadow-[3px_3px_0px_#000000] hover:bg-neutral-100 transition-colors cursor-pointer disabled:opacity-50">
+            <svg className="w-5 h-5" viewBox="0 0 24 24">
               <path
                 fill="#4285F4"
                 d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
@@ -120,44 +120,43 @@ export default function AdminLoginPage() {
             <span>➔</span>
           </button>
 
-          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-            <div style={{ flex: 1, borderTop: '2px solid rgba(0,0,0,0.3)' }}></div>
-            <span style={{ fontSize: '12px', fontWeight: 700, textTransform: 'uppercase', color: '#555' }}>
+          <div className="flex items-center gap-2.5 my-1">
+            <div className="flex-1 border-t-2 border-black/20" />
+            <span className="text-xs font-bold uppercase text-neutral-500">
               또는 이메일 로그인
             </span>
-            <div style={{ flex: 1, borderTop: '2px solid rgba(0,0,0,0.3)' }}></div>
+            <div className="flex-1 border-t-2 border-black/20" />
           </div>
 
-          <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-            <div className={styles.formGroup} style={{ margin: 0 }}>
-              <label className={styles.label}>이메일 주소 (Email)</label>
+          <form onSubmit={handleSubmit} className="flex flex-col gap-3.5">
+            <div className="flex flex-col gap-1">
+              <label className="text-xs font-black uppercase">이메일 주소 (Email)</label>
               <input
                 type="email"
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="admin@example.com"
-                className={styles.input}
+                className="w-full p-3 bg-[#fbf9f4] border-2 border-black text-sm font-semibold outline-none focus:bg-white"
               />
             </div>
 
-            <div className={styles.formGroup} style={{ margin: 0 }}>
-              <label className={styles.label}>비밀번호 (Password)</label>
+            <div className="flex flex-col gap-1">
+              <label className="text-xs font-black uppercase">비밀번호 (Password)</label>
               <input
                 type="password"
                 required
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="••••••••"
-                className={styles.input}
+                className="w-full p-3 bg-[#fbf9f4] border-2 border-black text-sm font-semibold outline-none focus:bg-white"
               />
             </div>
 
             <button
               type="submit"
               disabled={submitting || googleLoading}
-              className={styles.btnPrimary}
-              style={{ width: '100%', padding: '14px', marginTop: '6px' }}>
+              className="w-full py-3.5 mt-2 bg-black text-[#e7e2d0] border-2 border-black font-black text-sm uppercase cursor-pointer hover:bg-neutral-800 transition-colors shadow-[3px_3px_0px_#000000] disabled:opacity-50">
               {submitting ? '로그인 처리 중...' : '이메일로 로그인 ➔'}
             </button>
           </form>

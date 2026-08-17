@@ -32,7 +32,7 @@ export default async function HomePage() {
       </div>
 
       {/* 4. Contact Strip (FIND ME) */}
-      <div style={{ borderTop: 'none' }}>
+      <div className="border-t-0">
         <ContactList />
       </div>
 

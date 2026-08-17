@@ -1,7 +1,6 @@
 'use client';
 
 import React from 'react';
-import styles from '../app/styles/Profile.module.css';
 import anglesRight from '../../public/image/anglesRight.svg';
 import Image from 'next/image';
 import { useUserContext } from '../context/userContext';
@@ -39,42 +38,61 @@ const Profile = ({ initialProfile }: ProfileProps) => {
   const skills = profile.skills && profile.skills.length > 0 ? profile.skills : defaultSkills;
 
   return (
-    <section className={styles.container}>
+    <section className="w-full flex flex-col md:flex-row items-stretch border-b-[3px] border-black box-border">
+      {/* Left Column: Headline & About */}
       <motion.div
-        className={styles.left__row}
+        className="flex-1 py-5 flex flex-col border-b-[3px] md:border-b-0 md:border-r-[3px] border-black group"
         initial={{ opacity: 0, x: -20 }}
         animate={{ opacity: 1, x: 0 }}
         transition={{ duration: 0.5, ease: 'easeOut' }}>
-        <p className={styles.about__headLine}>{profile.headLine}</p>
-        <div className={styles.about__container}>
-          <div className={styles.about__title}>
-            <div className={styles.about__arrow}>
-              <Image className={styles.about__arrow} src={anglesRight} alt="icon" width="30" height="30" />
-            </div>
-            <span className={styles.about__span}>ABOUT</span>
+        <p className="p-5 sm:p-7 md:p-8 uppercase text-lg sm:text-xl font-bold leading-snug m-0 text-black">
+          {profile.headLine}
+        </p>
+        <div className="border-t-[3px] border-black flex-grow flex flex-col">
+          <div className="border-b-[3px] border-black px-5 sm:px-8 py-4 sm:py-6 flex items-center gap-2.5">
+            <Image
+              className="w-6 h-6 transition-transform duration-300 group-hover:rotate-90"
+              src={anglesRight}
+              alt="icon"
+              width={30}
+              height={30}
+            />
+            <span className="font-extrabold tracking-tight text-lg uppercase">ABOUT</span>
           </div>
-          <div className={styles.about__p}>{profile.about}</div>
+          <div className="text-sm sm:text-base leading-relaxed font-medium p-5 sm:p-8 text-neutral-900">
+            {profile.about}
+          </div>
         </div>
       </motion.div>
 
+      {/* Right Column: Skills & Scroll Arrow */}
       <motion.div
-        className={styles.right__row}
+        className="flex-1 py-5 flex flex-col justify-between"
         initial={{ opacity: 0, x: 20 }}
         animate={{ opacity: 1, x: 0 }}
         transition={{ duration: 0.5, ease: 'easeOut', delay: 0.1 }}>
-        <div className={styles.skills__container}>
-          <div className={styles.skill__first}>
-            <div className={styles.skills__header}>
-              <Image className={styles.icon} src={anglesRight} alt="icon" width="20" height="20" />
-              <h3 className="font-bold text-lg">{isEnglish ? 'SKILLS' : '기술 스택'}</h3>
+        <div className="group">
+          <div className="px-4 sm:px-8">
+            <div className="bg-black text-[#e7e2d0] flex items-center h-14 sm:h-16 gap-3 px-4 sm:px-6">
+              <Image
+                className="w-5 h-5 invert-[93%] sepia-[8%] saturate-[339%] hue-rotate-[10deg] brightness-[98%] contrast-[90%] transition-transform duration-300 group-hover:rotate-90"
+                src={anglesRight}
+                alt="icon"
+                width={20}
+                height={20}
+              />
+              <h3 className="font-extrabold text-base sm:text-lg uppercase tracking-tight text-[#e7e2d0] m-0">
+                {isEnglish ? 'SKILLS' : '기술 스택'}
+              </h3>
             </div>
           </div>
-          <div className={styles.skills__content}>
-            <div className={styles.skills__p}>
+
+          <div className="px-4 sm:px-8 border-b-[3px] border-black">
+            <div className="py-5 sm:py-7 flex flex-wrap gap-2 sm:gap-3">
               {skills.map((skill, index) => (
                 <motion.span
                   key={`profile-skill-${skill}-${index}`}
-                  className={styles.skill__tag}
+                  className="border-2 border-black rounded-lg px-3 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm font-extrabold tracking-wide bg-[#e7e2d0] shadow-[2px_2px_0px_#000000] hover:shadow-[4px_4px_0px_#000000] hover:bg-white hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all cursor-default"
                   initial={{ opacity: 0, scale: 0.9 }}
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ duration: 0.3, delay: index * 0.04 }}
@@ -86,9 +104,14 @@ const Profile = ({ initialProfile }: ProfileProps) => {
             </div>
           </div>
         </div>
-        <div className={styles.arrow__container}>
-          <button className={styles.down__arrow} onClick={handleScrollDown} aria-label="Scroll to Works">
-            <Image className={styles.down__arrow} src={anglesRight} alt="scroll down" width="35" height="35" />
+
+        {/* Scroll Down Button */}
+        <div className="py-6 flex justify-center items-center">
+          <button
+            onClick={handleScrollDown}
+            className="cursor-pointer rotate-90 hover:scale-125 transition-transform"
+            aria-label="Scroll to Works">
+            <Image src={anglesRight} alt="scroll down" width={36} height={36} className="w-9 h-9" />
           </button>
         </div>
       </motion.div>

@@ -1,9 +1,8 @@
 'use client';
 
 import React, { useState } from 'react';
-import styles from '../app/styles/Header.module.css';
 import Language from '../../public/image/language.svg';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useUserContext } from '../context/userContext';
 import { profileData } from '../data/portfolioData';
 import Image from 'next/image';
@@ -34,83 +33,100 @@ const Header = () => {
   ];
 
   return (
-    <header>
-      <section>
-        <div className={styles.header}>
-          <Link href={`/`} onClick={() => setSelectOn(false)}>
-            <h1 className={styles.first__name}>{profile.name}</h1>
-            <h1 className={styles.front}>FRONT-END DEVELOPER</h1>
-          </Link>
-        </div>
+    <header className="w-full">
+      {/* Top Brand Banner */}
+      <section className="w-full flex justify-between items-center px-4 sm:px-8 pt-5 pb-0">
+        <Link href={`/`} onClick={() => setSelectOn(false)} className="cursor-pointer group">
+          <h1 className="text-xl sm:text-3xl md:text-4xl font-black uppercase tracking-tight text-black m-0">
+            {profile.name}
+          </h1>
+          <h2 className="text-xs sm:text-sm font-bold uppercase tracking-wider text-neutral-600 mt-0.5">
+            FRONT-END DEVELOPER
+          </h2>
+        </Link>
       </section>
-      <nav>
-        <ul className={styles.ul}>
+
+      {/* Navigation Bar */}
+      <nav className="w-full mt-3 px-3 sm:px-8">
+        <ul className="w-full bg-[#e7e2d0] border-[3px] border-black px-3 sm:px-8 py-2.5 flex flex-wrap items-center justify-center sm:justify-between gap-2.5 sm:gap-4 box-border">
           {navList.map((item, index) => (
             <React.Fragment key={`nav-group-${item.title}-${index}`}>
-              <li className={styles.nav__list}>
+              <li className="flex items-center text-xs sm:text-sm font-extrabold uppercase tracking-tight">
                 {item.title === 'Tech Blog' ? (
-                  <a href={item.link} target="_blank" rel="noopener noreferrer" onClick={() => setSelectOn(false)}>
+                  <a
+                    href={item.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={() => setSelectOn(false)}
+                    className="px-1.5 py-0.5 transition-colors hover:bg-black hover:text-[#e7e2d0]">
                     {item.title}
                   </a>
                 ) : (
-                  <Link href={item.link} onClick={() => setSelectOn(false)}>
+                  <Link
+                    href={item.link}
+                    onClick={() => setSelectOn(false)}
+                    className="px-1.5 py-0.5 transition-colors hover:bg-black hover:text-[#e7e2d0]">
                     {item.title}
                   </Link>
                 )}
               </li>
               {index + 1 !== navList.length && (
-                <li className={styles.nav__list}>
-                  <span className={styles.divider}>|</span>
+                <li className="hidden md:inline text-neutral-400 font-light select-none">
+                  |
                 </li>
               )}
             </React.Fragment>
           ))}
-          <li className={styles.language}>
+
+          {/* Language Switcher */}
+          <li className="relative flex items-center">
             <button
-              className={styles.language__icon}
               onClick={handleLanguageButton}
               aria-label="Toggle Language"
-              style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+              className="flex items-center gap-1.5 px-2 py-1 bg-white border-[1.5px] border-black cursor-pointer hover:bg-black hover:text-[#e7e2d0] transition-colors shadow-[1px_1px_0px_#000000]">
               <Image
                 src={Language}
                 alt="language"
-                width={24}
-                height={24}
-                style={{ width: '24px', height: '24px' }}
+                width={20}
+                height={20}
+                className="w-5 h-5"
               />
-              <span style={{ fontSize: '11px', fontWeight: 800, fontFamily: 'monospace' }}>
+              <span className="text-[11px] font-extrabold font-mono">
                 {user.language === 'ENGLISH' ? 'EN' : 'KR'}
               </span>
             </button>
-            {selectOn && (
-              <motion.ul
-                className={styles.select}
-                initial={{
-                  scale: 0,
-                  x: '-50%',
-                }}
-                animate={{ scale: 1, x: '-50%' }}
-                transition={{
-                  type: 'spring',
-                  stiffness: 200,
-                  damping: 20,
-                }}>
-                <li
-                  className={styles.option}
-                  style={{ fontWeight: user.language === 'ENGLISH' ? 900 : 600, display: 'flex', alignItems: 'center', gap: '6px' }}
-                  onClick={() => handleLanguageSelect('ENGLISH')}>
-                  <span>🇬🇧</span>
-                  <span>English {user.language === 'ENGLISH' && '✓'}</span>
-                </li>
-                <li
-                  className={styles.option}
-                  style={{ fontWeight: user.language === 'KOREAN' ? 900 : 600, display: 'flex', alignItems: 'center', gap: '6px' }}
-                  onClick={() => handleLanguageSelect('KOREAN')}>
-                  <span>🇰🇷</span>
-                  <span>한국어 {user.language === 'KOREAN' && '✓'}</span>
-                </li>
-              </motion.ul>
-            )}
+
+            <AnimatePresence>
+              {selectOn && (
+                <motion.ul
+                  initial={{ opacity: 0, scale: 0.9, y: 5 }}
+                  animate={{ opacity: 1, scale: 1, y: 0 }}
+                  exit={{ opacity: 0, scale: 0.9, y: 5 }}
+                  transition={{ duration: 0.15 }}
+                  className="absolute top-[calc(100%+8px)] right-0 bg-[#e7e2d0] border-[3px] border-black shadow-[4px_4px_0px_#000000] p-2.5 min-w-[140px] z-[100] flex flex-col gap-1.5">
+                  <li
+                    className={`px-2.5 py-1.5 text-xs font-extrabold cursor-pointer flex items-center gap-2 transition-colors ${
+                      user.language === 'ENGLISH'
+                        ? 'bg-black text-[#e7e2d0]'
+                        : 'hover:bg-black hover:text-[#e7e2d0]'
+                    }`}
+                    onClick={() => handleLanguageSelect('ENGLISH')}>
+                    <span>🇬🇧</span>
+                    <span>English {user.language === 'ENGLISH' && '✓'}</span>
+                  </li>
+                  <li
+                    className={`px-2.5 py-1.5 text-xs font-extrabold cursor-pointer flex items-center gap-2 transition-colors ${
+                      user.language === 'KOREAN'
+                        ? 'bg-black text-[#e7e2d0]'
+                        : 'hover:bg-black hover:text-[#e7e2d0]'
+                    }`}
+                    onClick={() => handleLanguageSelect('KOREAN')}>
+                    <span>🇰🇷</span>
+                    <span>한국어 {user.language === 'KOREAN' && '✓'}</span>
+                  </li>
+                </motion.ul>
+              )}
+            </AnimatePresence>
           </li>
         </ul>
       </nav>

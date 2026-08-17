@@ -3,7 +3,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { CVDataType, getCVSettings, updateCVSettings } from '@/service/portfolioService';
-import styles from '@/app/styles/Admin.module.css';
 
 export default function CvEditor() {
   const queryClient = useQueryClient();
@@ -17,7 +16,6 @@ export default function CvEditor() {
   const [message, setMessage] = useState<{ text: string; type: 'success' | 'error' } | null>(null);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
-  // TanStack Query: fetch CV settings
   const { data: remoteCv, isLoading } = useQuery({
     queryKey: ['cvSettings'],
     queryFn: getCVSettings,
@@ -29,7 +27,6 @@ export default function CvEditor() {
     }
   }, [remoteCv]);
 
-  // TanStack Query: mutation to save CV settings
   const saveMutation = useMutation({
     mutationFn: (newCv: CVDataType) => updateCVSettings(newCv),
     onSuccess: () => {
@@ -91,45 +88,42 @@ export default function CvEditor() {
   };
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+    <div className="flex flex-col gap-6 w-full">
       {/* Header */}
-      <div className={styles.editorHeader}>
-        <div>
-          <h2 className={styles.editorTitle}>이력서 (CV) 관리</h2>
-          <p className={styles.editorSubtitle}>
-            `/cv` 페이지의 PDF 이력서 다운로드 링크 및 소개(Summary) 문구를 관리합니다.
-          </p>
-        </div>
+      <div className="border-b-2 border-black pb-4">
+        <h2 className="text-xl sm:text-2xl font-black uppercase m-0 tracking-tight">
+          이력서 (CV) 관리
+        </h2>
+        <p className="text-xs sm:text-sm text-neutral-600 font-semibold mt-1">
+          `/cv` 페이지의 PDF 이력서 다운로드 링크 및 소개(Summary) 문구를 관리합니다.
+        </p>
       </div>
 
       {message && (
         <div
-          style={{
-            padding: '14px 20px',
-            border: '2px solid #000000',
-            fontWeight: 700,
-            fontSize: '13px',
-            backgroundColor: message.type === 'success' ? '#d1fae5' : '#fee2e2',
-            color: message.type === 'success' ? '#065f46' : '#991b1b',
-          }}>
+          className={`p-3.5 sm:p-4 border-2 border-black font-bold text-xs sm:text-sm ${
+            message.type === 'success'
+              ? 'bg-emerald-100 text-emerald-900'
+              : 'bg-rose-100 text-rose-900'
+          }`}>
           {message.text}
         </div>
       )}
 
       {/* Main Settings Card */}
-      <div className={styles.itemCard}>
+      <div className="border-[3px] border-black bg-white p-4 sm:p-6 shadow-[4px_4px_0px_#000000]">
         {isLoading ? (
-          <div style={{ padding: '30px', textAlign: 'center', fontFamily: 'monospace' }}>
+          <div className="p-8 text-center font-mono text-sm">
             데이터를 불러오는 중입니다...
           </div>
         ) : (
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+          <div className="flex flex-col gap-6">
             {/* PDF File URL / Upload */}
-            <div className={styles.formGroup} style={{ margin: 0 }}>
-              <label className={styles.label}>
+            <div className="flex flex-col gap-1.5">
+              <label className="text-xs font-black uppercase text-neutral-800">
                 📄 PDF 이력서 링크 (Resume PDF URL)
               </label>
-              <div style={{ display: 'flex', gap: '10px' }}>
+              <div className="flex flex-col sm:flex-row gap-2">
                 <input
                   type="text"
                   value={cvSettings.pdfUrl || ''}
@@ -141,41 +135,34 @@ export default function CvEditor() {
                     })
                   }
                   placeholder="https://res.cloudinary.com/.../resume.pdf"
-                  className={styles.input}
-                  style={{ flex: 1 }}
+                  className="flex-1 p-3 bg-[#fbf9f4] border-2 border-black text-sm font-semibold outline-none focus:bg-white"
                 />
                 <input
                   type="file"
                   ref={fileInputRef}
                   onChange={handleFileUpload}
                   accept=".pdf"
-                  style={{ display: 'none' }}
+                  className="hidden"
                   id="cv-pdf-upload-input"
                 />
                 <label
                   htmlFor="cv-pdf-upload-input"
-                  className={styles.btnSecondary}
-                  style={{ whiteSpace: 'nowrap' }}>
+                  className="px-4 py-3 bg-[#e7e2d0] border-2 border-black text-black font-extrabold text-xs uppercase cursor-pointer hover:bg-black hover:text-[#e7e2d0] transition-colors whitespace-nowrap text-center shadow-[2px_2px_0px_#000000]">
                   {uploading ? '업로드 중...' : '📁 PDF 파일 업로드'}
                 </label>
               </div>
 
               {cvSettings.pdfUrl && (
-                <div style={{ marginTop: '10px', display: 'flex', alignItems: 'center', gap: '12px' }}>
+                <div className="mt-2.5 flex items-center gap-3 flex-wrap">
                   <a
                     href={cvSettings.pdfUrl}
                     target="_blank"
                     rel="noreferrer"
-                    style={{
-                      fontSize: '13px',
-                      color: 'blue',
-                      textDecoration: 'underline',
-                      fontWeight: 600,
-                    }}>
+                    className="text-xs sm:text-sm text-blue-700 underline font-bold hover:text-blue-900">
                     📄 업로드된 PDF 파일 미리보기 ↗
                   </a>
                   {cvSettings.lastUpdated && (
-                    <span style={{ fontSize: '12px', color: '#666', fontFamily: 'monospace' }}>
+                    <span className="text-xs text-neutral-500 font-mono">
                       (최종 수정일: {cvSettings.lastUpdated})
                     </span>
                   )}
@@ -184,8 +171,8 @@ export default function CvEditor() {
             </div>
 
             {/* English Summary */}
-            <div className={styles.formGroup} style={{ margin: 0 }}>
-              <label className={styles.label}>
+            <div className="flex flex-col gap-1.5">
+              <label className="text-xs font-black uppercase text-neutral-800">
                 🇬🇧 영문 이력서 소개 요약 (English CV Summary)
               </label>
               <textarea
@@ -195,13 +182,13 @@ export default function CvEditor() {
                   setCvSettings({ ...cvSettings, summaryEn: e.target.value })
                 }
                 placeholder="I'm a Creative Software Developer with..."
-                className={styles.textarea}
+                className="w-full p-3 bg-[#fbf9f4] border-2 border-black text-sm font-semibold outline-none focus:bg-white resize-y"
               />
             </div>
 
             {/* Korean Summary */}
-            <div className={styles.formGroup} style={{ margin: 0 }}>
-              <label className={styles.label}>
+            <div className="flex flex-col gap-1.5">
+              <label className="text-xs font-black uppercase text-neutral-800">
                 🇰🇷 국문 이력서 소개 요약 (Korean CV Summary)
               </label>
               <textarea
@@ -211,7 +198,7 @@ export default function CvEditor() {
                   setCvSettings({ ...cvSettings, summaryKr: e.target.value })
                 }
                 placeholder="인터랙티브 디자인과 고성능 웹 아키텍처에 열정을 가진 개발자로서..."
-                className={styles.textarea}
+                className="w-full p-3 bg-[#fbf9f4] border-2 border-black text-sm font-semibold outline-none focus:bg-white resize-y"
               />
             </div>
           </div>
@@ -219,13 +206,12 @@ export default function CvEditor() {
       </div>
 
       {/* Save Button */}
-      <div style={{ display: 'flex', justifyContent: 'flex-end', paddingTop: '16px' }}>
+      <div className="flex justify-end pt-4">
         <button
           type="button"
           disabled={saveMutation.isPending}
           onClick={handleSave}
-          className={styles.btnPrimary}
-          style={{ padding: '14px 36px', fontSize: '15px' }}>
+          className="w-full sm:w-auto px-8 py-3.5 bg-black text-[#e7e2d0] border-2 border-black font-black text-sm uppercase cursor-pointer hover:bg-neutral-800 transition-colors shadow-[3px_3px_0px_#000000] disabled:opacity-50">
           {saveMutation.isPending ? '저장 처리 중...' : '💾 CV 설정 저장하기'}
         </button>
       </div>

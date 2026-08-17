@@ -54,12 +54,12 @@ export default function EmailForm() {
       <form
         onSubmit={handleSubmit}
         method="POST"
-        style={{ display: 'flex', flexDirection: 'column', gap: '20px', width: '100%' }}>
+        className="flex flex-col gap-5 w-full">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full">
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+          <div className="flex flex-col gap-2">
             <label
               htmlFor="email"
-              style={{ fontSize: '13px', fontWeight: 800, textTransform: 'uppercase', color: '#111' }}>
+              className="text-xs sm:text-sm font-extrabold uppercase text-black">
               이메일 주소 (Email Address)
             </label>
             <input
@@ -70,24 +70,14 @@ export default function EmailForm() {
               placeholder="your-email@example.com"
               onChange={handleInput}
               value={inputValue.email}
-              style={{
-                boxSizing: 'border-box',
-                width: '100%',
-                padding: '14px 16px',
-                backgroundColor: '#ffffff',
-                border: '2px solid #000000',
-                fontSize: '14px',
-                fontWeight: 500,
-                fontFamily: 'inherit',
-                outline: 'none',
-              }}
+              className="w-full p-3.5 sm:p-4 bg-white border-2 border-black text-sm font-medium outline-none focus:bg-neutral-50 box-border"
             />
           </div>
 
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+          <div className="flex flex-col gap-2">
             <label
               htmlFor="subject"
-              style={{ fontSize: '13px', fontWeight: 800, textTransform: 'uppercase', color: '#111' }}>
+              className="text-xs sm:text-sm font-extrabold uppercase text-black">
               제목 (Subject)
             </label>
             <input
@@ -98,25 +88,15 @@ export default function EmailForm() {
               placeholder="프로젝트 제안 / 문의 내용"
               onChange={handleInput}
               value={inputValue.subject}
-              style={{
-                boxSizing: 'border-box',
-                width: '100%',
-                padding: '14px 16px',
-                backgroundColor: '#ffffff',
-                border: '2px solid #000000',
-                fontSize: '14px',
-                fontWeight: 500,
-                fontFamily: 'inherit',
-                outline: 'none',
-              }}
+              className="w-full p-3.5 sm:p-4 bg-white border-2 border-black text-sm font-medium outline-none focus:bg-neutral-50 box-border"
             />
           </div>
         </div>
 
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', width: '100%' }}>
+        <div className="flex flex-col gap-2 w-full">
           <label
             htmlFor="message"
-            style={{ fontSize: '13px', fontWeight: 800, textTransform: 'uppercase', color: '#111' }}>
+            className="text-xs sm:text-sm font-extrabold uppercase text-black">
             메시지 본문 (Message)
           </label>
           <textarea
@@ -127,45 +107,15 @@ export default function EmailForm() {
             placeholder="남기실 메시지를 작성해주세요..."
             onChange={handleInput}
             value={inputValue.message}
-            style={{
-              boxSizing: 'border-box',
-              width: '100%',
-              padding: '14px 16px',
-              backgroundColor: '#ffffff',
-              border: '2px solid #000000',
-              fontSize: '14px',
-              fontWeight: 500,
-              fontFamily: 'inherit',
-              outline: 'none',
-              lineHeight: 1.6,
-              resize: 'vertical',
-            }}
+            className="w-full p-3.5 sm:p-4 bg-white border-2 border-black text-sm font-medium outline-none focus:bg-neutral-50 leading-relaxed resize-y box-border"
           />
         </div>
 
-        <div style={{ display: 'flex', justifyContent: 'flex-end', paddingTop: '10px', width: '100%' }}>
+        <div className="flex justify-end pt-2.5 w-full">
           <button
             type="submit"
             disabled={isLoading}
-            style={{
-              all: 'unset',
-              cursor: 'pointer',
-              boxSizing: 'border-box',
-              display: 'inline-flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              gap: '8px',
-              backgroundColor: '#000000',
-              color: '#e7e2d0',
-              border: '2px solid #000000',
-              padding: '14px 32px',
-              fontSize: '14px',
-              fontWeight: 800,
-              textTransform: 'uppercase',
-              transition: 'all 0.2s ease',
-              opacity: isLoading ? 0.6 : 1,
-              width: '100%',
-            }}>
+            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-black text-[#e7e2d0] border-2 border-black px-8 py-3.5 font-extrabold text-sm uppercase transition-all hover:bg-neutral-800 shadow-[3px_3px_0px_#000000] cursor-pointer disabled:opacity-60">
             {isLoading ? '전송 처리 중...' : '메시지 전송 (Send Message) ➔'}
           </button>
         </div>

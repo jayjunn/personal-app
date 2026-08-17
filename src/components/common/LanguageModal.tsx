@@ -16,70 +16,19 @@ export default function LanguageModal() {
 
   return (
     <AnimatePresence>
-      <div
-        style={{
-          position: 'fixed',
-          inset: 0,
-          backgroundColor: 'rgba(0, 0, 0, 0.8)',
-          zIndex: 9999,
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          padding: '20px',
-          backdropFilter: 'blur(3px)',
-        }}>
+      <div className="fixed inset-0 bg-black/80 z-[9999] flex items-center justify-center p-5 backdrop-blur-[3px]">
         <motion.div
           initial={{ scale: 0.9, opacity: 0, y: 20 }}
           animate={{ scale: 1, opacity: 1, y: 0 }}
           exit={{ scale: 0.9, opacity: 0, y: 20 }}
           transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-          style={{
-            backgroundColor: '#e7e2d0',
-            border: '4px solid #000000',
-            padding: '36px 32px',
-            width: '100%',
-            maxWidth: '520px',
-            boxShadow: '10px 10px 0px #000000',
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '24px',
-            position: 'relative',
-          }}>
+          className="bg-[#e7e2d0] border-4 border-black p-6 sm:p-8 w-full max-w-[520px] shadow-[8px_8px_0px_#000000] sm:shadow-[10px_10px_0px_#000000] flex flex-col gap-6 relative">
           {/* Header Bar */}
-          <div
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              borderBottom: '3px solid #000000',
-              paddingBottom: '16px',
-            }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-              <span
-                style={{
-                  width: '12px',
-                  height: '12px',
-                  borderRadius: '50%',
-                  backgroundColor: '#000000',
-                  display: 'inline-block',
-                }}></span>
-              <span
-                style={{
-                  width: '12px',
-                  height: '12px',
-                  borderRadius: '50%',
-                  border: '2px solid #000000',
-                  backgroundColor: '#ffffff',
-                  display: 'inline-block',
-                }}></span>
-              <span
-                style={{
-                  fontSize: '11px',
-                  fontFamily: 'monospace',
-                  fontWeight: 800,
-                  textTransform: 'uppercase',
-                  marginLeft: '6px',
-                }}>
+          <div className="flex items-center justify-between border-b-[3px] border-black pb-4">
+            <div className="flex items-center gap-2">
+              <span className="w-3 h-3 rounded-full bg-black inline-block" />
+              <span className="w-3 h-3 rounded-full border-2 border-black bg-white inline-block" />
+              <span className="text-[11px] font-mono font-extrabold uppercase ml-1.5">
                 LANGUAGE SELECTION / 언어 설정
               </span>
             </div>
@@ -87,122 +36,74 @@ export default function LanguageModal() {
             <button
               type="button"
               onClick={() => setIsLanguageModalOpen(false)}
-              style={{
-                all: 'unset',
-                cursor: 'pointer',
-                fontSize: '20px',
-                fontWeight: 900,
-                lineHeight: 1,
-              }}
+              className="cursor-pointer text-xl font-black leading-none hover:rotate-90 transition-transform"
               title="닫기">
               ✕
             </button>
           </div>
 
           {/* Title & Description */}
-          <div style={{ textAlign: 'center', display: 'flex', flexDirection: 'column', gap: '8px' }}>
-            <h2
-              style={{
-                fontSize: '24px',
-                fontWeight: 900,
-                textTransform: 'uppercase',
-                margin: 0,
-                letterSpacing: '-0.5px',
-              }}>
+          <div className="text-center flex flex-col gap-2">
+            <h2 className="text-xl sm:text-2xl font-black uppercase m-0 tracking-tight">
               SELECT LANGUAGE / 언어 선택
             </h2>
-            <p style={{ fontSize: '13px', color: '#444', margin: 0, fontWeight: 600 }}>
+            <p className="text-xs sm:text-sm text-neutral-700 m-0 font-semibold">
               포트폴리오를 둘러보실 기본 언어를 선택해주세요.
             </p>
           </div>
 
           {/* Language Selection Buttons */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
+          <div className="flex flex-col gap-3.5">
             {/* English Option */}
             <button
               type="button"
               onClick={() => handleSelect('ENGLISH')}
-              style={{
-                all: 'unset',
-                cursor: 'pointer',
-                boxSizing: 'border-box',
-                width: '100%',
-                padding: '18px 24px',
-                backgroundColor: user.language === 'ENGLISH' ? '#000000' : '#ffffff',
-                color: user.language === 'ENGLISH' ? '#e7e2d0' : '#000000',
-                border: '3px solid #000000',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-                transition: 'all 0.15s ease',
-                boxShadow: '4px 4px 0px #000000',
-              }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
-                <span style={{ fontSize: '28px' }}>🇬🇧</span>
-                <div style={{ display: 'flex', flexDirection: 'column', textAlign: 'left', gap: '2px' }}>
-                  <span style={{ fontSize: '16px', fontWeight: 900, textTransform: 'uppercase' }}>
+              className={`w-full p-4 sm:p-5 border-[3px] border-black flex items-center justify-between transition-all duration-150 shadow-[4px_4px_0px_#000000] cursor-pointer ${
+                user.language === 'ENGLISH'
+                  ? 'bg-black text-[#e7e2d0]'
+                  : 'bg-white text-black hover:bg-neutral-100'
+              }`}>
+              <div className="flex items-center gap-3.5 text-left">
+                <span className="text-2xl sm:text-3xl">🇬🇧</span>
+                <div className="flex flex-col gap-0.5">
+                  <span className="text-base font-black uppercase">
                     ENGLISH
                   </span>
-                  <span
-                    style={{
-                      fontSize: '12px',
-                      opacity: 0.8,
-                      fontWeight: 600,
-                    }}>
+                  <span className="text-xs opacity-80 font-semibold">
                     Browse portfolio & resume in English
                   </span>
                 </div>
               </div>
-              <span style={{ fontSize: '18px', fontWeight: 900 }}>➔</span>
+              <span className="text-lg font-black">➔</span>
             </button>
 
             {/* Korean Option */}
             <button
               type="button"
               onClick={() => handleSelect('KOREAN')}
-              style={{
-                all: 'unset',
-                cursor: 'pointer',
-                boxSizing: 'border-box',
-                width: '100%',
-                padding: '18px 24px',
-                backgroundColor: user.language === 'KOREAN' ? '#000000' : '#ffffff',
-                color: user.language === 'KOREAN' ? '#e7e2d0' : '#000000',
-                border: '3px solid #000000',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-                transition: 'all 0.15s ease',
-                boxShadow: '4px 4px 0px #000000',
-              }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
-                <span style={{ fontSize: '28px' }}>🇰🇷</span>
-                <div style={{ display: 'flex', flexDirection: 'column', textAlign: 'left', gap: '2px' }}>
-                  <span style={{ fontSize: '16px', fontWeight: 900, textTransform: 'uppercase' }}>
+              className={`w-full p-4 sm:p-5 border-[3px] border-black flex items-center justify-between transition-all duration-150 shadow-[4px_4px_0px_#000000] cursor-pointer ${
+                user.language === 'KOREAN'
+                  ? 'bg-black text-[#e7e2d0]'
+                  : 'bg-white text-black hover:bg-neutral-100'
+              }`}>
+              <div className="flex items-center gap-3.5 text-left">
+                <span className="text-2xl sm:text-3xl">🇰🇷</span>
+                <div className="flex flex-col gap-0.5">
+                  <span className="text-base font-black uppercase">
                     한국어 (KOREAN)
                   </span>
-                  <span
-                    style={{
-                      fontSize: '12px',
-                      opacity: 0.8,
-                      fontWeight: 600,
-                    }}>
+                  <span className="text-xs opacity-80 font-semibold">
                     프로젝트 설명 및 이력서를 한국어로 보기
                   </span>
                 </div>
               </div>
-              <span style={{ fontSize: '18px', fontWeight: 900 }}>➔</span>
+              <span className="text-lg font-black">➔</span>
             </button>
           </div>
 
           {/* Footer Note */}
-          <div
-            style={{
-              borderTop: '2px solid rgba(0, 0, 0, 0.2)',
-              paddingTop: '14px',
-              textAlign: 'center',
-            }}>
-            <p style={{ fontSize: '11px', color: '#666', fontFamily: 'monospace', margin: 0 }}>
+          <div className="border-t-2 border-black/20 pt-3.5 text-center">
+            <p className="text-[11px] text-neutral-600 font-mono m-0">
               * 선택한 언어는 상단 네비게이션의 🌐 지구본 아이콘으로 언제든지 변경할 수 있습니다.
             </p>
           </div>

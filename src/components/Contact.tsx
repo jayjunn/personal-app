@@ -15,49 +15,39 @@ export default function Contact() {
 
   return (
     <PageWrap title="Contact">
-      <div style={{ marginTop: '24px', display: 'flex', flexDirection: 'column', gap: '28px', width: '100%' }}>
+      <div className="mt-6 flex flex-col gap-7 w-full">
         {/* Social Links Row */}
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            borderBottom: '3px solid black',
-            paddingBottom: '24px',
-            flexWrap: 'wrap',
-            gap: '16px',
-            width: '100%',
-          }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-            <span style={{ fontSize: '18px', fontWeight: 800, textTransform: 'uppercase' }}>FIND ME</span>
-            <span className="hidden md:inline" style={{ fontFamily: 'monospace', fontWeight: 800, letterSpacing: '2px' }}>{`>>>>>>>>>>>>>>>>`}</span>
+        <div className="flex justify-between items-center border-b-[3px] border-black pb-6 flex-wrap gap-4 w-full">
+          <div className="flex items-center gap-3">
+            <span className="text-lg font-black uppercase">FIND ME</span>
+            <span className="hidden md:inline font-mono font-black tracking-widest">{`>>>>>>>>>>>>>>>>`}</span>
           </div>
-          <ul style={{ display: 'flex', gap: '18px', margin: 0, padding: 0, listStyle: 'none' }}>
-            <li>
+          <ul className="flex gap-4 sm:gap-5 m-0 p-0 list-none">
+            <li className="hover:scale-110 transition-transform">
               <Link href="https://github.com/jayjunn" target="_blank" aria-label="GitHub">
-                <Image src={github} alt="github" width={38} height={38} />
+                <Image src={github} alt="github" width={36} height={36} className="w-9 h-9" />
               </Link>
             </li>
-            <li>
+            <li className="hover:scale-110 transition-transform">
               <Link href="https://www.linkedin.com/in/younggeun" target="_blank" aria-label="LinkedIn">
-                <Image src={linkedin} alt="linkedin" width={38} height={38} />
+                <Image src={linkedin} alt="linkedin" width={36} height={36} className="w-9 h-9" />
               </Link>
             </li>
-            <li>
+            <li className="hover:scale-110 transition-transform">
               <Link href="mailto:jayjunn@outlook.com" aria-label="Email">
-                <Image src={envelope} alt="email" width={38} height={38} />
+                <Image src={envelope} alt="email" width={36} height={36} className="w-9 h-9" />
               </Link>
             </li>
           </ul>
         </div>
 
         {/* Email Form */}
-        <div style={{ width: '100%' }}>
-          <div style={{ marginBottom: '20px' }}>
-            <h3 style={{ fontSize: '20px', fontWeight: 800, textTransform: 'uppercase', margin: '0 0 6px 0' }}>
+        <div className="w-full">
+          <div className="mb-5">
+            <h3 className="text-lg sm:text-xl font-black uppercase m-0 mb-1.5">
               {isEnglish ? 'Send a Message' : '직접 메시지 보내기'}
             </h3>
-            <p style={{ fontSize: '13px', color: '#555', margin: 0, fontWeight: 600 }}>
+            <p className="text-xs sm:text-sm text-neutral-600 m-0 font-semibold">
               {isEnglish
                 ? 'Feel free to reach out for collaborations, project inquiries, or just a friendly hello.'
                 : '프로젝트 협업, 문의 사항 또는 인사를 언제든 편하게 남겨주세요.'}

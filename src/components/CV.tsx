@@ -33,62 +33,38 @@ export default function Cv({ initialCv, initialExperiences }: CvProps) {
 
   return (
     <PageWrap title="CV">
-      <div style={{ marginTop: '24px', display: 'flex', flexDirection: 'column', gap: '24px', width: '100%' }}>
+      <div className="mt-6 flex flex-col gap-6 w-full">
         {/* Print / Download Button */}
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '12px' }}>
+        <div className="flex justify-between items-center flex-wrap gap-3 w-full">
           {activeCvData.pdfUrl ? (
             <a
               href={activeCvData.pdfUrl}
               target="_blank"
               rel="noreferrer"
-              style={{
-                border: '2px solid black',
-                padding: '8px 18px',
-                backgroundColor: '#ffffff',
-                color: 'black',
-                fontWeight: 700,
-                fontSize: '13px',
-                textTransform: 'uppercase',
-                textDecoration: 'none',
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '6px',
-              }}>
+              className="border-2 border-black px-4 py-2 bg-white text-black font-bold text-xs sm:text-sm uppercase no-underline inline-flex items-center gap-1.5 hover:bg-black hover:text-[#e7e2d0] transition-colors shadow-[2px_2px_0px_#000000]">
               📄 {isEnglish ? 'Download PDF Resume ↗' : 'PDF 이력서 다운로드 ↗'}
             </a>
           ) : (
-            <div></div>
+            <div />
           )}
 
           <button
             type="button"
             onClick={handlePrint}
-            style={{
-              border: '2px solid black',
-              padding: '8px 18px',
-              backgroundColor: 'black',
-              color: '#e7e2d0',
-              fontWeight: 700,
-              fontSize: '13px',
-              textTransform: 'uppercase',
-              cursor: 'pointer',
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '6px',
-            }}>
+            className="border-2 border-black px-4 py-2 bg-black text-[#e7e2d0] font-bold text-xs sm:text-sm uppercase cursor-pointer inline-flex items-center gap-1.5 hover:bg-neutral-800 transition-colors shadow-[2px_2px_0px_#000000]">
             🖨 {isEnglish ? 'Print / Save as PDF' : '이력서 인쇄 / PDF 저장'}
           </button>
         </div>
 
         {/* CV Main Box */}
-        <div style={{ border: '3px solid black', backgroundColor: '#e7e2d0', padding: 'clamp(16px, 3.5vw, 30px)', display: 'flex', flexDirection: 'column', gap: '24px', width: '100%', boxSizing: 'border-box' }}>
+        <div className="border-[3px] border-black bg-[#e7e2d0] p-4 sm:p-6 md:p-8 flex flex-col gap-6 w-full box-border shadow-[4px_4px_0px_#000000]">
           {/* Header */}
-          <div style={{ borderBottom: '3px solid black', paddingBottom: '16px', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '14px' }}>
+          <div className="border-b-[3px] border-black pb-4 flex justify-between items-start flex-wrap gap-3.5">
             <div>
-              <h1 style={{ fontSize: 'clamp(22px, 5vw, 32px)', fontWeight: 800, textTransform: 'uppercase', margin: 0 }}>{cv.name}</h1>
-              <p style={{ fontSize: '14px', fontWeight: 700, textTransform: 'uppercase', marginTop: '4px' }}>{cv.role}</p>
+              <h1 className="text-2xl sm:text-3xl font-black uppercase m-0 tracking-tight">{cv.name}</h1>
+              <p className="text-xs sm:text-sm font-bold uppercase mt-1 text-neutral-800">{cv.role}</p>
             </div>
-            <div style={{ fontSize: '12px', display: 'flex', flexDirection: 'column', gap: '4px', fontWeight: 600, fontFamily: 'monospace' }}>
+            <div className="text-xs flex flex-col gap-1 font-semibold font-mono text-neutral-800">
               <div>Email: {cv.email}</div>
               <div>Location: {cv.location}</div>
               <div>GitHub: github.com/jayjunn</div>
@@ -97,27 +73,27 @@ export default function Cv({ initialCv, initialExperiences }: CvProps) {
           </div>
 
           {/* 01. Summary */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-            <h3 style={{ fontSize: '16px', fontWeight: 800, borderBottom: '2px solid black', paddingBottom: '6px', textTransform: 'uppercase' }}>
+          <div className="flex flex-col gap-2.5">
+            <h3 className="text-sm sm:text-base font-black border-b-2 border-black pb-1.5 uppercase">
               {isEnglish ? '01. About & Summary' : '01. 소개'}
             </h3>
-            <p style={{ fontSize: '15px', fontWeight: 500, lineHeight: 1.7, margin: 0 }}>{summary}</p>
+            <p className="text-xs sm:text-sm font-medium leading-relaxed m-0 text-neutral-800">{summary}</p>
           </div>
 
           {/* 02. Skills */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-            <h3 style={{ fontSize: '16px', fontWeight: 800, borderBottom: '2px solid black', paddingBottom: '6px', textTransform: 'uppercase' }}>
+          <div className="flex flex-col gap-3">
+            <h3 className="text-sm sm:text-base font-black border-b-2 border-black pb-1.5 uppercase">
               {isEnglish ? '02. Skills & Competencies' : '02. 기술 스택'}
             </h3>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '16px' }}>
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
               {skillCategories.map((cat, idx) => (
-                <div key={`cv-cat-${cat.title?.en || idx}-${idx}`} style={{ border: '2px solid black', padding: '16px', backgroundColor: '#e7e2d0' }}>
-                  <h4 style={{ fontSize: '13px', fontWeight: 800, textTransform: 'uppercase', marginBottom: '10px', borderBottom: '1px solid black', paddingBottom: '4px' }}>
+                <div key={`cv-cat-${cat.title?.en || idx}-${idx}`} className="border-2 border-black p-4 bg-[#e7e2d0] shadow-[2px_2px_0px_#000000]">
+                  <h4 className="text-xs font-black uppercase mb-2.5 border-b border-black pb-1">
                     {isEnglish ? cat.title.en : cat.title.kr}
                   </h4>
-                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
+                  <div className="flex flex-wrap gap-1.5">
                     {cat.skills.map((skill, sIdx) => (
-                      <span key={`cv-skill-${skill.name}-${sIdx}`} style={{ fontSize: '12px', border: '1px solid black', padding: '3px 8px', fontWeight: 600, backgroundColor: '#ffffff' }}>
+                      <span key={`cv-skill-${skill.name}-${sIdx}`} className="text-[11px] border border-black px-2 py-0.5 font-bold bg-white shadow-[1px_1px_0px_#000000]">
                         {skill.name}
                       </span>
                     ))}
@@ -128,26 +104,26 @@ export default function Cv({ initialCv, initialExperiences }: CvProps) {
           </div>
 
           {/* 03. Experience */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-            <h3 style={{ fontSize: '16px', fontWeight: 800, borderBottom: '2px solid black', paddingBottom: '6px', textTransform: 'uppercase' }}>
+          <div className="flex flex-col gap-4">
+            <h3 className="text-sm sm:text-base font-black border-b-2 border-black pb-1.5 uppercase">
               {isEnglish ? '03. Work History' : '03. 주요 경력'}
             </h3>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+            <div className="flex flex-col gap-4">
               {experiences.map((item, idx) => {
                 const descriptions = isEnglish
                   ? item.description?.en || []
                   : item.description?.kr || [];
                 return (
-                  <div key={`cv-exp-${item.company}-${item.id || idx}`} style={{ border: '2px solid black', padding: '18px 20px', backgroundColor: '#ffffff', display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid black', paddingBottom: '8px', flexWrap: 'wrap', gap: '8px' }}>
-                      <div style={{ fontWeight: 800, fontSize: '16px' }}>
+                  <div key={`cv-exp-${item.company}-${item.id || idx}`} className="border-2 border-black p-4 sm:p-5 bg-white flex flex-col gap-2.5 shadow-[2px_2px_0px_#000000]">
+                    <div className="flex justify-between items-center border-b border-black pb-2 flex-wrap gap-2">
+                      <div className="font-extrabold text-sm sm:text-base">
                         {item.role}, {item.company}
                       </div>
-                      <div style={{ fontSize: '12px', fontWeight: 700, fontFamily: 'monospace' }}>
+                      <div className="text-xs font-bold font-mono text-neutral-600">
                         {item.period} | {item.location}
                       </div>
                     </div>
-                    <ul style={{ display: 'flex', flexDirection: 'column', gap: '6px', fontSize: '14px', lineHeight: 1.6, margin: 0, paddingLeft: 0, listStyle: 'none' }}>
+                    <ul className="flex flex-col gap-1.5 text-xs sm:text-sm leading-relaxed m-0 pl-0 list-none text-neutral-800">
                       {descriptions.map((desc, dIdx) => (
                         <li key={`cv-desc-${item.company}-${dIdx}`}>- {desc}</li>
                       ))}
@@ -159,14 +135,14 @@ export default function Cv({ initialCv, initialExperiences }: CvProps) {
           </div>
 
           {/* 04. Education */}
-          <div style={{ borderTop: '2px solid black', paddingTop: '16px', display: 'flex', flexDirection: 'column', gap: '10px' }}>
-            <h3 style={{ fontSize: '16px', fontWeight: 800, textTransform: 'uppercase', margin: 0 }}>
+          <div className="border-t-2 border-black pt-4 flex flex-col gap-2.5">
+            <h3 className="text-sm sm:text-base font-black uppercase m-0">
               {isEnglish ? '04. Education' : '04. 학력'}
             </h3>
             {cv.education?.map((edu: any, idx: number) => (
-              <div key={`cv-edu-${edu.institution || idx}-${idx}`} style={{ fontSize: '13px', fontWeight: 600, display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', gap: '4px' }}>
+              <div key={`cv-edu-${edu.institution || idx}-${idx}`} className="text-xs sm:text-sm font-semibold flex justify-between flex-wrap gap-1">
                 <div>{edu.institution} - {edu.degree}</div>
-                <div style={{ color: '#555' }}>{edu.period} • {edu.location}</div>
+                <div className="text-neutral-600 font-mono">{edu.period} • {edu.location}</div>
               </div>
             ))}
           </div>

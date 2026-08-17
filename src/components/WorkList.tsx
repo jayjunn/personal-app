@@ -1,7 +1,6 @@
 'use client';
 
 import React from 'react';
-import styles from '../app/styles/WorkList.module.css';
 import Work from './Work';
 import { workData as defaultWorkData } from '../data/portfolioData';
 import { Project } from '../service/portfolioService';
@@ -32,9 +31,9 @@ const WorkList = ({ limit, showMoreLink = false, useSlider = false, initialWorks
       title="Works"
       moreLink={showMoreLink ? '/works' : undefined}
       moreText={isEnglish ? 'VIEW ALL WORKS ➔' : '전체 프로젝트 보기 ➔'}>
-      <div className={styles.wrapper}>
+      <div className="w-full mt-6">
         {useSlider ? (
-          <div className={styles.sliderContainer}>
+          <div className="w-full relative pb-4 [&_.swiper]:!pb-12 [&_.swiper-pagination-bullet]:!bg-black [&_.swiper-pagination-bullet-active]:!w-6 [&_.swiper-pagination-bullet-active]:!rounded-sm [&_.swiper-button-next]:!text-black [&_.swiper-button-prev]:!text-black [&_.swiper-button-next]:after:!text-lg [&_.swiper-button-prev]:after:!text-lg">
             <Swiper
               modules={[Pagination, Navigation, Autoplay]}
               spaceBetween={24}
@@ -69,7 +68,7 @@ const WorkList = ({ limit, showMoreLink = false, useSlider = false, initialWorks
             </Swiper>
           </div>
         ) : (
-          <div className={styles.list}>
+          <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-6">
             {displayedWorks.map((item, index) => (
               <Work
                 key={`work-card-${item.id ?? 'idx'}-${item.name}-${index}`}
