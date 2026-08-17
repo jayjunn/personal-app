@@ -3,6 +3,7 @@ import Profile from '../components/Profile';
 import WorkList from '../components/WorkList';
 import Experience from '../components/Experience';
 import ContactList from '../components/ContactList';
+import MarioCompanion from '../components/common/MarioCompanion';
 import { getProfile, getWorks, getExperiences } from '../service/portfolioService';
 
 // Next.js ISR (Incremental Static Regeneration)
@@ -34,6 +35,9 @@ export default async function HomePage() {
       <div style={{ borderTop: 'none' }}>
         <ContactList />
       </div>
+
+      {/* 5. Mario Pixel Companion */}
+      <MarioCompanion />
     </div>
   );
 }
