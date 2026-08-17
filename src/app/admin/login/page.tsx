@@ -46,11 +46,21 @@ export default function AdminLoginPage() {
     setErrorMsg('');
     setSubmitting(true);
     try {
-      await loginWithGoogle();
-      router.push('/admin');
+      const loggedUser = await loginWithGoogle();
+      if (loggedUser) {
+        router.push('/admin');
+      }
     } catch (err: any) {
       console.error(err);
-      setErrorMsg(err.message || 'Google 로그인 중 오류가 발생했습니다.');
+      if (err.code === 'auth/popup-closed-by-user') {
+        setErrorMsg('로그인 팝업창이 닫혔습니다. 다시 시도해주세요.');
+      } else if (err.code === 'auth/operation-not-allowed') {
+        setErrorMsg('Firebase 콘솔에서 Google 로그인이 활성화되어 있지 않습니다. Authentication > Sign-in method에서 Google을 활성화해주세요.');
+      } else if (err.code === 'auth/unauthorized-domain') {
+        setErrorMsg('현재 도메인이 Firebase 승인 도메인에 등록되어 있지 않습니다. (Firebase 콘솔 > Authentication > Settings > Authorized domains 확인 필요)');
+      } else {
+        setErrorMsg(err.message || 'Google 로그인 중 오류가 발생했습니다.');
+      }
     } finally {
       setSubmitting(false);
     }

@@ -14,30 +14,30 @@ import { auth } from '@/lib/firebase';
 interface AuthContextType {
   user: User | null;
   loading: boolean;
-  loginWithEmail: (email: string, pass: string) => Promise<void>;
-  loginWithGoogle: () => Promise<void>;
+  loginWithEmail: (email: string, pass: string) => Promise<User>;
+  loginWithGoogle: () => Promise<User>;
   logout: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType>({
   user: null,
   loading: true,
-  loginWithEmail: async () => {},
-  loginWithGoogle: async () => {},
+  loginWithEmail: async () => ({} as User),
+  loginWithGoogle: async () => ({} as User),
   logout: async () => {},
 });
 
 export const AuthContextProvider = ({ children }: { children: ReactNode }) => {
-  const [user, setUser] = useState<User | null>(null);
-  const [loading, setLoading] = useState<boolean>(true);
+  const [user, setUser] = useState<User | null>(() => auth.currentUser);
+  const [loading, setLoading] = useState<boolean>(() => !auth.currentUser);
 
   useEffect(() => {
     let timer: NodeJS.Timeout;
 
-    // Safety fallback: Never stay stuck in loading state forever
+    // Safety timeout: stop loading after 2.5s if Firebase auth is slow
     timer = setTimeout(() => {
       setLoading(false);
-    }, 1500);
+    }, 2500);
 
     try {
       const unsubscribe = onAuthStateChanged(
@@ -64,16 +64,23 @@ export const AuthContextProvider = ({ children }: { children: ReactNode }) => {
   }, []);
 
   const loginWithEmail = async (email: string, pass: string) => {
-    await signInWithEmailAndPassword(auth, email, pass);
+    const cred = await signInWithEmailAndPassword(auth, email, pass);
+    setUser(cred.user);
+    setLoading(false);
+    return cred.user;
   };
 
   const loginWithGoogle = async () => {
     const provider = new GoogleAuthProvider();
-    await signInWithPopup(auth, provider);
+    const cred = await signInWithPopup(auth, provider);
+    setUser(cred.user);
+    setLoading(false);
+    return cred.user;
   };
 
   const logout = async () => {
     await signOut(auth);
+    setUser(null);
   };
 
   return (
