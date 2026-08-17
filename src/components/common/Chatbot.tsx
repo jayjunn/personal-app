@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useAtom } from 'jotai';
 import { isChatOpenAtom } from '@/context/chatStore';
 import { useMutation } from '@tanstack/react-query';
@@ -33,6 +33,9 @@ export default function Chatbot() {
   const [isOpen, setIsOpen] = useAtom(isChatOpenAtom);
   const [input, setInput] = useState('');
 
+  // 메시지 마지막 위치를 기억하기 위한 ref
+  const messagesEndRef = useRef<HTMLDivElement>(null);
+
   const [messages, setMessages] = useState<Message[]>([
     {
       role: 'gemini',
@@ -64,6 +67,17 @@ export default function Chatbot() {
     },
   });
 
+  // =========================================================
+  // 자동 스크롤
+  // =========================================================
+  useEffect(() => {
+    if (!isOpen) return;
+
+    messagesEndRef.current?.scrollIntoView({
+      block: 'end',
+    });
+  }, [messages, mutation.isPending, isOpen]);
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -73,6 +87,7 @@ export default function Chatbot() {
 
     setInput('');
 
+    // 사용자 메시지 추가
     setMessages((prev) => [
       ...prev,
       {
@@ -81,16 +96,18 @@ export default function Chatbot() {
       },
     ]);
 
+    // Gemini 요청
     mutation.mutate(userMessage);
   };
 
   return (
     <>
-      {/* =========================
+      {/* =====================================================
           AI FLOATING BUTTON
-      ========================== */}
+      ====================================================== */}
 
       <div className="fixed bottom-20 right-6 z-[9999]">
+
         {/* Outer breathing glow */}
         <div
           className="
@@ -107,16 +124,21 @@ export default function Chatbot() {
           onClick={() => setIsOpen(!isOpen)}
           className="
             relative
-            w-16 h-16
+            w-16
+            h-16
             rounded-full
-            flex items-center justify-center
-            transition-all duration-500
+            flex
+            items-center
+            justify-center
+            transition-all
+            duration-500
             hover:scale-110
             active:scale-95
             group
           "
           aria-label="Open Chatbot"
         >
+
           {/* Outer glow */}
           <span
             className="
@@ -149,21 +171,26 @@ export default function Chatbot() {
           <span
             className="
               relative
-              w-14 h-14
+              w-14
+              h-14
               rounded-full
               bg-black
-              flex items-center justify-center
+              flex
+              items-center
+              justify-center
               overflow-hidden
               border
               border-white/40
               shadow-[0_0_15px_rgba(255,255,255,0.5),0_0_40px_rgba(120,180,255,0.25)]
             "
           >
+
             {/* Inner light */}
             <span
               className="
                 absolute
-                w-8 h-8
+                w-8
+                h-8
                 rounded-full
                 bg-gradient-to-br
                 from-white
@@ -213,13 +240,15 @@ export default function Chatbot() {
                 opacity="0.9"
               />
             </svg>
+
           </span>
         </button>
       </div>
 
-      {/* =========================
+
+      {/* =====================================================
           CHAT WINDOW
-      ========================== */}
+      ====================================================== */}
 
       {isOpen && (
         <div
@@ -242,9 +271,24 @@ export default function Chatbot() {
             box-border
           "
         >
-          {/* Header */}
-          <div className="bg-black text-white px-4 py-3 flex justify-between items-center">
+
+          {/* =================================================
+              HEADER
+          ================================================== */}
+
+          <div
+            className="
+              bg-black
+              text-white
+              px-4
+              py-3
+              flex
+              justify-between
+              items-center
+            "
+          >
             <div className="flex items-center gap-2">
+
               {/* AI status light */}
               <span
                 className="
@@ -257,9 +301,17 @@ export default function Chatbot() {
                 "
               />
 
-              <span className="font-black text-sm uppercase tracking-wider">
+              <span
+                className="
+                  font-black
+                  text-sm
+                  uppercase
+                  tracking-wider
+                "
+              >
                 AI Assistant
               </span>
+
             </div>
 
             <button
@@ -276,7 +328,11 @@ export default function Chatbot() {
             </button>
           </div>
 
-          {/* Messages */}
+
+          {/* =================================================
+              MESSAGES
+          ================================================== */}
+
           <div
             className="
               flex-1
@@ -289,6 +345,7 @@ export default function Chatbot() {
               text-sm
             "
           >
+
             {messages.map((msg, index) => (
               <div
                 key={index}
@@ -307,6 +364,7 @@ export default function Chatbot() {
               </div>
             ))}
 
+
             {/* Loading */}
             {mutation.isPending && (
               <div
@@ -324,9 +382,21 @@ export default function Chatbot() {
                 생각 중...
               </div>
             )}
+
+
+            {/*
+              이 위치까지 자동으로 스크롤
+              항상 메시지의 가장 아래에 위치
+            */}
+            <div ref={messagesEndRef} />
+
           </div>
 
-          {/* Input */}
+
+          {/* =================================================
+              INPUT
+          ================================================== */}
+
           <form
             onSubmit={handleSubmit}
             className="
@@ -339,6 +409,7 @@ export default function Chatbot() {
               items-center
             "
           >
+
             <input
               type="text"
               value={input}
@@ -358,7 +429,11 @@ export default function Chatbot() {
               "
             />
 
-            {/* Send Button */}
+
+            {/* =================================================
+                SEND BUTTON
+            ================================================== */}
+
             <button
               type="submit"
               disabled={mutation.isPending || !input.trim()}
@@ -366,30 +441,32 @@ export default function Chatbot() {
               className="
                 w-10
                 h-10
+                shrink-0
                 flex
                 items-center
                 justify-center
-                rounded
+                rounded-full
                 bg-black
                 text-white
                 transition-all
                 duration-200
                 hover:bg-neutral-800
                 hover:scale-105
-                active:scale-95
+                active:scale-90
                 disabled:opacity-30
                 disabled:hover:scale-100
                 disabled:cursor-not-allowed
               "
             >
+
               <svg
                 width="19"
                 height="19"
                 viewBox="0 0 24 24"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
-                className="transition-transform duration-200 group-hover:translate-x-0.5"
               >
+
                 <path
                   d="M21.5 3.5L10.8 14.2"
                   stroke="currentColor"
@@ -405,9 +482,13 @@ export default function Chatbot() {
                   strokeLinecap="round"
                   strokeLinejoin="round"
                 />
+
               </svg>
+
             </button>
+
           </form>
+
         </div>
       )}
     </>
