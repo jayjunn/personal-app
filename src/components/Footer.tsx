@@ -11,7 +11,7 @@ export default function Footer() {
   const { t } = useLanguage();
 
   return (
-    <footer className="w-full mt-8 border-t-[3px] border-black dark:border-[#272a34] px-4 sm:px-8 py-6 sm:py-8 pb-10 flex flex-wrap items-center justify-between gap-3.5 text-xs font-mono box-border transition-colors duration-200">
+    <footer className="w-full mt-8 border-t-[3px] border-black dark:border-[#272a34] px-4 sm:px-8 pt-6 sm:pt-8 pb-28 sm:pb-32 flex flex-wrap items-center justify-between gap-3.5 text-xs font-mono box-border transition-colors duration-200">
       <div className="flex items-center gap-2 flex-wrap text-black dark:text-[#d1d5db]">
         <span className="font-extrabold tracking-tight">© {new Date().getFullYear()} YOUNGGEUN JUN.</span>
         <span className="text-neutral-400">•</span>
