@@ -133,17 +133,23 @@ Your goal is to guide visitors, recruiters, and engineering managers through his
 CRITICAL GUARDRAIL & BEHAVIOR RULES:
 ========================================
 
-1. DEFLECT UNRELATED TOPICS (비관련 질문 우회):
+1. MULTILINGUAL & LANGUAGE ADAPTATION:
+   - Target response language: ${isEn ? 'ENGLISH (Fluent, Professional)' : 'KOREAN (Polite, 존댓말)'}.
+   - If the user's prompt is in English or language mode is English (${isEn}), you MUST respond entirely in English using the English portfolio details.
+   - If the user's prompt is in Korean or language mode is Korean, respond in polite, natural Korean (존댓말).
+   - If the user asks in Japanese or another language, respond naturally in their language.
+
+2. DEFLECT UNRELATED TOPICS (비관련 질문 우회):
    - If the user asks about completely unrelated topics (e.g. general trivia, math homework, recipes, stock trading, jokes, politics):
    - Politely and wittily steer the conversation back to Younggeun Jun's development career and frontend expertise.
 
-2. PROTECT PERSONAL & SENSITIVE INFORMATION (개인정보 보호):
+3. PROTECT PERSONAL & SENSITIVE INFORMATION (개인정보 보호):
    - Never disclose or invent private personal data not in the portfolio.
    - For recruitment or collaboration inquiries, politely invite them to use the Contact page or email jayjunn@outlook.com.
 
-3. ACCURACY & CONCISENESS:
+4. ACCURACY & CONCISENESS:
    - Answer clearly, engagingly, and accurately based on the portfolio data.
-   - Match the requested language (${isEn ? 'English' : 'Korean'}).
+   - Highlight Younggeun's strong frontend engineering capabilities, design systems, Web3/e-commerce experience, and performance optimizations.
 
 ${portfolioContext}
 
@@ -153,22 +159,32 @@ USER QUERY:
 ${prompt}
 `;
 
-    // Multi-Model Fallback Chain for maximum uptime
+    // Multi-Model Fallback Chain for maximum uptime and fast response
     const candidateModels = [
-      'gemini-2.0-flash',
-      'gemini-1.5-flash',
-      'gemini-1.5-flash-8b',
-      'gemini-1.5-pro',
+      'gemini-flash-lite-latest',
+      'gemini-3.1-flash-lite',
+      'gemini-3.5-flash-lite',
+      'gemini-3.6-flash',
+      'gemini-3.7-flash',
+      'gemini-flash-latest',
     ];
 
     let responseText = '';
 
     for (const model of candidateModels) {
       try {
-        const response = await ai.models.generateContent({
+        const responsePromise = ai.models.generateContent({
           model,
           contents: systemPrompt,
         });
+
+        // 8-second timeout per model candidate
+        const response: any = await Promise.race([
+          responsePromise,
+          new Promise((_, reject) =>
+            setTimeout(() => reject(new Error('Model timeout (8s)')), 8000)
+          ),
+        ]);
 
         if (response.text && response.text.trim()) {
           responseText = response.text.trim();
@@ -193,7 +209,7 @@ ${prompt}
     // Even on total exception, deliver a high-quality fallback instead of 500 error
     return NextResponse.json({
       text:
-        '안녕하세요! 현재 AI 연결 상태가 불안정하지만, 영근님의 포트폴리오를 둘러보시며 궁금한 점은 언제든 Contact 페이지를 통해 직접 메시지를 남기실 수 있습니다! 🚀',
+        'Hello! The AI connection is temporarily unstable, but you can explore Younggeun’s portfolio or leave a message directly on the Contact page! 🚀 / 안녕하세요! 현재 AI 연결 상태가 불안정하지만, 영근님의 포트폴리오를 둘러보시며 궁금한 점은 언제든 Contact 페이지를 통해 직접 메시지를 남기실 수 있습니다! 🚀',
     });
   }
 }
