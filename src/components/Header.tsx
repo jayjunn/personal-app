@@ -78,6 +78,7 @@ export default function Header() {
             className="cursor-pointer group"
           >
             <h1
+              suppressHydrationWarning
               className="
                 text-2xl
                 sm:text-3xl

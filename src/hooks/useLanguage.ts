@@ -1,13 +1,14 @@
 // src/hooks/useLanguage.ts
-// Convenience hook for consuming language atoms in components
+// Convenience hook for consuming and updating language atoms in components
 'use client';
 
-import { useAtom, useAtomValue, useSetAtom } from 'jotai';
+import { useAtom, useAtomValue } from 'jotai';
 import {
   languageAtom,
   isEnglishAtom,
   isLanguageModalOpenAtom,
   LanguageType,
+  STORAGE_KEY,
 } from '@/store/languageAtom';
 
 export type { LanguageType };
@@ -19,10 +20,18 @@ export const useLanguage = () => {
 
   const setLanguage = (lang: LanguageType) => {
     setLanguageAtom(lang);
+    if (typeof window !== 'undefined') {
+      try {
+        localStorage.setItem(STORAGE_KEY, lang);
+      } catch (e) {
+        console.warn('Failed to save language to localStorage:', e);
+      }
+    }
   };
 
   const toggleLanguage = () => {
-    setLanguageAtom((prev) => (prev === 'ENGLISH' ? 'KOREAN' : 'ENGLISH'));
+    const nextLang: LanguageType = language === 'ENGLISH' ? 'KOREAN' : 'ENGLISH';
+    setLanguage(nextLang);
   };
 
   const openLanguageModal = () => setIsLanguageModalOpen(true);

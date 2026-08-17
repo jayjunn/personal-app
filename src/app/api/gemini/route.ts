@@ -138,13 +138,32 @@ USER QUESTION:
 ${prompt}
 `;
 
-    const response = await ai.models.generateContent({
-      model: "gemini-2.5-flash",
-      contents: systemPrompt,
-    });
+    const candidateModels = ["gemini-flash-latest", "gemini-3-flash-preview"];
+    let responseText = "";
+    let lastError: unknown = null;
+
+    for (const model of candidateModels) {
+      try {
+        const response = await ai.models.generateContent({
+          model,
+          contents: systemPrompt,
+        });
+        if (response.text) {
+          responseText = response.text;
+          break;
+        }
+      } catch (err) {
+        lastError = err;
+        console.warn(`Model ${model} failed, trying next candidate...`);
+      }
+    }
+
+    if (!responseText && lastError) {
+      throw lastError;
+    }
 
     return NextResponse.json({
-      text: response.text,
+      text: responseText,
     });
   } catch (error) {
     console.error("Detailed Gemini API Error:", error);
