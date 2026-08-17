@@ -135,18 +135,13 @@ export default function Chatbot() {
               items-center
             "
           >
-            <div className="flex items-center gap-2">
-              <span
-                className="
-                  w-2.5
-                  h-2.5
-                  rounded-full
-                  bg-cyan-400
-                  shadow-[0_0_10px_#22d3ee]
-                  animate-pulse
-                "
-              />
-              <span className="font-black text-sm uppercase tracking-wider text-white dark:text-[#f3f4f6]">
+            <div className="flex items-center gap-2.5">
+              <div className="relative flex items-center justify-center w-4 h-4">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-gradient-to-r from-pink-400 via-purple-500 to-cyan-400 opacity-80 blur-[1px]" />
+                <span className="animate-pulse absolute inline-flex h-3 w-3 rounded-full bg-gradient-to-tr from-cyan-400 via-teal-300 to-emerald-400 opacity-90 blur-[0.5px]" />
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-white shadow-[0_0_8px_#38bdf8,0_0_12px_#a855f7]" />
+              </div>
+              <span className="font-black text-xs sm:text-sm uppercase tracking-wider text-white dark:text-[#f3f4f6]">
                 {t.chatbot.title}
               </span>
             </div>

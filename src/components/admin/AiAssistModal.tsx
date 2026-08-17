@@ -114,14 +114,20 @@ export default function AiAssistModal({
         onClick={(e) => e.stopPropagation()}>
         {/* Header */}
         <div className="flex justify-between items-start border-b-2 border-black pb-3">
-          <div className="flex flex-col gap-1">
-            <div className="flex items-center gap-2">
+          <div className="flex flex-col gap-1.5">
+            <div className="flex items-center gap-2 flex-wrap">
               <span className="px-2.5 py-0.5 bg-black text-[#e7e2d0] font-mono font-black text-xs uppercase tracking-wider">
                 GEMINI AI COPILOT
               </span>
               <span className="px-2 py-0.5 bg-yellow-300 border border-black font-mono font-black text-xs uppercase">
                 {fieldLabel || 'CONTENT ASSISTANT'}
               </span>
+              {/* Dreamy Animated Aurora Online Dot */}
+              <div className="relative flex items-center justify-center w-4 h-4 ml-0.5" title="AI Copilot Online">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-gradient-to-r from-pink-400 via-purple-500 to-cyan-400 opacity-75 blur-[1px]" />
+                <span className="animate-pulse absolute inline-flex h-3 w-3 rounded-full bg-gradient-to-tr from-cyan-400 via-teal-300 to-emerald-400 opacity-90 blur-[0.5px]" />
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-white shadow-[0_0_8px_#38bdf8,0_0_12px_#a855f7]" />
+              </div>
             </div>
             <h2 className="text-xl sm:text-2xl font-black uppercase tracking-tight m-0">
               AI 콘텐츠 다듬기 & 번역기
