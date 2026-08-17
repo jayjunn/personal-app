@@ -33,7 +33,6 @@ export default function Chatbot() {
   const [isOpen, setIsOpen] = useAtom(isChatOpenAtom);
   const [input, setInput] = useState('');
 
-  // 메시지 마지막 위치를 기억하기 위한 ref
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const [messages, setMessages] = useState<Message[]>([
@@ -70,10 +69,12 @@ export default function Chatbot() {
   // =========================================================
   // 자동 스크롤
   // =========================================================
+
   useEffect(() => {
     if (!isOpen) return;
 
     messagesEndRef.current?.scrollIntoView({
+      behavior: 'smooth',
       block: 'end',
     });
   }, [messages, mutation.isPending, isOpen]);
@@ -87,7 +88,6 @@ export default function Chatbot() {
 
     setInput('');
 
-    // 사용자 메시지 추가
     setMessages((prev) => [
       ...prev,
       {
@@ -96,7 +96,6 @@ export default function Chatbot() {
       },
     ]);
 
-    // Gemini 요청
     mutation.mutate(userMessage);
   };
 
@@ -167,7 +166,7 @@ export default function Chatbot() {
             "
           />
 
-          {/* Main orb */}
+          {/* Main AI orb */}
           <span
             className="
               relative
@@ -215,7 +214,6 @@ export default function Chatbot() {
                 drop-shadow-[0_0_14px_rgba(140,200,255,0.8)]
               "
             >
-              {/* Main sparkle */}
               <path
                 d="
                   M14 2.5
@@ -227,7 +225,6 @@ export default function Chatbot() {
                 fill="white"
               />
 
-              {/* Small sparkle */}
               <path
                 d="
                   M22 17
@@ -259,11 +256,11 @@ export default function Chatbot() {
             w-80
             sm:w-96
             h-[450px]
-            bg-[#fdfbf7]
+            bg-[#e7e2d0]
             border-[3px]
             border-black
             rounded-xl
-            shadow-2xl
+            shadow-[8px_8px_0px_rgba(0,0,0,1)]
             z-[9999]
             flex
             flex-col
@@ -289,7 +286,6 @@ export default function Chatbot() {
           >
             <div className="flex items-center gap-2">
 
-              {/* AI status light */}
               <span
                 className="
                   w-2
@@ -321,6 +317,7 @@ export default function Chatbot() {
                 font-bold
                 hover:text-gray-300
                 transition-colors
+                text-lg
               "
               aria-label="Close Chatbot"
             >
@@ -350,13 +347,23 @@ export default function Chatbot() {
               <div
                 key={index}
                 className={`
-                  max-w-[80%]
+                  max-w-[82%]
                   p-3
                   rounded-lg
+                  border-2
+                  border-black
                   ${
                     msg.role === 'user'
-                      ? 'bg-black text-white self-end'
-                      : 'bg-white border-2 border-black text-black self-start'
+                      ? `
+                        bg-black
+                        text-white
+                        self-end
+                      `
+                      : `
+                        bg-[#f4f0e3]
+                        text-black
+                        self-start
+                      `
                   }
                 `}
               >
@@ -369,7 +376,7 @@ export default function Chatbot() {
             {mutation.isPending && (
               <div
                 className="
-                  bg-white
+                  bg-[#f4f0e3]
                   border-2
                   border-black
                   text-black
@@ -383,11 +390,7 @@ export default function Chatbot() {
               </div>
             )}
 
-
-            {/*
-              이 위치까지 자동으로 스크롤
-              항상 메시지의 가장 아래에 위치
-            */}
+            {/* Scroll target */}
             <div ref={messagesEndRef} />
 
           </div>
@@ -403,7 +406,7 @@ export default function Chatbot() {
               p-3
               border-t-[3px]
               border-black
-              bg-white
+              bg-[#ded8c4]
               flex
               gap-2
               items-center
@@ -420,11 +423,16 @@ export default function Chatbot() {
                 min-w-0
                 px-3
                 py-2
+                bg-[#f4f0e3]
                 border-2
                 border-black
                 rounded
                 text-base
+                text-black
+                placeholder:text-neutral-500
                 focus:outline-none
+                focus:ring-2
+                focus:ring-black
                 font-mono
               "
             />
@@ -466,7 +474,6 @@ export default function Chatbot() {
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
               >
-
                 <path
                   d="M21.5 3.5L10.8 14.2"
                   stroke="currentColor"
@@ -482,13 +489,11 @@ export default function Chatbot() {
                   strokeLinecap="round"
                   strokeLinejoin="round"
                 />
-
               </svg>
 
             </button>
 
           </form>
-
         </div>
       )}
     </>
