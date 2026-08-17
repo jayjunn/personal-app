@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Language from '../../public/image/language.svg';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useUserContext } from '../context/userContext';
@@ -11,17 +11,33 @@ import Link from 'next/link';
 const Header = () => {
   const [selectOn, setSelectOn] = useState(false);
   const { user, setLanguage, isEnglish } = useUserContext();
+  const langRef = useRef<HTMLLIElement>(null);
 
   const profile = isEnglish ? profileData.en : profileData.kr;
 
   const handleLanguageButton = () => {
-    setSelectOn(!selectOn);
+    setSelectOn((prev) => !prev);
   };
 
   const handleLanguageSelect = (type: 'ENGLISH' | 'KOREAN') => {
     setLanguage(type);
     setSelectOn(false);
   };
+
+  // Close dropdown on outside click
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (langRef.current && !langRef.current.contains(event.target as Node)) {
+        setSelectOn(false);
+      }
+    };
+    if (selectOn) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [selectOn]);
 
   const navList = [
     { title: 'Home', link: `/` },
@@ -35,20 +51,20 @@ const Header = () => {
   return (
     <header className="w-full">
       {/* Top Brand Banner */}
-      <section className="w-full flex justify-between items-center px-4 sm:px-8 pt-5 pb-0">
+      <section className="w-full flex justify-between items-center px-6 sm:px-10 pt-6 pb-1">
         <Link href={`/`} onClick={() => setSelectOn(false)} className="cursor-pointer group">
-          <h1 className="text-xl sm:text-3xl md:text-4xl font-black uppercase tracking-tight text-black m-0">
+          <h1 className="text-2xl sm:text-3xl md:text-4xl font-black uppercase tracking-tight text-black m-0">
             {profile.name}
           </h1>
-          <h2 className="text-xs sm:text-sm font-bold uppercase tracking-wider text-neutral-600 mt-0.5">
+          <h2 className="text-xs sm:text-sm font-bold uppercase tracking-wider text-neutral-600 mt-1">
             FRONT-END DEVELOPER
           </h2>
         </Link>
       </section>
 
-      {/* Navigation Bar */}
-      <nav className="w-full mt-3 px-3 sm:px-8">
-        <ul className="w-full bg-[#e7e2d0] border-[3px] border-black px-3 sm:px-8 py-2.5 flex flex-wrap items-center justify-center sm:justify-between gap-2.5 sm:gap-4 box-border">
+      {/* Navigation Bar with balanced padding */}
+      <nav className="w-full mt-3 px-6 sm:px-10">
+        <ul className="w-full bg-[#e7e2d0] border-[3px] border-black px-6 sm:px-10 md:px-12 py-3.5 flex flex-wrap items-center justify-center sm:justify-between gap-3 sm:gap-6 box-border">
           {navList.map((item, index) => (
             <React.Fragment key={`nav-group-${item.title}-${index}`}>
               <li className="flex items-center text-xs sm:text-sm font-extrabold uppercase tracking-tight">
@@ -58,14 +74,14 @@ const Header = () => {
                     target="_blank"
                     rel="noopener noreferrer"
                     onClick={() => setSelectOn(false)}
-                    className="px-1.5 py-0.5 transition-colors hover:bg-black hover:text-[#e7e2d0]">
+                    className="px-2 py-1 transition-colors hover:bg-black hover:text-[#e7e2d0]">
                     {item.title}
                   </a>
                 ) : (
                   <Link
                     href={item.link}
                     onClick={() => setSelectOn(false)}
-                    className="px-1.5 py-0.5 transition-colors hover:bg-black hover:text-[#e7e2d0]">
+                    className="px-2 py-1 transition-colors hover:bg-black hover:text-[#e7e2d0]">
                     {item.title}
                   </Link>
                 )}
@@ -78,12 +94,12 @@ const Header = () => {
             </React.Fragment>
           ))}
 
-          {/* Language Switcher */}
-          <li className="relative flex items-center">
+          {/* Language Switcher with outside click ref */}
+          <li ref={langRef} className="relative flex items-center">
             <button
               onClick={handleLanguageButton}
               aria-label="Toggle Language"
-              className="flex items-center gap-1.5 px-2 py-1 bg-white border-[1.5px] border-black cursor-pointer hover:bg-black hover:text-[#e7e2d0] transition-colors shadow-[1px_1px_0px_#000000]">
+              className="flex items-center gap-1.5 px-2.5 py-1 bg-white border-[1.5px] border-black cursor-pointer hover:bg-black hover:text-[#e7e2d0] transition-colors shadow-[1px_1px_0px_#000000]">
               <Image
                 src={Language}
                 alt="language"
@@ -103,9 +119,9 @@ const Header = () => {
                   animate={{ opacity: 1, scale: 1, y: 0 }}
                   exit={{ opacity: 0, scale: 0.9, y: 5 }}
                   transition={{ duration: 0.15 }}
-                  className="absolute top-[calc(100%+8px)] right-0 bg-[#e7e2d0] border-[3px] border-black shadow-[4px_4px_0px_#000000] p-2.5 min-w-[140px] z-[100] flex flex-col gap-1.5">
+                  className="absolute top-[calc(100%+8px)] right-0 bg-[#e7e2d0] border-[3px] border-black shadow-[4px_4px_0px_#000000] p-2.5 min-w-[145px] z-[100] flex flex-col gap-1.5 list-none m-0">
                   <li
-                    className={`px-2.5 py-1.5 text-xs font-extrabold cursor-pointer flex items-center gap-2 transition-colors ${
+                    className={`px-3 py-1.5 text-xs font-extrabold cursor-pointer flex items-center gap-2 transition-colors ${
                       user.language === 'ENGLISH'
                         ? 'bg-black text-[#e7e2d0]'
                         : 'hover:bg-black hover:text-[#e7e2d0]'
@@ -115,7 +131,7 @@ const Header = () => {
                     <span>English {user.language === 'ENGLISH' && '✓'}</span>
                   </li>
                   <li
-                    className={`px-2.5 py-1.5 text-xs font-extrabold cursor-pointer flex items-center gap-2 transition-colors ${
+                    className={`px-3 py-1.5 text-xs font-extrabold cursor-pointer flex items-center gap-2 transition-colors ${
                       user.language === 'KOREAN'
                         ? 'bg-black text-[#e7e2d0]'
                         : 'hover:bg-black hover:text-[#e7e2d0]'

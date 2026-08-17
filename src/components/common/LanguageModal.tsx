@@ -16,13 +16,16 @@ export default function LanguageModal() {
 
   return (
     <AnimatePresence>
-      <div className="fixed inset-0 bg-black/80 z-[9999] flex items-center justify-center p-5 backdrop-blur-[3px]">
+      <div
+        onClick={() => setIsLanguageModalOpen(false)}
+        className="fixed inset-0 bg-black/80 z-[9999] flex items-center justify-center p-5 backdrop-blur-[3px] cursor-pointer">
         <motion.div
+          onClick={(e) => e.stopPropagation()}
           initial={{ scale: 0.9, opacity: 0, y: 20 }}
           animate={{ scale: 1, opacity: 1, y: 0 }}
           exit={{ scale: 0.9, opacity: 0, y: 20 }}
           transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-          className="bg-[#e7e2d0] border-4 border-black p-6 sm:p-8 w-full max-w-[520px] shadow-[8px_8px_0px_#000000] sm:shadow-[10px_10px_0px_#000000] flex flex-col gap-6 relative">
+          className="bg-[#e7e2d0] border-4 border-black p-6 sm:p-8 w-full max-w-[520px] shadow-[8px_8px_0px_#000000] sm:shadow-[10px_10px_0px_#000000] flex flex-col gap-6 relative cursor-default">
           {/* Header Bar */}
           <div className="flex items-center justify-between border-b-[3px] border-black pb-4">
             <div className="flex items-center gap-2">
