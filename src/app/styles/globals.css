@@ -1,5 +1,7 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 /* 1. 기본 태그 스타일 */
 @layer base {
   html,
@@ -76,7 +78,7 @@
   }
 
   html.dark ::selection {
-    background-color: #f59e0b;
+    background-color: #06b6d4;
     color: #000000;
   }
 }
@@ -89,7 +91,7 @@
 }
 
 html.dark .brutal-card {
-  border-color: #2e323d;
-  background-color: #16171d;
+  border-color: #272a34;
+  background-color: #16171e;
   box-shadow: 4px 4px 0px #000000;
 }

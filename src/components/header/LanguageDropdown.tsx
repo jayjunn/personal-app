@@ -48,12 +48,13 @@ export default function LanguageDropdown({
         className="
           flex
           items-center
-          gap-2
+          justify-center
+          gap-1.5
+          h-8
           px-3
-          py-1.5
           bg-[#e7e2d0]
           dark:bg-[#1f212a]
-          border-[1.5px]
+          border-2
           border-black
           dark:border-[#2f3340]
           cursor-pointer
@@ -61,14 +62,17 @@ export default function LanguageDropdown({
           hover:text-[#e7e2d0]
           dark:hover:bg-[#2e3240]
           dark:hover:text-white
-          transition-colors
-          shadow-[1px_1px_0px_#000000]
+          transition-all
+          shadow-[2px_2px_0px_#000000]
+          active:translate-x-0.5
+          active:translate-y-0.5
+          active:shadow-none
           text-black
           dark:text-[#f3f4f6]
         "
       >
         <GlobeIcon className="w-4 h-4 stroke-current" />
-        <span className="text-[11px] font-black font-mono">
+        <span className="text-xs font-black font-mono">
           {language === 'ENGLISH' ? 'EN' : 'KR'}
         </span>
       </button>

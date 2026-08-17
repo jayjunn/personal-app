@@ -117,7 +117,8 @@ export default function DesktopNav({
         })}
 
         {/* Right Controls: Command Palette, Theme Toggle & Language Dropdown */}
-        <li className="flex items-center gap-2">
+        {/* Right Controls: Command Palette, Theme Toggle & Language Dropdown */}
+        <li className="flex items-center gap-2.5">
           {/* Command Palette Trigger Button */}
           <button
             type="button"
@@ -126,12 +127,12 @@ export default function DesktopNav({
             className="
               flex
               items-center
-              gap-1
+              justify-center
+              h-8
               px-2.5
-              py-1.5
               bg-[#e7e2d0]
               dark:bg-[#1f212a]
-              border-[1.5px]
+              border-2
               border-black
               dark:border-[#2f3340]
               cursor-pointer
@@ -139,12 +140,15 @@ export default function DesktopNav({
               hover:text-[#e7e2d0]
               dark:hover:bg-[#2e3240]
               dark:hover:text-white
-              transition-colors
-              shadow-[1px_1px_0px_#000000]
+              transition-all
+              shadow-[2px_2px_0px_#000000]
+              active:translate-x-0.5
+              active:translate-y-0.5
+              active:shadow-none
               text-black
               dark:text-[#f3f4f6]
               font-mono
-              text-[11px]
+              text-xs
               font-black
             "
             title="Command Palette (⌘K)"
@@ -165,7 +169,7 @@ export default function DesktopNav({
               h-8
               bg-[#e7e2d0]
               dark:bg-[#1f212a]
-              border-[1.5px]
+              border-2
               border-black
               dark:border-[#2f3340]
               cursor-pointer
@@ -173,8 +177,11 @@ export default function DesktopNav({
               hover:text-[#e7e2d0]
               dark:hover:bg-[#2e3240]
               dark:hover:text-white
-              transition-colors
-              shadow-[1px_1px_0px_#000000]
+              transition-all
+              shadow-[2px_2px_0px_#000000]
+              active:translate-x-0.5
+              active:translate-y-0.5
+              active:shadow-none
               text-black
               dark:text-[#f3f4f6]
             "
