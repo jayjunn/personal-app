@@ -19,7 +19,7 @@ export default function MarkdownText({ content, className = '' }: MarkdownTextPr
       // Bold: **text**
       if (token.startsWith('**') && token.endsWith('**') && token.length >= 4) {
         return (
-          <strong key={i} className="font-black text-black dark:text-cyan-300">
+          <strong key={i} className="font-black text-black dark:text-[#ded8c4]">
             {token.slice(2, -2)}
           </strong>
         );
@@ -30,7 +30,7 @@ export default function MarkdownText({ content, className = '' }: MarkdownTextPr
         return (
           <code
             key={i}
-            className="px-1.5 py-0.5 mx-0.5 rounded bg-black/10 dark:bg-white/15 text-black dark:text-cyan-200 font-mono text-[12px] font-bold border border-black/20 dark:border-white/20"
+            className="px-1.5 py-0.5 mx-0.5 rounded bg-black/10 dark:bg-white/10 text-black dark:text-[#ded8c4] font-mono text-[12px] font-bold border border-black/20 dark:border-white/20"
           >
             {token.slice(1, -1)}
           </code>
@@ -46,7 +46,7 @@ export default function MarkdownText({ content, className = '' }: MarkdownTextPr
             href={linkMatch[2]}
             target="_blank"
             rel="noopener noreferrer"
-            className="underline font-bold text-cyan-700 dark:text-cyan-400 hover:text-black dark:hover:text-white transition-colors"
+            className="underline font-bold text-black dark:text-[#ded8c4] hover:text-neutral-600 dark:hover:text-white transition-colors"
           >
             {linkMatch[1]} ↗
           </a>
@@ -74,7 +74,7 @@ export default function MarkdownText({ content, className = '' }: MarkdownTextPr
           const itemText = trimmed.replace(/^[*•-]\s+/, '');
           return (
             <div key={idx} className="flex items-start gap-2 pl-1">
-              <span className="text-cyan-600 dark:text-cyan-400 font-bold shrink-0 mt-0.5">•</span>
+              <span className="text-black dark:text-[#ded8c4] font-bold shrink-0 mt-0.5">•</span>
               <div className="flex-1">{parseInline(itemText)}</div>
             </div>
           );
@@ -99,7 +99,7 @@ export default function MarkdownText({ content, className = '' }: MarkdownTextPr
           return (
             <div
               key={idx}
-              className="font-black text-xs uppercase tracking-wider text-black dark:text-cyan-300 pt-1 pb-0.5 border-b border-black/15 dark:border-white/15"
+              className="font-black text-xs uppercase tracking-wider text-black dark:text-[#ded8c4] pt-1 pb-0.5 border-b border-black/15 dark:border-white/15"
             >
               {parseInline(headerText)}
             </div>

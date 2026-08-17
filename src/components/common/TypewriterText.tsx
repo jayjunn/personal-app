@@ -56,7 +56,7 @@ export default function TypewriterText({
     <span className={className}>
       {displayedText}
       <span
-        className="inline-block ml-1 font-mono font-normal text-cyan-500 dark:text-cyan-400 animate-pulse"
+        className="inline-block ml-1 font-mono font-normal text-black dark:text-[#ded8c4] animate-pulse"
       >
         |
       </span>

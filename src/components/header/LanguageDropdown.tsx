@@ -117,7 +117,7 @@ export default function LanguageDropdown({
                 gap-2
                 ${
                   language === 'ENGLISH'
-                    ? 'bg-black text-white dark:bg-white dark:text-black'
+                    ? 'bg-black text-white dark:bg-[#ded8c4] dark:text-black'
                     : 'text-black dark:text-[#f3f4f6] hover:bg-black hover:text-white dark:hover:bg-[#252834] dark:hover:text-white'
                 }
               `}
@@ -139,7 +139,7 @@ export default function LanguageDropdown({
                 gap-2
                 ${
                   language === 'KOREAN'
-                    ? 'bg-black text-white dark:bg-white dark:text-black'
+                    ? 'bg-black text-white dark:bg-[#ded8c4] dark:text-black'
                     : 'text-black dark:text-[#f3f4f6] hover:bg-black hover:text-white dark:hover:bg-[#252834] dark:hover:text-white'
                 }
               `}

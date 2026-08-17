@@ -7,7 +7,6 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { NAV_LIST } from './navData';
 import { useTheme } from '@/providers/ThemeProvider';
 import { SunIcon, MoonIcon } from '@/components/icons';
-
 import { useLanguage } from '@/hooks/useLanguage';
 
 interface MobileNavOverlayProps {
@@ -44,7 +43,7 @@ export default function MobileNavOverlay({
             w-screen
             h-[100dvh]
             bg-[#e7e2d0]
-            dark:bg-[#121212]
+            dark:bg-[#0d0e12]
             flex
             flex-col
             justify-between
@@ -64,15 +63,15 @@ export default function MobileNavOverlay({
               pb-4
               border-b-[3px]
               border-black
-              dark:border-[#e7e2d0]
+              dark:border-[#272a34]
               bg-[#e7e2d0]
-              dark:bg-[#121212]
+              dark:bg-[#0d0e12]
               shrink-0
             "
           >
             <div className="flex flex-col">
               <span
-                className="text-lg sm:text-xl font-black uppercase tracking-tight text-black dark:text-[#e7e2d0]"
+                className="text-lg sm:text-xl font-black uppercase tracking-tight text-black dark:text-[#f3f4f6]"
               >
                 {profileName}
               </span>
@@ -85,23 +84,26 @@ export default function MobileNavOverlay({
               type="button"
               onClick={onClose}
               className="
-                p-2
+                p-2.5
                 bg-[#e7e2d0]
-                dark:bg-[#1a1a1a]
+                dark:bg-[#16171e]
                 border-2
                 border-black
-                dark:border-[#e7e2d0]
+                dark:border-[#272a34]
                 text-black
-                dark:text-[#e7e2d0]
+                dark:text-[#f3f4f6]
                 font-black
-                text-lg
+                text-base
                 leading-none
                 shadow-[2px_2px_0px_#000000]
-                dark:shadow-[2px_2px_0px_#e7e2d0]
+                dark:shadow-[2px_2px_0px_#000000]
                 active:translate-x-0.5
                 active:translate-y-0.5
                 active:shadow-none
                 cursor-pointer
+                hover:bg-neutral-200
+                dark:hover:bg-[#252834]
+                transition-colors
               "
               aria-label="Close Menu"
             >
@@ -111,7 +113,7 @@ export default function MobileNavOverlay({
 
           {/* Navigation Links */}
           <nav className="my-auto py-6 flex flex-col justify-center">
-            <ul className="flex flex-col gap-3.5 list-none p-0 m-0 w-full">
+            <ul className="flex flex-col gap-3 list-none p-0 m-0 w-full">
               {NAV_LIST.map((item, index) => {
                 const isActive = !item.isExternal && pathname === item.link;
 
@@ -128,27 +130,27 @@ export default function MobileNavOverlay({
                           items-center
                           justify-between
                           px-4
-                          py-3
+                          py-3.5
                           border-2
                           border-black
-                          dark:border-[#e7e2d0]
-                          bg-[#e7e2d0]
-                          dark:bg-[#1a1a1a]
+                          dark:border-[#272a34]
+                          bg-[#f4f0e3]
+                          dark:bg-[#16171e]
                           text-black
-                          dark:text-[#e7e2d0]
+                          dark:text-[#f3f4f6]
                           font-black
                           text-base
                           uppercase
                           tracking-wider
                           shadow-[3px_3px_0px_#000000]
-                          dark:shadow-[3px_3px_0px_#e7e2d0]
+                          dark:shadow-[3px_3px_0px_#000000]
                           active:translate-x-0.5
                           active:translate-y-0.5
                           active:shadow-none
                           hover:bg-black
                           hover:text-white
-                          dark:hover:bg-[#e7e2d0]
-                          dark:hover:text-black
+                          dark:hover:bg-[#252834]
+                          dark:hover:text-white
                           transition-colors
                         "
                       >
@@ -164,24 +166,24 @@ export default function MobileNavOverlay({
                           items-center
                           justify-between
                           px-4
-                          py-3
+                          py-3.5
                           border-2
                           border-black
-                          dark:border-[#e7e2d0]
+                          dark:border-[#272a34]
                           font-black
                           text-base
                           uppercase
                           tracking-wider
                           shadow-[3px_3px_0px_#000000]
-                          dark:shadow-[3px_3px_0px_#e7e2d0]
+                          dark:shadow-[3px_3px_0px_#000000]
                           active:translate-x-0.5
                           active:translate-y-0.5
                           active:shadow-none
                           transition-all
                           ${
                             isActive
-                              ? 'bg-black text-white dark:bg-[#e7e2d0] dark:text-black'
-                              : 'bg-[#e7e2d0] dark:bg-[#1a1a1a] text-black dark:text-[#e7e2d0] hover:bg-black hover:text-white dark:hover:bg-[#e7e2d0] dark:hover:text-black'
+                              ? 'bg-black text-[#e7e2d0] dark:bg-[#ded8c4] dark:text-black dark:border-[#ded8c4]'
+                              : 'bg-[#f4f0e3] dark:bg-[#16171e] text-black dark:text-[#f3f4f6] hover:bg-black hover:text-white dark:hover:bg-[#252834] dark:hover:text-white'
                           }
                         `}
                       >
@@ -206,9 +208,9 @@ export default function MobileNavOverlay({
               pt-4
               border-t-[3px]
               border-black
-              dark:border-[#e7e2d0]
+              dark:border-[#272a34]
               bg-[#e7e2d0]
-              dark:bg-[#121212]
+              dark:bg-[#0d0e12]
               shrink-0
             "
           >
@@ -220,32 +222,35 @@ export default function MobileNavOverlay({
                 flex
                 items-center
                 gap-2
-                px-3
-                py-1.5
+                px-3.5
+                py-2
                 border-2
                 border-black
-                dark:border-[#e7e2d0]
-                bg-[#e7e2d0]
-                dark:bg-[#1a1a1a]
+                dark:border-[#272a34]
+                bg-[#f4f0e3]
+                dark:bg-[#16171e]
                 text-black
-                dark:text-[#e7e2d0]
+                dark:text-[#f3f4f6]
                 shadow-[2px_2px_0px_#000000]
-                dark:shadow-[2px_2px_0px_#e7e2d0]
-                text-[11px]
+                dark:shadow-[2px_2px_0px_#000000]
+                text-xs
                 font-mono
                 font-black
                 cursor-pointer
+                hover:bg-neutral-200
+                dark:hover:bg-[#252834]
+                transition-colors
               "
             >
               {isDark ? (
                 <>
-                  <SunIcon className="w-3.5 h-3.5 text-white" />
-                  <span>LIGHT</span>
+                  <SunIcon className="w-3.5 h-3.5 text-amber-400" />
+                  <span>LIGHT MODE</span>
                 </>
               ) : (
                 <>
-                  <MoonIcon className="w-3.5 h-3.5 text-black" />
-                  <span>DARK</span>
+                  <MoonIcon className="w-3.5 h-3.5 text-neutral-800" />
+                  <span>DARK MODE</span>
                 </>
               )}
             </button>
@@ -257,11 +262,11 @@ export default function MobileNavOverlay({
                 items-center
                 border-2
                 border-black
-                dark:border-[#e7e2d0]
-                bg-[#e7e2d0]
-                dark:bg-[#1a1a1a]
+                dark:border-[#272a34]
+                bg-[#f4f0e3]
+                dark:bg-[#16171e]
                 shadow-[2px_2px_0px_#000000]
-                dark:shadow-[2px_2px_0px_#e7e2d0]
+                dark:shadow-[2px_2px_0px_#000000]
               "
             >
               <button
@@ -270,13 +275,15 @@ export default function MobileNavOverlay({
                 className={`
                   px-3
                   py-1.5
-                  text-[11px]
+                  text-xs
                   font-mono
                   font-black
+                  cursor-pointer
+                  transition-colors
                   ${
                     language === 'KOREAN'
-                      ? 'bg-black text-white dark:bg-[#e7e2d0] dark:text-black'
-                      : 'text-black dark:text-[#e7e2d0] hover:bg-[#d4ceb8] dark:hover:bg-[#262626]'
+                      ? 'bg-black text-[#e7e2d0] dark:bg-[#ded8c4] dark:text-black'
+                      : 'text-black dark:text-[#a1a1aa] hover:bg-black/10 dark:hover:bg-[#252834] dark:hover:text-white'
                   }
                 `}
               >
@@ -289,13 +296,18 @@ export default function MobileNavOverlay({
                 className={`
                   px-3
                   py-1.5
-                  text-[11px]
+                  text-xs
                   font-mono
                   font-black
+                  cursor-pointer
+                  border-l-2
+                  border-black
+                  dark:border-[#272a34]
+                  transition-colors
                   ${
                     language === 'ENGLISH'
-                      ? 'bg-black text-white dark:bg-[#e7e2d0] dark:text-black'
-                      : 'text-black dark:text-[#e7e2d0] hover:bg-[#d4ceb8] dark:hover:bg-[#262626]'
+                      ? 'bg-black text-[#e7e2d0] dark:bg-[#ded8c4] dark:text-black'
+                      : 'text-black dark:text-[#a1a1aa] hover:bg-black/10 dark:hover:bg-[#252834] dark:hover:text-white'
                   }
                 `}
               >
@@ -303,7 +315,7 @@ export default function MobileNavOverlay({
               </button>
             </div>
 
-            <div className="w-full text-center text-[10px] font-mono font-bold text-neutral-600 dark:text-neutral-400 pt-1">
+            <div className="w-full text-center text-[10px] font-mono font-bold text-neutral-600 dark:text-neutral-500 pt-1">
               <span>© YOUNGGEUN JUN • ALL RIGHTS RESERVED</span>
             </div>
           </div>

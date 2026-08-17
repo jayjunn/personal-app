@@ -56,7 +56,7 @@ export default function ChatInput({
           focus:outline-none
           focus:ring-2
           focus:ring-black
-          dark:focus:ring-cyan-400
+          dark:focus:ring-[#ded8c4]
           font-mono
         "
       />
@@ -74,18 +74,19 @@ export default function ChatInput({
           justify-center
           rounded-full
           bg-black
-          dark:bg-cyan-400
+          dark:bg-[#ded8c4]
           text-white
           dark:text-black
           transition-all
           duration-200
           hover:bg-neutral-800
-          dark:hover:bg-cyan-300
+          dark:hover:bg-white
           hover:scale-105
           active:scale-90
           disabled:opacity-30
           disabled:hover:scale-100
           disabled:cursor-not-allowed
+          cursor-pointer
         "
       >
         <SendIcon className="w-[19px] h-[19px]" />

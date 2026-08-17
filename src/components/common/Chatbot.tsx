@@ -127,7 +127,7 @@ export default function Chatbot() {
               border-black
               dark:border-[#272a34]
               text-white
-              dark:text-cyan-400
+              dark:text-[#f3f4f6]
               px-4
               py-3
               flex
@@ -136,10 +136,10 @@ export default function Chatbot() {
             "
           >
             <div className="flex items-center gap-2.5">
-              <div className="relative flex items-center justify-center w-4 h-4">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-gradient-to-r from-pink-400 via-purple-500 to-cyan-400 opacity-80 blur-[1px]" />
-                <span className="animate-pulse absolute inline-flex h-3 w-3 rounded-full bg-gradient-to-tr from-cyan-400 via-teal-300 to-emerald-400 opacity-90 blur-[0.5px]" />
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-white shadow-[0_0_8px_#38bdf8,0_0_12px_#a855f7]" />
+              <div className="relative flex items-center justify-center w-3.5 h-3.5">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-60 blur-[0.5px]" />
+                <span className="animate-pulse absolute inline-flex h-2.5 w-2.5 rounded-full bg-emerald-300 opacity-80" />
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-white shadow-[0_0_6px_#34d399]" />
               </div>
               <span className="font-black text-xs sm:text-sm uppercase tracking-wider text-white dark:text-[#f3f4f6]">
                 {t.chatbot.title}
@@ -158,7 +158,7 @@ export default function Chatbot() {
               )}
               <button
                 onClick={() => setIsOpen(false)}
-                className="text-white dark:text-[#f3f4f6] font-bold hover:text-cyan-400 transition-colors text-lg cursor-pointer"
+                className="text-white dark:text-[#f3f4f6] font-bold hover:text-neutral-300 dark:hover:text-neutral-300 transition-colors text-lg cursor-pointer"
                 aria-label="Close Chatbot"
               >
                 ✕

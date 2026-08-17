@@ -64,12 +64,12 @@ export default function SpotlightCursor() {
 
   return (
     <>
-      {/* 1. Dark Mode Ambient Spotlight Glow (Ice Cyan/Blue glow) */}
+      {/* 1. Dark Mode Ambient Spotlight Glow (Subtle Warm Ivory glow) */}
       {isDark && (
         <motion.div
           className="fixed inset-0 pointer-events-none z-[1] transition-opacity duration-300"
           style={{
-            background: `radial-gradient(550px circle at ${smoothX.get()}px ${smoothY.get()}px, rgba(56, 189, 248, 0.05), transparent 70%)`,
+            background: `radial-gradient(550px circle at ${smoothX.get()}px ${smoothY.get()}px, rgba(231, 226, 208, 0.035), transparent 70%)`,
           }}
         />
       )}
@@ -96,7 +96,7 @@ export default function SpotlightCursor() {
             border-2
             ${
               isDark
-                ? 'border-cyan-400/80 bg-cyan-400/20 shadow-[0_0_10px_rgba(34,211,238,0.4)]'
+                ? 'border-[#ded8c4]/80 bg-[#ded8c4]/15 shadow-[0_0_8px_rgba(222,216,196,0.25)]'
                 : 'border-black/70 bg-black/15'
             }
             transition-colors

@@ -74,7 +74,7 @@ export default function EmailForm() {
               placeholder={t.contact.emailPlaceholder}
               onChange={handleInput}
               value={inputValue.email}
-              className="w-full p-3.5 sm:p-4 bg-[#fbf9f4] dark:bg-[#16171e] border-2 border-black dark:border-[#2f3340] text-black dark:text-[#f3f4f6] text-sm font-medium outline-none focus:bg-[#ede8d5] dark:focus:bg-[#1f212a] dark:focus:border-cyan-400 box-border"
+              className="w-full p-3.5 sm:p-4 bg-[#fbf9f4] dark:bg-[#16171e] border-2 border-black dark:border-[#2f3340] text-black dark:text-[#f3f4f6] text-sm font-medium outline-none focus:bg-[#ede8d5] dark:focus:bg-[#1f212a] dark:focus:border-[#ded8c4] box-border"
             />
           </div>
 
@@ -93,7 +93,7 @@ export default function EmailForm() {
               placeholder={t.contact.subjectPlaceholder}
               onChange={handleInput}
               value={inputValue.subject}
-              className="w-full p-3.5 sm:p-4 bg-[#fbf9f4] dark:bg-[#16171e] border-2 border-black dark:border-[#2f3340] text-black dark:text-[#f3f4f6] text-sm font-medium outline-none focus:bg-[#ede8d5] dark:focus:bg-[#1f212a] dark:focus:border-cyan-400 box-border"
+              className="w-full p-3.5 sm:p-4 bg-[#fbf9f4] dark:bg-[#16171e] border-2 border-black dark:border-[#2f3340] text-black dark:text-[#f3f4f6] text-sm font-medium outline-none focus:bg-[#ede8d5] dark:focus:bg-[#1f212a] dark:focus:border-[#ded8c4] box-border"
             />
           </div>
         </div>
@@ -113,7 +113,7 @@ export default function EmailForm() {
             placeholder={t.contact.messagePlaceholder}
             onChange={handleInput}
             value={inputValue.message}
-            className="w-full p-3.5 sm:p-4 bg-[#fbf9f4] dark:bg-[#16171e] border-2 border-black dark:border-[#2f3340] text-black dark:text-[#f3f4f6] text-sm font-medium outline-none focus:bg-[#ede8d5] dark:focus:bg-[#1f212a] dark:focus:border-cyan-400 leading-relaxed resize-y box-border"
+            className="w-full p-3.5 sm:p-4 bg-[#fbf9f4] dark:bg-[#16171e] border-2 border-black dark:border-[#2f3340] text-black dark:text-[#f3f4f6] text-sm font-medium outline-none focus:bg-[#ede8d5] dark:focus:bg-[#1f212a] dark:focus:border-[#ded8c4] leading-relaxed resize-y box-border"
           />
         </div>
 

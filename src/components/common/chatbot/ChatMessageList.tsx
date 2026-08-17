@@ -79,7 +79,7 @@ export default function ChatMessageList({
             dark:border-[#2f3340]
             ${
               msg.role === 'user'
-                ? 'bg-black text-white dark:bg-cyan-400 dark:text-black dark:border-cyan-400 self-end shadow-[2px_2px_0px_#000000] whitespace-pre-wrap'
+                ? 'bg-black text-[#e7e2d0] dark:bg-[#ded8c4] dark:text-black dark:border-[#ded8c4] self-end shadow-[2px_2px_0px_#000000] whitespace-pre-wrap'
                 : 'bg-[#f4f0e3] text-black dark:bg-[#1f212a] dark:text-[#f3f4f6] self-start shadow-[2px_2px_0px_#000000]'
             }
           `}
@@ -102,7 +102,7 @@ export default function ChatMessageList({
             border-black
             dark:border-[#2f3340]
             text-black
-            dark:text-cyan-400
+            dark:text-[#ded8c4]
             self-start
             p-3
             rounded-lg
@@ -141,14 +141,16 @@ export default function ChatMessageList({
                   bg-[#f4f0e3]
                   dark:bg-[#1f212a]
                   text-black
-                  dark:text-cyan-400
+                  dark:text-[#f3f4f6]
                   hover:bg-black
                   hover:text-white
-                  dark:hover:bg-cyan-400
+                  dark:hover:bg-[#ded8c4]
                   dark:hover:text-black
+                  dark:hover:border-[#ded8c4]
                   transition-all
                   duration-150
                   shadow-[2px_2px_0px_#000000]
+                  dark:shadow-[2px_2px_0px_#000000]
                   active:translate-x-[1px]
                   active:translate-y-[1px]
                   cursor-pointer
