@@ -1,11 +1,10 @@
 'use client';
 
 import React from 'react';
-import anglesRight from '../../public/image/anglesRight.svg';
-import Image from 'next/image';
 import { useLanguage } from '@/hooks/useLanguage';
 import { profileData as defaultProfileData } from '../data/portfolioData';
 import { ProfileDataType } from '../service/portfolioService';
+import { AnglesRightIcon } from '@/components/icons';
 import { motion } from 'framer-motion';
 
 interface ProfileProps {
@@ -46,13 +45,7 @@ const Profile = ({ initialProfile }: ProfileProps) => {
         </p>
         <div className="border-t-[3px] border-black flex-grow flex flex-col">
           <div className="border-b-[3px] border-black px-5 sm:px-8 py-5 sm:py-6 flex items-center gap-3">
-            <Image
-              className="w-6 h-6 transition-transform duration-300 group-hover:rotate-90"
-              src={anglesRight}
-              alt="icon"
-              width={30}
-              height={30}
-            />
+            <AnglesRightIcon className="w-5 h-5 transition-transform duration-300 group-hover:rotate-90 stroke-current text-black" />
             <span className="font-extrabold tracking-tight text-lg uppercase text-black">ABOUT</span>
           </div>
           <div className="text-sm sm:text-base leading-relaxed font-medium px-5 sm:px-8 py-6 sm:py-8 text-black">
@@ -66,13 +59,7 @@ const Profile = ({ initialProfile }: ProfileProps) => {
         <div className="group">
           <div className="px-5 sm:px-8">
             <div className="bg-black text-[#e7e2d0] flex items-center h-14 sm:h-16 gap-3 px-5 sm:px-6">
-              <Image
-                className="w-5 h-5 invert-[93%] sepia-[8%] saturate-[339%] hue-rotate-[10deg] brightness-[98%] contrast-[90%] transition-transform duration-300 group-hover:rotate-90"
-                src={anglesRight}
-                alt="icon"
-                width={20}
-                height={20}
-              />
+              <AnglesRightIcon className="w-5 h-5 transition-transform duration-300 group-hover:rotate-90 stroke-current text-[#e7e2d0]" />
               <h3 className="font-extrabold text-base sm:text-lg uppercase tracking-tight text-[#e7e2d0] m-0">
                 {isEnglish ? 'SKILLS' : '기술 스택'}
               </h3>
@@ -100,7 +87,7 @@ const Profile = ({ initialProfile }: ProfileProps) => {
             onClick={handleScrollDown}
             className="cursor-pointer rotate-90 hover:scale-125 transition-transform"
             aria-label="Scroll to Works">
-            <Image src={anglesRight} alt="scroll down" width={36} height={36} className="w-9 h-9" />
+            <AnglesRightIcon className="w-9 h-9 stroke-current text-black" />
           </button>
         </div>
       </div>

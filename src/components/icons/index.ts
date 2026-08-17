@@ -4,3 +4,5 @@ export { default as LogoutIcon } from './LogoutIcon';
 export { default as GoogleIcon } from './GoogleIcon';
 export { default as AiSparkleIcon } from './AiSparkleIcon';
 export { default as SendIcon } from './SendIcon';
+export { GlobeIcon } from './GlobeIcon';
+export { AnglesRightIcon } from './AnglesRightIcon';

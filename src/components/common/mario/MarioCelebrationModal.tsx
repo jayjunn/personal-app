@@ -17,7 +17,7 @@ export default function MarioCelebrationModal({
     if (!isOpen) return;
 
     // 1. Initial Multi-Angle Confetti Burst
-    const count = 200;
+    const count = 160;
     const defaults = {
       origin: { y: 0.7 },
       zIndex: 999999,
@@ -57,23 +57,20 @@ export default function MarioCelebrationModal({
       colors: ['#fbbf24', '#ffffff', '#e11d48'],
     });
 
-    fire(0.1, {
-      spread: 120,
-      startVelocity: 45,
-    });
-
-    // 2. Continuous Fireworks Cannon for 3 seconds
-    const duration = 3000;
+    // 2. Fireworks Cannon for strictly 2 seconds
+    const duration = 2000;
     const animationEnd = Date.now() + duration;
 
     const interval: NodeJS.Timeout = setInterval(() => {
       const timeLeft = animationEnd - Date.now();
 
       if (timeLeft <= 0) {
-        return clearInterval(interval);
+        clearInterval(interval);
+        confetti.reset();
+        return;
       }
 
-      const particleCount = 40 * (timeLeft / duration);
+      const particleCount = 28 * (timeLeft / duration);
 
       // Left cannon
       confetti({
@@ -94,18 +91,18 @@ export default function MarioCelebrationModal({
         zIndex: 999999,
         colors: ['#e11d48', '#2563eb', '#fcd34d', '#ffffff'],
       });
-    }, 250);
-
-    // 3. Auto dismiss after 4.5 seconds
-    const timer = setTimeout(() => {
-      onClose();
-    }, 4500);
+    }, 200);
 
     return () => {
       clearInterval(interval);
-      clearTimeout(timer);
+      confetti.reset();
     };
-  }, [isOpen, onClose]);
+  }, [isOpen]);
+
+  const handleClose = () => {
+    confetti.reset();
+    onClose();
+  };
 
   return (
     <AnimatePresence>
@@ -126,7 +123,7 @@ export default function MarioCelebrationModal({
             p-4
             cursor-pointer
           "
-          onClick={onClose}
+          onClick={handleClose}
         >
           <motion.div
             initial={{ scale: 0.5, y: 50, rotate: -3 }}
@@ -176,7 +173,7 @@ export default function MarioCelebrationModal({
             {/* Continue / Reset button */}
             <button
               type="button"
-              onClick={onClose}
+              onClick={handleClose}
               className="
                 mt-2
                 w-full

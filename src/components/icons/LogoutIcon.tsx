@@ -4,7 +4,7 @@ interface IconProps extends React.SVGProps<SVGSVGElement> {
   className?: string;
 }
 
-export default function LogoutIcon({ className = 'w-4 h-4', ...props }: IconProps) {
+export function LogoutIcon({ className = 'w-4 h-4', ...props }: IconProps) {
   return (
     <svg
       className={className}
@@ -22,3 +22,5 @@ export default function LogoutIcon({ className = 'w-4 h-4', ...props }: IconProp
     </svg>
   );
 }
+
+export default LogoutIcon;

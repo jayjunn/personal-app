@@ -6,8 +6,7 @@ import ContactList from '../components/ContactList';
 import MarioCompanion from '../components/common/MarioCompanion';
 import { getProfile, getWorks, getExperiences } from '../service/portfolioService';
 
-// Next.js ISR (Incremental Static Regeneration)
-export const revalidate = 60;
+export const dynamic = 'force-dynamic';
 
 export default async function HomePage() {
   const [profile, works, experiences] = await Promise.all([

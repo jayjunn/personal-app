@@ -1,8 +1,7 @@
 import React from 'react';
 import Contact from '../../components/Contact';
 
-// Next.js ISR (Incremental Static Regeneration)
-export const revalidate = 60;
+export const dynamic = 'force-dynamic';
 
 export default function ContactPage() {
   return (

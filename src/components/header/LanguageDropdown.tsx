@@ -1,9 +1,8 @@
 'use client';
 
 import React, { useRef, useEffect } from 'react';
-import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
-import LanguageIcon from '../../../public/image/language.svg';
+import { GlobeIcon } from '@/components/icons';
 
 interface LanguageDropdownProps {
   language: 'ENGLISH' | 'KOREAN';
@@ -63,13 +62,7 @@ export default function LanguageDropdown({
           text-black
         "
       >
-        <Image
-          src={LanguageIcon}
-          alt="language"
-          width={18}
-          height={18}
-          className="w-4 h-4"
-        />
+        <GlobeIcon className="w-4 h-4 stroke-current" />
         <span className="text-[11px] font-black font-mono">
           {language === 'ENGLISH' ? 'EN' : 'KR'}
         </span>

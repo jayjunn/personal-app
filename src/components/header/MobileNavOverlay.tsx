@@ -65,7 +65,9 @@ export default function MobileNavOverlay({
             "
           >
             <div className="flex flex-col">
-              <span className="text-lg sm:text-xl font-black uppercase tracking-tight">
+              <span
+                className="text-lg sm:text-xl font-black uppercase tracking-tight"
+              >
                 {profileName}
               </span>
               <span className="text-[10px] font-extrabold uppercase tracking-wider text-neutral-600 font-mono">

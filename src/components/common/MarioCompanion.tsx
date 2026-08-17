@@ -189,8 +189,17 @@ export default function MarioCompanion() {
     if (nextScore >= 500) {
       setScore(500);
       setIsCelebrating(true);
-      showSpeech('CONGRATULATIONS! 🌟 STAGE CLEAR!', 4000);
-      spawnParticle(posRef.current.x + 15, posRef.current.y - 30, '🌟 500 PTS!');
+      showSpeech(
+        isEnglish
+          ? 'CONGRATULATIONS! 🌟 STAGE CLEAR!'
+          : '축하합니다! 🌟 스테이지 클리어!',
+        4000
+      );
+      spawnParticle(
+        posRef.current.x + 15,
+        posRef.current.y - 30,
+        isEnglish ? '🌟 500 PTS!' : '🌟 500점 달성!'
+      );
     } else {
       setScore(nextScore);
       const cheers = isEnglish

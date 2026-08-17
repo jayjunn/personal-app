@@ -4,7 +4,7 @@ interface IconProps extends React.SVGProps<SVGSVGElement> {
   className?: string;
 }
 
-export default function LockIcon({ className = 'w-3.5 h-3.5', ...props }: IconProps) {
+export function LockIcon({ className = 'w-3.5 h-3.5', ...props }: IconProps) {
   return (
     <svg
       className={className}
@@ -22,3 +22,5 @@ export default function LockIcon({ className = 'w-3.5 h-3.5', ...props }: IconPr
     </svg>
   );
 }
+
+export default LockIcon;
