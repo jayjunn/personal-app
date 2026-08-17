@@ -51,47 +51,35 @@ const Work = (props: WorkProps) => {
         "
         id={name.toLowerCase().replace(/\s+/g, '-')}
       >
-        {/* Card Header */}
+        {/* Card Header (Centered Category Label) */}
         <div
           className="
             w-full
             flex
             items-center
-            justify-between
+            justify-center
             px-4
             sm:px-5
-            py-4
+            py-3.5
             border-b-2
             border-black
             dark:border-[#272a34]
             bg-black
             dark:bg-[#1f212a]
-            text-[#e7e2d0]
-            dark:text-[#f3f4f6]
-            font-black
-            text-sm
-            uppercase
-            tracking-tight
             shrink-0
-            min-h-[52px]
           "
         >
-          <span>{badgeText === 'COMPANY' ? '' : name}</span>
           {badgeText && (
             <span
               className="
-                text-[11px]
+                text-xs
+                sm:text-sm
                 font-mono
-                font-bold
-                bg-[#e7e2d0]
-                dark:bg-[#0d0e12]
-                text-black
+                font-black
+                uppercase
+                tracking-widest
+                text-[#e7e2d0]
                 dark:text-[#f3f4f6]
-                px-2.5
-                py-1
-                border
-                border-black
-                dark:border-[#2f3340]
               "
             >
               {badgeText}
