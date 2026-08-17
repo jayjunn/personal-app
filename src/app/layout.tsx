@@ -1,18 +1,22 @@
 import type { Metadata } from 'next';
 import './styles/globals.css';
-import { AuthProvider } from '../context/authContext';
-import ReactQueryProvider from '../context/queryProvider';
+import ReactQueryProvider from '@/providers/ReactQueryProvider';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+import AuthInitializer from '../components/common/AuthInitializer';
 import LanguageInitializer from '../components/common/LanguageInitializer';
 import LanguageModal from '../components/common/LanguageModal';
 import Chatbot from '../components/common/Chatbot';
 
+
+export const viewport = {
+  width: 'device-width',
+  initialScale: 1,
+};
+
+
 export const metadata: Metadata = {
-  title: {
-    default: 'Younggeun Jun',
-    template: 'Younggeun Jun | %s',
-  },
+  title: { default: 'Younggeun Jun', template: 'Younggeun Jun | %s' },
   description: 'Software Engineer Younggeun Jun',
   openGraph: {
     title: 'Younggeun Jun | Software Engineer',
@@ -30,49 +34,20 @@ export const metadata: Metadata = {
     type: 'website',
   },
 };
-
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body className="m-0 p-0">
-        <main
-          className="
-            w-full
-            max-w-[1400px]
-            mx-auto
-            min-h-screen
-            flex
-            flex-col
-            bg-[#e7e2d0]
-          "
-        >
+      <body>
+        <main className="w-full max-w-[1400px] mx-auto min-h-screen flex flex-col justify-between bg-[#e7e2d0]">
           <ReactQueryProvider>
-            <AuthProvider>
-              <LanguageInitializer />
-
-              {/* Fixed Header */}
+            <AuthInitializer />
+            <LanguageInitializer />
+            <div className="flex-1 flex flex-col">
               <Header />
-
-              {/* Header가 fixed라서 콘텐츠에 공간을 만들어줌 */}
-              <div
-                className="
-                  flex-1
-                  pt-[110px]
-                  md:pt-[190px]
-                "
-              >
-                {children}
-              </div>
-
-              <Footer />
-
-              <LanguageModal />
-            </AuthProvider>
-
+              <div className="flex-1 pt-24 sm:pt-28 md:pt-[11.5rem]">{children}</div>
+            </div>
+            <Footer />
+            <LanguageModal />
             <Chatbot />
           </ReactQueryProvider>
         </main>

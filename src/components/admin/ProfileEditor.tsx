@@ -1,23 +1,17 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { ProfileDataType, getProfile, updateProfile } from '@/service/portfolioService';
+import { ProfileDataType } from '@/service/portfolioService';
 import { profileData as defaultProfile } from '@/data/portfolioData';
+import { useProfileQuery, useUpdateProfileMutation } from '@/hooks/usePortfolioQueries';
 
 export default function ProfileEditor() {
-  const queryClient = useQueryClient();
   const [profile, setProfile] = useState<ProfileDataType>(defaultProfile as unknown as ProfileDataType);
   const [activeLang, setActiveLang] = useState<'en' | 'kr'>('en');
   const [skillInput, setSkillInput] = useState('');
   const [message, setMessage] = useState<{ text: string; type: 'success' | 'error' } | null>(null);
 
-  const { data: remoteProfile, isLoading } = useQuery({
-    queryKey: ['profile'],
-    queryFn: getProfile,
-    initialData: defaultProfile as unknown as ProfileDataType,
-  });
-
+  const { data: remoteProfile, isLoading } = useProfileQuery();
 
   useEffect(() => {
     if (remoteProfile) {
@@ -25,19 +19,7 @@ export default function ProfileEditor() {
     }
   }, [remoteProfile]);
 
-
-  const saveMutation = useMutation({
-    mutationFn: (newProfile: ProfileDataType) => updateProfile(newProfile),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['profile'] });
-      setMessage({ text: '프로필 정보가 성공적으로 저장되었습니다! ✅', type: 'success' });
-      setTimeout(() => setMessage(null), 3500);
-    },
-    onError: (err: any) => {
-      console.error(err);
-      setMessage({ text: `저장 실패: ${err.message || '오류 발생'}`, type: 'error' });
-    },
-  });
+  const saveMutation = useUpdateProfileMutation();
 
   const handleTextChange = (field: 'name' | 'headLine' | 'about', value: string) => {
     setProfile((prev) => ({

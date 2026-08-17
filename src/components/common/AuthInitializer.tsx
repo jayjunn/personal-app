@@ -1,9 +1,6 @@
 'use client';
 
-// AuthProvider: mounts Firebase onAuthStateChanged listener and writes to authAtom.
-// No longer manages state internally — all state lives in authAtom.ts.
-
-import React, { useEffect, ReactNode } from 'react';
+import { useEffect } from 'react';
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from '@/lib/firebase';
 import { useSetAtom } from 'jotai';
@@ -22,7 +19,7 @@ const getInitialUser = (): AdminUser | null => {
   return null;
 };
 
-export const AuthProvider = ({ children }: { children: ReactNode }) => {
+export default function AuthInitializer() {
   const setUser = useSetAtom(adminUserAtom);
   const setLoading = useSetAtom(authLoadingAtom);
 
@@ -71,5 +68,5 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
   }, [setUser, setLoading]);
 
-  return <>{children}</>;
-};
+  return null;
+}

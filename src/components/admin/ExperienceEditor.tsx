@@ -1,23 +1,17 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { ExperienceItem, getExperiences, updateExperiences } from '@/service/portfolioService';
+import { ExperienceItem } from '@/service/portfolioService';
 import { experienceData as defaultExperiences } from '@/data/portfolioData';
+import { useExperiencesQuery, useUpdateExperiencesMutation } from '@/hooks/usePortfolioQueries';
 
 export default function ExperienceEditor() {
-  const queryClient = useQueryClient();
   const [experiences, setExperiences] = useState<ExperienceItem[]>(defaultExperiences as unknown as ExperienceItem[]);
   const [editingIndex, setEditingIndex] = useState<number | null>(null);
   const [editItem, setEditItem] = useState<ExperienceItem | null>(null);
   const [message, setMessage] = useState<{ text: string; type: 'success' | 'error' } | null>(null);
 
-  const { data: remoteExperiences, isLoading } = useQuery({
-    queryKey: ['experiences'],
-    queryFn: getExperiences,
-    initialData: defaultExperiences as unknown as ExperienceItem[],
-  });
-
+  const { data: remoteExperiences, isLoading } = useExperiencesQuery();
 
   useEffect(() => {
     if (remoteExperiences && remoteExperiences.length > 0) {
@@ -25,19 +19,7 @@ export default function ExperienceEditor() {
     }
   }, [remoteExperiences]);
 
-
-  const saveMutation = useMutation({
-    mutationFn: (newExps: ExperienceItem[]) => updateExperiences(newExps),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['experiences'] });
-      setMessage({ text: '경력 사항이 성공적으로 저장되었습니다! ✅', type: 'success' });
-      setTimeout(() => setMessage(null), 3500);
-    },
-    onError: (err: any) => {
-      console.error(err);
-      setMessage({ text: `저장 실패: ${err.message || '오류 발생'}`, type: 'error' });
-    },
-  });
+  const saveMutation = useUpdateExperiencesMutation();
 
   const handleStartAdd = () => {
     setEditItem({

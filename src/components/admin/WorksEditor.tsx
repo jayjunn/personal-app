@@ -1,12 +1,12 @@
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { WorkItem, getWorks, updateWorks } from '@/service/portfolioService';
+import { WorkItem } from '@/service/portfolioService';
+import { uploadToCloudinary } from '@/service/uploadService';
 import { workData as defaultWorks } from '@/data/portfolioData';
+import { useWorksQuery, useUpdateWorksMutation } from '@/hooks/usePortfolioQueries';
 
 export default function WorksEditor() {
-  const queryClient = useQueryClient();
   const [works, setWorks] = useState<WorkItem[]>(defaultWorks as unknown as WorkItem[]);
   const [editingIndex, setEditingIndex] = useState<number | null>(null);
   const [editItem, setEditItem] = useState<WorkItem | null>(null);
@@ -15,12 +15,7 @@ export default function WorksEditor() {
   const [message, setMessage] = useState<{ text: string; type: 'success' | 'error' } | null>(null);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
-  const { data: remoteWorks, isLoading } = useQuery({
-    queryKey: ['works'],
-    queryFn: getWorks,
-    initialData: defaultWorks as unknown as WorkItem[],
-  });
-
+  const { data: remoteWorks, isLoading } = useWorksQuery();
 
   useEffect(() => {
     if (remoteWorks && remoteWorks.length > 0) {
@@ -28,19 +23,7 @@ export default function WorksEditor() {
     }
   }, [remoteWorks]);
 
-
-  const saveMutation = useMutation({
-    mutationFn: (newWorks: WorkItem[]) => updateWorks(newWorks),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['works'] });
-      setMessage({ text: '프로젝트 목록이 성공적으로 저장되었습니다! ✅', type: 'success' });
-      setTimeout(() => setMessage(null), 3500);
-    },
-    onError: (err: any) => {
-      console.error(err);
-      setMessage({ text: `저장 실패: ${err.message || '오류 발생'}`, type: 'error' });
-    },
-  });
+  const saveMutation = useUpdateWorksMutation();
 
   const handleStartAdd = () => {
     setEditItem({
@@ -110,27 +93,9 @@ export default function WorksEditor() {
     if (!files || files.length === 0 || !editItem) return;
 
     const file = files[0];
-    const uploadUrl = process.env.NEXT_PUBLIC_CLOUDINARY_URL;
-    const uploadPreset = process.env.NEXT_PUBLIC_CLOUDINARY_PRESET;
-
-    if (!uploadUrl || !uploadPreset) {
-      alert('Cloudinary 환경변수가 설정되어 있지 않습니다. 이미지 URL을 직접 입력해주세요.');
-      return;
-    }
-
     setUploading(true);
     try {
-      const formData = new FormData();
-      formData.append('file', file);
-      formData.append('upload_preset', uploadPreset);
-
-      const res = await fetch(uploadUrl, {
-        method: 'POST',
-        body: formData,
-      });
-
-      if (!res.ok) throw new Error('Image upload failed');
-      const data = await res.json();
+      const data = await uploadToCloudinary(file);
       if (data.secure_url) {
         setEditItem({
           ...editItem,

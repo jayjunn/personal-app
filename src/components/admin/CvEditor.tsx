@@ -1,11 +1,11 @@
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { CVDataType, getCVSettings, updateCVSettings } from '@/service/portfolioService';
+import { CVDataType } from '@/service/portfolioService';
+import { uploadToCloudinary } from '@/service/uploadService';
+import { useCvSettingsQuery, useUpdateCvSettingsMutation } from '@/hooks/usePortfolioQueries';
 
 export default function CvEditor() {
-  const queryClient = useQueryClient();
   const [cvSettings, setCvSettings] = useState<CVDataType>({
     pdfUrl: '',
     summaryEn: '',
@@ -16,11 +16,7 @@ export default function CvEditor() {
   const [message, setMessage] = useState<{ text: string; type: 'success' | 'error' } | null>(null);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
-  const { data: remoteCv, isLoading } = useQuery({
-    queryKey: ['cvSettings'],
-    queryFn: getCVSettings,
-  });
-
+  const { data: remoteCv, isLoading } = useCvSettingsQuery();
 
   useEffect(() => {
     if (remoteCv) {
@@ -28,46 +24,16 @@ export default function CvEditor() {
     }
   }, [remoteCv]);
 
-
-  const saveMutation = useMutation({
-    mutationFn: (newCv: CVDataType) => updateCVSettings(newCv),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['cvSettings'] });
-      setMessage({ text: 'CV 설정이 성공적으로 저장되었습니다! ✅', type: 'success' });
-      setTimeout(() => setMessage(null), 3500);
-    },
-    onError: (err: any) => {
-      console.error(err);
-      setMessage({ text: `저장 실패: ${err.message || '오류 발생'}`, type: 'error' });
-    },
-  });
+  const saveMutation = useUpdateCvSettingsMutation();
 
   const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
     if (!files || files.length === 0) return;
 
     const file = files[0];
-    const uploadUrl = process.env.NEXT_PUBLIC_CLOUDINARY_URL;
-    const uploadPreset = process.env.NEXT_PUBLIC_CLOUDINARY_PRESET;
-
-    if (!uploadUrl || !uploadPreset) {
-      alert('Cloudinary 환경변수가 설정되어 있지 않습니다. PDF URL을 직접 입력해주세요.');
-      return;
-    }
-
     setUploading(true);
     try {
-      const formData = new FormData();
-      formData.append('file', file);
-      formData.append('upload_preset', uploadPreset);
-
-      const res = await fetch(uploadUrl, {
-        method: 'POST',
-        body: formData,
-      });
-
-      if (!res.ok) throw new Error('PDF upload failed');
-      const data = await res.json();
+      const data = await uploadToCloudinary(file);
       if (data.secure_url) {
         setCvSettings((prev) => ({
           ...prev,
