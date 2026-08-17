@@ -5,18 +5,24 @@ import styles from '../app/styles/Profile.module.css';
 import anglesRight from '../../public/image/anglesRight.svg';
 import Image from 'next/image';
 import { useUserContext } from '../context/userContext';
-import { profileData } from '../data/portfolioData';
+import { profileData as defaultProfileData } from '../data/portfolioData';
+import { ProfileDataType } from '../service/portfolioService';
 import { motion } from 'framer-motion';
 
-const Profile = () => {
+interface ProfileProps {
+  initialProfile?: ProfileDataType;
+}
+
+const Profile = ({ initialProfile }: ProfileProps) => {
   const handleScrollDown = () => {
     document.getElementById('works-section')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   };
   const { isEnglish } = useUserContext();
 
-  const profile = isEnglish ? profileData.en : profileData.kr;
+  const activeData = initialProfile || (defaultProfileData as unknown as ProfileDataType);
+  const profile = isEnglish ? activeData.en : activeData.kr;
 
-  const skills = [
+  const defaultSkills = [
     'REACT',
     'NEXT.JS',
     'TYPESCRIPT',
@@ -30,6 +36,8 @@ const Profile = () => {
     'GRAPHQL',
     'REACT NATIVE',
   ];
+
+  const skills = profile.skills && profile.skills.length > 0 ? profile.skills : defaultSkills;
 
   return (
     <section className={styles.container}>

@@ -28,17 +28,17 @@ export default function EmailForm() {
     sendContactEmail(inputValue)
       .then(() => {
         setBanner({
-          message: 'Email got sent successfully',
+          message: '이메일이 성공적으로 전송되었습니다! ✅',
         });
         setInputValue(initialInputValue);
       })
       .catch(() => {
         setBanner({
-          message: "Email can't be sent please try it again",
+          message: '이메일 전송에 실패했습니다. 다시 시도해주세요.',
         });
       })
       .finally(() => {
-        setTimeout(() => setBanner(null), 3000);
+        setTimeout(() => setBanner(null), 3500);
         setIsLoading(false);
       });
   };
@@ -51,57 +51,121 @@ export default function EmailForm() {
   return (
     <>
       {banner && <Toast message={banner.message} />}
-      <form className="px-4 py-8 flex flex-col gap-4 h-full justify-start items-center" onSubmit={handleSubmit} method="POST">
-        <div className="w-full max-w-[700px]">
-          <label className="text-sm font-bold block mb-1" htmlFor="email">
-            Email Address
-          </label>
-          <input
-            type="email"
-            name="email"
-            className="text-sm focus:outline-none bg-[#e7e2d0] border-2 border-black text-black rounded-lg block w-full placeholder-stone-600 px-3 py-2 font-medium"
-            placeholder="abc@domain.com"
-            required
-            id="email"
-            onChange={handleInput}
-            value={inputValue.email}
-          />
+      <form
+        onSubmit={handleSubmit}
+        method="POST"
+        style={{ display: 'flex', flexDirection: 'column', gap: '20px', width: '100%' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '20px' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+            <label
+              htmlFor="email"
+              style={{ fontSize: '13px', fontWeight: 800, textTransform: 'uppercase', color: '#111' }}>
+              이메일 주소 (Email Address)
+            </label>
+            <input
+              type="email"
+              name="email"
+              id="email"
+              required
+              placeholder="your-email@example.com"
+              onChange={handleInput}
+              value={inputValue.email}
+              style={{
+                boxSizing: 'border-box',
+                width: '100%',
+                padding: '14px 16px',
+                backgroundColor: '#ffffff',
+                border: '2px solid #000000',
+                fontSize: '14px',
+                fontWeight: 500,
+                fontFamily: 'inherit',
+                outline: 'none',
+              }}
+            />
+          </div>
+
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+            <label
+              htmlFor="subject"
+              style={{ fontSize: '13px', fontWeight: 800, textTransform: 'uppercase', color: '#111' }}>
+              제목 (Subject)
+            </label>
+            <input
+              type="text"
+              name="subject"
+              id="subject"
+              required
+              placeholder="프로젝트 제안 / 문의 내용"
+              onChange={handleInput}
+              value={inputValue.subject}
+              style={{
+                boxSizing: 'border-box',
+                width: '100%',
+                padding: '14px 16px',
+                backgroundColor: '#ffffff',
+                border: '2px solid #000000',
+                fontSize: '14px',
+                fontWeight: 500,
+                fontFamily: 'inherit',
+                outline: 'none',
+              }}
+            />
+          </div>
         </div>
-        <div className="w-full max-w-[700px]">
-          <label className="text-sm font-bold block mb-1" htmlFor="subject">
-            Subject
-          </label>
-          <input
-            type="text"
-            id="subject"
-            name="subject"
-            className="text-sm focus:outline-none bg-[#e7e2d0] border-2 border-black text-black rounded-lg block w-full placeholder-stone-600 px-3 py-2 font-medium"
-            placeholder="Subject"
-            required
-            value={inputValue.subject}
-            onChange={handleInput}
-          />
-        </div>
-        <div className="w-full max-w-[700px]">
-          <label className="text-sm font-bold block mb-1" htmlFor="message">
-            Message
+
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+          <label
+            htmlFor="message"
+            style={{ fontSize: '13px', fontWeight: 800, textTransform: 'uppercase', color: '#111' }}>
+            메시지 본문 (Message)
           </label>
           <textarea
             name="message"
             id="message"
-            className="resize-none text-sm focus:outline-none bg-[#e7e2d0] border-2 border-black text-black rounded-lg block w-full placeholder-stone-600 px-3 py-2 font-medium"
-            placeholder="Message..."
-            rows={5}
             required
-            value={inputValue.message}
+            rows={5}
+            placeholder="남기실 메시지를 작성해주세요..."
             onChange={handleInput}
+            value={inputValue.message}
+            style={{
+              boxSizing: 'border-box',
+              width: '100%',
+              padding: '14px 16px',
+              backgroundColor: '#ffffff',
+              border: '2px solid #000000',
+              fontSize: '14px',
+              fontWeight: 500,
+              fontFamily: 'inherit',
+              outline: 'none',
+              lineHeight: 1.6,
+              resize: 'vertical',
+            }}
           />
         </div>
-        <div className="flex justify-center mb-4">
+
+        <div style={{ display: 'flex', justifyContent: 'flex-end', paddingTop: '10px' }}>
           <button
             type="submit"
-            className="border-2 border-black px-8 py-2.5 mt-4 bg-black text-[#e7e2d0] font-bold rounded text-sm hover:bg-[#e7e2d0] hover:text-black transition-colors">
-            {isLoading ? 'Sending...' : 'Send Message'}
+            disabled={isLoading}
+            style={{
+              all: 'unset',
+              cursor: 'pointer',
+              boxSizing: 'border-box',
+              display: 'inline-flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: '8px',
+              backgroundColor: '#000000',
+              color: '#e7e2d0',
+              border: '2px solid #000000',
+              padding: '14px 32px',
+              fontSize: '14px',
+              fontWeight: 800,
+              textTransform: 'uppercase',
+              transition: 'all 0.2s ease',
+              opacity: isLoading ? 0.6 : 1,
+            }}>
+            {isLoading ? '전송 처리 중...' : '메시지 전송 (Send Message) ➔'}
           </button>
         </div>
       </form>

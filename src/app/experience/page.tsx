@@ -1,10 +1,16 @@
 import React from 'react';
 import Experience from '../../components/Experience';
+import { getExperiences } from '@/service/portfolioService';
 
-export default function page() {
+// Next.js ISR (Incremental Static Regeneration)
+export const revalidate = 60;
+
+export default async function ExperiencePage() {
+  const experiences = await getExperiences();
+
   return (
-    <>
-      <Experience />
-    </>
+    <div>
+      <Experience initialExperiences={experiences} />
+    </div>
   );
 }

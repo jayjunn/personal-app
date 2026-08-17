@@ -8,27 +8,61 @@ export default function Footer() {
   const { user } = useAuth();
 
   return (
-    <footer className="w-full mt-16 border-t-2 border-black pt-6 pb-12 px-4 md:px-6 flex flex-col md:flex-row items-center justify-between gap-4 text-xs font-mono">
-      <div className="flex flex-col md:flex-row items-center gap-2 text-center md:text-left text-neutral-800">
-        <span className="font-bold tracking-wider">© {new Date().getFullYear()} YOUNGGEUN JUN.</span>
-        <span className="hidden md:inline text-neutral-500">•</span>
-        <span className="text-neutral-600">ALL RIGHTS RESERVED.</span>
+    <footer
+      style={{
+        width: '100%',
+        marginTop: '30px',
+        borderTop: '3px solid black',
+        padding: '24px 30px 40px 30px',
+        display: 'flex',
+        flexWrap: 'wrap',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        gap: '16px',
+        fontSize: '12px',
+        fontFamily: 'monospace',
+        boxSizing: 'border-box',
+      }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
+        <span style={{ fontWeight: 800, letterSpacing: '0.5px' }}>© {new Date().getFullYear()} YOUNGGEUN JUN.</span>
+        <span style={{ color: '#888' }}>•</span>
+        <span style={{ color: '#555' }}>ALL RIGHTS RESERVED.</span>
       </div>
 
-      <div className="flex items-center gap-3">
+      <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
         <Link
           href="/admin"
-          className="group inline-flex items-center gap-2 px-3 py-1.5 bg-white border-2 border-black font-bold uppercase text-[11px] shadow-[2px_2px_0px_#000000] hover:bg-black hover:text-[#e7e2d0] transition-all active:translate-x-[1px] active:translate-y-[1px] active:shadow-none"
+          style={{
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: '8px',
+            padding: '6px 14px',
+            backgroundColor: '#ffffff',
+            border: '2px solid #000000',
+            fontWeight: 800,
+            fontSize: '11px',
+            textTransform: 'uppercase',
+            textDecoration: 'none',
+            color: '#000000',
+            transition: 'all 0.2s ease',
+          }}
           title="관리자 페이지로 이동">
           {user ? (
             <>
-              <span className="inline-block w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+              <span
+                style={{
+                  width: '8px',
+                  height: '8px',
+                  borderRadius: '50%',
+                  backgroundColor: '#10b981',
+                  display: 'inline-block',
+                }}></span>
               <span>ADMIN PANEL ({user.email?.split('@')[0] || 'ADMIN'})</span>
-              <span className="group-hover:translate-x-0.5 transition-transform">➔</span>
+              <span>➔</span>
             </>
           ) : (
             <>
-              <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg style={{ width: '14px', height: '14px' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path
                   strokeLinecap="round"
                   strokeLinejoin="round"
@@ -37,7 +71,7 @@ export default function Footer() {
                 />
               </svg>
               <span>ADMIN LOGIN</span>
-              <span className="group-hover:translate-x-0.5 transition-transform">➔</span>
+              <span>➔</span>
             </>
           )}
         </Link>

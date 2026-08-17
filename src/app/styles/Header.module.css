@@ -39,8 +39,9 @@
 
 .second__header {
   display: flex;
-  padding: 24px 0px;
+  padding: 24px 30px;
   justify-content: space-between;
+  align-items: center;
   border-bottom: 3px solid black;
 }
 

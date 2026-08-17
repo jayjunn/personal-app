@@ -41,6 +41,23 @@ export interface CVDataType {
 
 const COLLECTION_NAME = 'portfolio';
 
+/**
+ * Trigger Next.js On-Demand ISR Revalidation
+ */
+export const triggerRevalidate = async (path?: string) => {
+  try {
+    if (typeof window !== 'undefined') {
+      await fetch('/api/revalidate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ path }),
+      });
+    }
+  } catch (err) {
+    console.warn('On-demand revalidation notice:', err);
+  }
+};
+
 // Profile API
 export const getProfile = async (): Promise<ProfileDataType> => {
   try {
@@ -59,6 +76,7 @@ export const getProfile = async (): Promise<ProfileDataType> => {
 export const updateProfile = async (data: ProfileDataType): Promise<void> => {
   const docRef = doc(db, COLLECTION_NAME, 'profile');
   await setDoc(docRef, data);
+  await triggerRevalidate('/');
 };
 
 // Experience API
@@ -79,6 +97,9 @@ export const getExperiences = async (): Promise<ExperienceItem[]> => {
 export const updateExperiences = async (list: ExperienceItem[]): Promise<void> => {
   const docRef = doc(db, COLLECTION_NAME, 'experiences');
   await setDoc(docRef, { list });
+  await triggerRevalidate('/experience');
+  await triggerRevalidate('/');
+  await triggerRevalidate('/cv');
 };
 
 // Works API
@@ -99,6 +120,8 @@ export const getWorks = async (): Promise<Project[]> => {
 export const updateWorks = async (list: Project[]): Promise<void> => {
   const docRef = doc(db, COLLECTION_NAME, 'works');
   await setDoc(docRef, { list });
+  await triggerRevalidate('/works');
+  await triggerRevalidate('/');
 };
 
 // CV Settings API
@@ -133,6 +156,7 @@ export const getCVSettings = async (): Promise<CVDataType> => {
 export const updateCVSettings = async (data: CVDataType): Promise<void> => {
   const docRef = doc(db, COLLECTION_NAME, 'cv');
   await setDoc(docRef, data);
+  await triggerRevalidate('/cv');
 };
 
 // Seed initial data from portfolioData.ts to Firestore
@@ -153,6 +177,7 @@ export const seedInitialData = async (): Promise<void> => {
     en: initialCvData.en,
     kr: initialCvData.kr,
   });
+  await triggerRevalidate();
 };
 
 // Realtime listeners

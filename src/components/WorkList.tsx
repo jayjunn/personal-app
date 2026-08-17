@@ -3,7 +3,8 @@
 import React from 'react';
 import styles from '../app/styles/WorkList.module.css';
 import Work from './Work';
-import { workData } from '../data/portfolioData';
+import { workData as defaultWorkData } from '../data/portfolioData';
+import { Project } from '../service/portfolioService';
 import { useUserContext } from '../context/userContext';
 import PageWrap from './common/PageWrap';
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -17,12 +18,14 @@ interface WorkListProps {
   limit?: number;
   showMoreLink?: boolean;
   useSlider?: boolean;
+  initialWorks?: Project[];
 }
 
-const WorkList = ({ limit, showMoreLink = false, useSlider = false }: WorkListProps) => {
+const WorkList = ({ limit, showMoreLink = false, useSlider = false, initialWorks }: WorkListProps) => {
   const { isEnglish } = useUserContext();
 
-  const displayedWorks = limit ? workData.slice(0, limit) : workData;
+  const works = initialWorks || defaultWorkData;
+  const displayedWorks = limit ? works.slice(0, limit) : works;
 
   return (
     <PageWrap
@@ -51,7 +54,7 @@ const WorkList = ({ limit, showMoreLink = false, useSlider = false }: WorkListPr
               }}
               className="w-full">
               {displayedWorks.map((item, index) => (
-                <SwiperSlide key={index}>
+                <SwiperSlide key={item.id || index}>
                   <Work
                     name={item.name}
                     img={item.img}
@@ -69,7 +72,7 @@ const WorkList = ({ limit, showMoreLink = false, useSlider = false }: WorkListPr
           <div className={styles.list}>
             {displayedWorks.map((item, index) => (
               <Work
-                key={index}
+                key={item.id || index}
                 name={item.name}
                 img={item.img}
                 description={isEnglish ? item.description.en : item.description.kr}

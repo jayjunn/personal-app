@@ -2,7 +2,8 @@
 
 import React from 'react';
 import styles from '../app/styles/Experience.module.css';
-import { experienceData } from '../data/portfolioData';
+import { experienceData as defaultExperienceData } from '../data/portfolioData';
+import { ExperienceItem } from '../service/portfolioService';
 import { useUserContext } from '../context/userContext';
 import PageWrap from './common/PageWrap';
 import { motion } from 'framer-motion';
@@ -10,15 +11,18 @@ import { motion } from 'framer-motion';
 interface ExperienceProps {
   limit?: number;
   showMoreLink?: boolean;
+  initialExperiences?: ExperienceItem[];
 }
 
-export default function Experience({ limit, showMoreLink = false }: ExperienceProps) {
+export default function Experience({ limit, showMoreLink = false, initialExperiences }: ExperienceProps) {
   const { isEnglish } = useUserContext();
 
-  const displayedExperiences = limit ? experienceData.slice(0, limit) : experienceData;
+  const experiences = initialExperiences || defaultExperienceData;
+  const displayedExperiences = limit ? experiences.slice(0, limit) : experiences;
 
   const languageSelector = (description: { en: string[]; kr: string[] }) => {
-    return isEnglish ? description.en : description.kr;
+    if (!description) return [];
+    return isEnglish ? description.en || [] : description.kr || [];
   };
 
   return (

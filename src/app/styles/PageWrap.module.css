@@ -1,13 +1,16 @@
 .container {
   display: flex;
   flex-direction: column;
-  padding: 30px 30px;
+  padding: 30px;
   border-bottom: 3px solid black;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .container:hover .arrow {
   transform: rotate(90deg);
 }
+
 .arrow {
   transition: 0.4s ease-out;
 }
@@ -16,6 +19,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  width: 100%;
 }
 
 .header__left {
@@ -25,21 +29,25 @@
 }
 
 .title {
-  margin-left: 10px;
+  margin-left: 12px;
   font-size: 28px;
-  font-weight: bold;
+  font-weight: 800;
   text-transform: uppercase;
+  letter-spacing: -0.5px;
 }
 
 .more__link {
-  font-size: 14px;
-  font-weight: bold;
+  font-size: 13px;
+  font-weight: 700;
   border: 2px solid black;
   padding: 6px 14px;
   background-color: black;
   color: #e7e2d0;
-  transition: all 0.2s;
+  transition: all 0.2s ease;
   text-transform: uppercase;
+  display: inline-flex;
+  align-items: center;
+  box-sizing: border-box;
 }
 
 .more__link:hover {
@@ -47,21 +55,25 @@
   color: black;
 }
 
-@media screen and (max-width: 1250px) {
+@media screen and (max-width: 1024px) {
   .container {
-    padding: 20px 20px;
+    padding: 24px 20px;
+  }
+  .title {
+    font-size: 24px;
   }
 }
 
 @media screen and (max-width: 740px) {
   .container {
-    padding: 20px 15px;
+    padding: 20px 16px;
   }
   .title {
     font-size: 20px;
+    margin-left: 8px;
   }
   .more__link {
-    font-size: 12px;
+    font-size: 11px;
     padding: 4px 10px;
   }
 }
