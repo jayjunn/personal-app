@@ -28,9 +28,10 @@ export default function MarioControls({
         onClick={onActivate}
         className="
           fixed
-          bottom-6
-          left-4
-          sm:left-6
+          bottom-3.5
+          sm:bottom-4
+          right-4
+          sm:right-6
           z-[8000]
           bg-black
           dark:bg-[#16171e]
@@ -40,7 +41,7 @@ export default function MarioControls({
           border-black
           dark:border-[#2f3340]
           px-3.5
-          py-2
+          py-1.5
           font-mono
           text-xs
           font-extrabold
@@ -63,9 +64,10 @@ export default function MarioControls({
     <div
       className="
         fixed
-        bottom-6
-        left-4
-        sm:left-6
+        bottom-3.5
+        sm:bottom-4
+        right-4
+        sm:right-6
         z-[8500]
         flex
         items-center
@@ -75,8 +77,8 @@ export default function MarioControls({
         border-2
         border-black
         dark:border-[#2f3340]
-        px-3
-        py-2
+        px-2.5
+        py-1.5
         shadow-[3px_3px_0px_#000000]
         font-mono
         text-xs

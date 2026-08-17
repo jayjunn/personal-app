@@ -67,18 +67,22 @@ export default function MarioCompanion() {
       const minX = 30;
       const maxX = screenW - 80;
       const minY = 80;
-      const maxY = screenH - 130;
+      const maxY = screenH - 65;
+
+      // Bottom-Right Avoidance Zone (AI Assistant & Mario Controls Area)
+      const avoidMinX = screenW - 250;
+      const avoidMinY = screenH - 190;
 
       if (stage === 1) {
-        // Stage 1: Stationary idle placed comfortably above the control panel
+        // Stage 1: Stationary idle placed safely on the bottom-left
         cur.vx = 0;
         cur.vy = 0;
-        cur.x = 80;
+        cur.x = 60;
         cur.y = maxY;
       } else if (stage === 2) {
-        // Stage 2: Ground walking along the line above the control panel
+        // Stage 2: Ground walking strictly outside the bottom-right panel zone
         const speed = 0.5;
-        const groundMaxX = Math.min(screenW - 80, 500);
+        const groundMaxX = Math.max(minX + 100, Math.min(screenW - 260, 520));
 
         if (frameCountRef.current % 180 === 0) {
           cur.vx = speed * (Math.random() > 0.5 ? 1 : -1);
@@ -134,6 +138,13 @@ export default function MarioCompanion() {
         } else if (cur.y >= maxY) {
           cur.y = maxY;
           cur.vy = -Math.abs(cur.vy) || -speedMultiplier;
+        }
+
+        // Dynamic Collision Avoidance with Bottom-Right Controls
+        if (cur.x >= avoidMinX && cur.y >= avoidMinY) {
+          if (cur.vx > 0) cur.vx = -Math.abs(cur.vx) || -speedMultiplier;
+          if (cur.vy > 0) cur.vy = -Math.abs(cur.vy) || -speedMultiplier;
+          setDirection(-1);
         }
 
         cur.x += cur.vx || speedMultiplier;

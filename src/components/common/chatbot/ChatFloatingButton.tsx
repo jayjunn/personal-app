@@ -13,7 +13,7 @@ export default function ChatFloatingButton({
   onToggle,
 }: ChatFloatingButtonProps) {
   return (
-    <div className="fixed bottom-6 right-4 sm:right-6 z-[9995] select-none">
+    <div className="fixed bottom-[3.75rem] sm:bottom-[4.5rem] right-4 sm:right-6 z-[9995] select-none">
       <motion.button
         type="button"
         onClick={onToggle}

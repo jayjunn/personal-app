@@ -100,7 +100,7 @@ export default function Chatbot() {
           style={{ zIndex: 999999 }}
           className="
             fixed
-            bottom-20
+            bottom-24
             right-4
             sm:right-6
             w-[calc(100vw-2rem)]
