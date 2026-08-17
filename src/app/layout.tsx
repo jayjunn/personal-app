@@ -44,7 +44,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               <LanguageInitializer />
               <div className="flex-1 flex flex-col">
                 <Header />
-                <div className="flex-1 mt-46">{children}</div>
+                <div className="flex-1 pt-24 sm:pt-28 md:pt-[11.5rem]">{children}</div>
               </div>
               <Footer />
               <LanguageModal />
