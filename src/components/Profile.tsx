@@ -16,7 +16,7 @@ const Profile = ({ initialProfile }: ProfileProps) => {
   const handleScrollDown = () => {
     document.getElementById('works-section')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   };
-  const { isEnglish } = useLanguage();
+  const { isEnglish, t } = useLanguage();
 
   const activeData = initialProfile || (defaultProfileData as unknown as ProfileDataType);
   const profile = isEnglish ? activeData.en : activeData.kr;
@@ -47,7 +47,9 @@ const Profile = ({ initialProfile }: ProfileProps) => {
         <div className="border-t-[3px] border-black dark:border-[#272a34] flex-grow flex flex-col">
           <div className="border-b-[3px] border-black dark:border-[#272a34] px-5 sm:px-8 py-4 sm:py-5 flex items-center gap-3">
             <AnglesRightIcon className="w-5 h-5 transition-transform duration-300 group-hover:rotate-90 stroke-current text-black dark:text-[#f3f4f6]" />
-            <span className="font-extrabold tracking-tight text-lg uppercase text-black dark:text-[#f3f4f6]">ABOUT</span>
+            <span className="font-extrabold tracking-tight text-lg uppercase text-black dark:text-[#f3f4f6]">
+              {t.profile.about}
+            </span>
           </div>
           <div className="text-sm sm:text-base leading-relaxed font-medium px-5 sm:px-8 py-5 sm:py-6 text-black dark:text-[#d1d5db]">
             {profile.about}
@@ -62,7 +64,7 @@ const Profile = ({ initialProfile }: ProfileProps) => {
             <div className="bg-black dark:bg-[#1f212a] text-[#e7e2d0] dark:text-[#f3f4f6] flex items-center h-14 sm:h-16 gap-3 px-5 sm:px-6 border-b-2 border-black dark:border-[#272a34] transition-colors duration-200">
               <AnglesRightIcon className="w-5 h-5 transition-transform duration-300 group-hover:rotate-90 stroke-current text-[#e7e2d0] dark:text-[#f3f4f6]" />
               <h3 className="font-extrabold text-base sm:text-lg uppercase tracking-tight text-[#e7e2d0] dark:text-[#f3f4f6] m-0">
-                {isEnglish ? 'SKILLS' : '기술 스택'}
+                {t.profile.skills}
               </h3>
             </div>
           </div>

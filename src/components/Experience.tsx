@@ -17,7 +17,7 @@ export default function Experience({
   showMoreLink = false,
   initialExperiences,
 }: ExperienceProps) {
-  const { isEnglish } = useLanguage();
+  const { isEnglish, t } = useLanguage();
 
   const experiences = initialExperiences || defaultExperienceData;
   const displayedExperiences = limit ? experiences.slice(0, limit) : experiences;
@@ -29,9 +29,9 @@ export default function Experience({
 
   return (
     <PageWrap
-      title="Experience"
+      title={t.experience.title}
       moreLink={showMoreLink ? '/experience' : undefined}
-      moreText={isEnglish ? 'VIEW ALL EXPERIENCES ➔' : '전체 경력 보기 ➔'}
+      moreText={t.experience.viewAll}
     >
       <ul className="w-full grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 list-none p-0">
         {displayedExperiences.map(({ role, company, description, stacks, id }, index) => (

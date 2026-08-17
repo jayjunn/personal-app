@@ -2,14 +2,20 @@
 
 @custom-variant dark (&:where(.dark, .dark *));
 
+@theme {
+  --font-sans: var(--font-sans), -apple-system, BlinkMacSystemFont, "Pretendard", "Segoe UI", Roboto, sans-serif;
+  --font-heading: var(--font-heading), "Space Grotesk", sans-serif;
+  --font-mono: var(--font-mono), "JetBrains Mono", Menlo, Consolas, monospace;
+}
+
 /* 1. 기본 태그 스타일 */
 @layer base {
   html,
   body {
     padding: 0;
     margin: 0;
-    font-family: Arial, Helvetica, sans-serif;
-    font-weight: 600;
+    font-family: var(--font-sans), -apple-system, BlinkMacSystemFont, "Pretendard", "Segoe UI", Roboto, sans-serif;
+    font-weight: 500;
     background-color: #e7e2d0;
     color: #000000;
     box-sizing: border-box;
@@ -43,19 +49,24 @@
   }
 
   h1, h2, h3, h4, h5 {
-    font-family: Arial, Helvetica, sans-serif;
-    font-weight: 600;
+    font-family: var(--font-heading), "Space Grotesk", sans-serif;
+    font-weight: 800;
+    letter-spacing: -0.02em;
     margin: 0px;
     color: inherit;
   }
 
+  code, kbd, samp, pre, .font-mono {
+    font-family: var(--font-mono), "JetBrains Mono", Menlo, Consolas, monospace;
+  }
+
   @media screen and (max-width: 767px) {
     body {
-      font-size: 16px;
+      font-size: 15px;
     }
 
     h1 {
-      font-size: 20px;
+      font-size: 22px;
     }
   }
 

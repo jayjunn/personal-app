@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { cookies } from 'next/headers';
+import { Space_Grotesk, Inter, JetBrains_Mono } from 'next/font/google';
 import './styles/globals.css';
 import ReactQueryProvider from '@/providers/ReactQueryProvider';
 import { LanguageProvider } from '@/providers/LanguageProvider';
@@ -12,6 +13,27 @@ import CommandPalette from '../components/common/CommandPalette';
 import SpotlightCursor from '../components/common/SpotlightCursor';
 import { COOKIE_NAME, LanguageType } from '@/constants/language';
 import { THEME_COOKIE_NAME, ThemeType } from '@/constants/theme';
+
+const spaceGrotesk = Space_Grotesk({
+  subsets: ['latin'],
+  weight: ['400', '500', '600', '700'],
+  variable: '--font-heading',
+  display: 'swap',
+});
+
+const inter = Inter({
+  subsets: ['latin'],
+  weight: ['400', '500', '600', '700', '800'],
+  variable: '--font-sans',
+  display: 'swap',
+});
+
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ['latin'],
+  weight: ['400', '500', '600', '700', '800'],
+  variable: '--font-mono',
+  display: 'swap',
+});
 
 export const dynamic = 'force-dynamic';
 
@@ -60,9 +82,9 @@ export default async function RootLayout({
   return (
     <html
       lang={initialLanguage === 'ENGLISH' ? 'en' : 'ko'}
-      className={initialTheme === 'dark' ? 'dark' : ''}
+      className={`${initialTheme === 'dark' ? 'dark' : ''} ${inter.variable} ${spaceGrotesk.variable} ${jetbrainsMono.variable}`}
     >
-      <body className="bg-[#e7e2d0] dark:bg-[#0d0e12] text-black dark:text-[#f3f4f6] transition-colors duration-200">
+      <body className="bg-[#e7e2d0] dark:bg-[#0d0e12] text-black dark:text-[#f3f4f6] font-sans transition-colors duration-200">
         <main className="w-full max-w-[1400px] mx-auto min-h-screen flex flex-col justify-between bg-[#e7e2d0] dark:bg-[#0d0e12] transition-colors duration-200">
           <ReactQueryProvider>
             <ThemeProvider initialTheme={initialTheme}>

@@ -1,12 +1,12 @@
 'use client';
 
 import React from 'react';
+import { useLanguage } from '@/hooks/useLanguage';
 import { SendIcon } from '@/components/icons';
 
 interface ChatInputProps {
   input: string;
   isPending: boolean;
-  isEnglish: boolean;
   onChange: (value: string) => void;
   onSubmit: (e: React.FormEvent) => void;
 }
@@ -14,10 +14,10 @@ interface ChatInputProps {
 export default function ChatInput({
   input,
   isPending,
-  isEnglish,
   onChange,
   onSubmit,
 }: ChatInputProps) {
+  const { t } = useLanguage();
   return (
     <form
       onSubmit={onSubmit}
@@ -37,9 +37,7 @@ export default function ChatInput({
         type="text"
         value={input}
         onChange={(e) => onChange(e.target.value)}
-        placeholder={
-          isEnglish ? 'Ask me anything...' : '무엇이든 물어보세요...'
-        }
+        placeholder={t.chatbot.placeholder}
         className="
           flex-1
           min-w-0

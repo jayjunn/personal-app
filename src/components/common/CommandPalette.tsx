@@ -23,7 +23,7 @@ export default function CommandPalette() {
   const [search, setSearch] = useState('');
   const [selectedIndex, setSelectedIndex] = useState(0);
   const router = useRouter();
-  const { isEnglish, toggleLanguage } = useLanguage();
+  const { isEnglish, t, toggleLanguage } = useLanguage();
   const { isDark, toggleTheme } = useTheme();
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -282,11 +282,7 @@ export default function CommandPalette() {
                   setSelectedIndex(0);
                 }}
                 onKeyDown={handleInputKeyDown}
-                placeholder={
-                  isEnglish
-                    ? 'Type a command or search (e.g. works, theme, github)...'
-                    : '명령어 또는 페이지 검색 (예: works, 다크모드, github)...'
-                }
+                placeholder={t.commandPalette.placeholder}
                 className="
                   flex-1
                   bg-transparent
@@ -370,9 +366,7 @@ export default function CommandPalette() {
 
               {filteredCommands.length === 0 && (
                 <div className="py-8 text-center text-xs font-mono font-bold text-neutral-500">
-                  {isEnglish
-                    ? `No commands found matching "${search}"`
-                    : `"${search}" 검색 결과가 없습니다.`}
+                  {t.commandPalette.noResults.replace('{search}', search)}
                 </div>
               )}
             </div>
@@ -380,11 +374,11 @@ export default function CommandPalette() {
             {/* Footer Quick Keys */}
             <div className="px-4 py-2 border-t-2 border-black dark:border-[#272a34] bg-black/5 dark:bg-white/5 flex items-center justify-between text-[10px] font-mono font-bold text-neutral-600 dark:text-neutral-400">
               <div className="flex items-center gap-3">
-                <span>↑↓ Navigate</span>
-                <span>↵ Select</span>
-                <span>ESC Close</span>
+                <span>{t.commandPalette.navigate}</span>
+                <span>{t.commandPalette.select}</span>
+                <span>{t.commandPalette.close}</span>
               </div>
-              <span className="uppercase">Younggeun Jun • Dev Spotlight</span>
+              <span className="uppercase">{t.commandPalette.tagline}</span>
             </div>
           </motion.div>
         </motion.div>

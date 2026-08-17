@@ -1,0 +1,99 @@
+{
+  "nav": {
+    "home": "HOME",
+    "works": "WORKS",
+    "experience": "EXPERIENCE",
+    "blog": "TECH BLOG",
+    "cv": "CV",
+    "contact": "CONTACT",
+    "admin": "ADMIN",
+    "switchToLight": "라이트 모드로 전환",
+    "switchToDark": "다크 모드로 전환",
+    "commandPalette": "커맨드 팔레트 (⌘K)",
+    "navDirectory": "네비게이션 디렉토리"
+  },
+  "footer": {
+    "allRightsReserved": "ALL RIGHTS RESERVED.",
+    "adminPanel": "관리자 패널",
+    "adminLogin": "관리자 로그인",
+    "goToAdmin": "관리자 페이지로 이동"
+  },
+  "profile": {
+    "about": "ABOUT",
+    "skills": "기술 스택",
+    "scrollToWorks": "프로젝트 목록으로 이동"
+  },
+  "works": {
+    "title": "Works",
+    "viewAll": "전체 프로젝트 보기 ➔",
+    "all": "전체 (ALL)",
+    "noProjects": "\"{stack}\" 스택에 해당하는 프로젝트가 없습니다."
+  },
+  "experience": {
+    "title": "Experience",
+    "viewAll": "전체 경력 보기 ➔"
+  },
+  "cv": {
+    "title": "CV",
+    "downloadPdf": "📄 PDF 이력서 다운로드 ↗",
+    "printPdf": "🖨 이력서 인쇄 / PDF 저장",
+    "aboutSummary": "01. 소개",
+    "skillsCompetencies": "02. 기술 스택",
+    "workHistory": "03. 주요 경력",
+    "education": "04. 학력"
+  },
+  "contact": {
+    "title": "Contact",
+    "findMe": "FIND ME",
+    "sendMessage": "직접 메시지 보내기",
+    "subtitle": "프로젝트 협업, 채용 제안 또는 궁금한 점이 있으시다면 편하게 메시지를 남겨주세요.",
+    "emailLabel": "이메일 주소",
+    "emailPlaceholder": "your-email@example.com",
+    "subjectLabel": "제목",
+    "subjectPlaceholder": "프로젝트 제안 / 문의 내용",
+    "messageLabel": "메시지 본문",
+    "messagePlaceholder": "남기실 메시지를 작성해주세요...",
+    "sendButton": "메시지 전송 ➔",
+    "sendingButton": "전송 처리 중...",
+    "successToast": "이메일이 성공적으로 전송되었습니다! ✅",
+    "errorToast": "이메일 전송에 실패했습니다. 다시 시도해주세요."
+  },
+  "chatbot": {
+    "title": "AI Assistant",
+    "greeting": "안녕하세요! 영근님에 대해 무엇이든 물어보세요.",
+    "placeholder": "무엇이든 물어보세요...",
+    "thinking": "생각 중...",
+    "error": "오류가 발생했습니다. 다시 시도해 주세요.",
+    "noResponse": "응답을 받지 못했습니다.",
+    "prompts": {
+      "skills": "영근님의 주요 기술 스택에 대해 알려주세요.",
+      "skillsLabel": "🛠️ 기술 스택",
+      "experience": "영근님이 근무했던 회사와 경력에 대해 알려주세요.",
+      "experienceLabel": "🏢 경력 사항",
+      "projects": "어떤 프로젝트들을 구축했는지 알려주세요.",
+      "projectsLabel": "💼 주요 프로젝트",
+      "contact": "영근님에게 어떻게 연락할 수 있나요?",
+      "contactLabel": "📬 연락 방법"
+    }
+  },
+  "mario": {
+    "summon": "🎮 소환하기 (Mario ON)",
+    "hide": "숨기기",
+    "hideTooltip": "캐릭터 숨기기",
+    "scoreUnit": "점",
+    "stage1": "1/6단계 (대기)",
+    "stage2": "2/6단계 (바닥)",
+    "stage3": "3/6단계 (전체화면)",
+    "stage4": "4/6단계 (파이어)",
+    "stage5": "5/6단계 (공중비행)",
+    "stage6": "6/6단계 (초광속)"
+  },
+  "commandPalette": {
+    "placeholder": "명령어 또는 페이지 검색 (예: works, 다크모드, github)...",
+    "noResults": "\"{search}\" 검색 결과가 없습니다.",
+    "navigate": "↑↓ 탐색",
+    "select": "↵ 선택",
+    "close": "ESC 닫기",
+    "tagline": "Younggeun Jun • Dev Spotlight"
+  }
+}

@@ -1,0 +1,99 @@
+{
+  "nav": {
+    "home": "HOME",
+    "works": "WORKS",
+    "experience": "EXPERIENCE",
+    "blog": "TECH BLOG",
+    "cv": "CV",
+    "contact": "CONTACT",
+    "admin": "ADMIN",
+    "switchToLight": "Switch to Light Mode",
+    "switchToDark": "Switch to Dark Mode",
+    "commandPalette": "Command Palette (⌘K)",
+    "navDirectory": "NAVIGATION DIRECTORY"
+  },
+  "footer": {
+    "allRightsReserved": "ALL RIGHTS RESERVED.",
+    "adminPanel": "ADMIN PANEL",
+    "adminLogin": "ADMIN LOGIN",
+    "goToAdmin": "Go to Admin Panel"
+  },
+  "profile": {
+    "about": "ABOUT",
+    "skills": "SKILLS",
+    "scrollToWorks": "Scroll to Works"
+  },
+  "works": {
+    "title": "Works",
+    "viewAll": "VIEW ALL WORKS ➔",
+    "all": "ALL",
+    "noProjects": "No projects found matching \"{stack}\"."
+  },
+  "experience": {
+    "title": "Experience",
+    "viewAll": "VIEW ALL EXPERIENCES ➔"
+  },
+  "cv": {
+    "title": "CV",
+    "downloadPdf": "📄 Download PDF Resume ↗",
+    "printPdf": "🖨 Print / Save as PDF",
+    "aboutSummary": "01. About & Summary",
+    "skillsCompetencies": "02. Skills & Competencies",
+    "workHistory": "03. Work History",
+    "education": "04. Education"
+  },
+  "contact": {
+    "title": "Contact",
+    "findMe": "FIND ME",
+    "sendMessage": "Send a Message",
+    "subtitle": "Feel free to reach out for collaborations, project inquiries, or just a friendly hello.",
+    "emailLabel": "Email Address",
+    "emailPlaceholder": "your-email@example.com",
+    "subjectLabel": "Subject",
+    "subjectPlaceholder": "Project proposal / Inquiry details",
+    "messageLabel": "Message",
+    "messagePlaceholder": "Write your message here...",
+    "sendButton": "Send Message ➔",
+    "sendingButton": "Sending...",
+    "successToast": "Your email was sent successfully! ✅",
+    "errorToast": "Failed to send email. Please try again."
+  },
+  "chatbot": {
+    "title": "AI Assistant",
+    "greeting": "Hi! Ask me anything about Younggeun.",
+    "placeholder": "Ask me anything...",
+    "thinking": "Thinking...",
+    "error": "Something went wrong. Please try again.",
+    "noResponse": "I could not get a response.",
+    "prompts": {
+      "skills": "What are Younggeun's core technical skills?",
+      "skillsLabel": "🛠️ Core Skills",
+      "experience": "Tell me about Younggeun's work experience and companies.",
+      "experienceLabel": "🏢 Work Experience",
+      "projects": "What are his main featured projects and achievements?",
+      "projectsLabel": "💼 Featured Projects",
+      "contact": "How can I contact Younggeun Jun?",
+      "contactLabel": "📬 Contact Info"
+    }
+  },
+  "mario": {
+    "summon": "🎮 Summon (Mario ON)",
+    "hide": "HIDE",
+    "hideTooltip": "Hide Character",
+    "scoreUnit": "PTS",
+    "stage1": "STAGE 1/6 (IDLE)",
+    "stage2": "STAGE 2/6 (WALK)",
+    "stage3": "STAGE 3/6 (2D ROAM)",
+    "stage4": "STAGE 4/6 (FIRE DASH)",
+    "stage5": "STAGE 5/6 (CAPE GLIDE)",
+    "stage6": "STAGE 6/6 (ULTRA STAR)"
+  },
+  "commandPalette": {
+    "placeholder": "Type a command or search (e.g. works, theme, github)...",
+    "noResults": "No commands found matching \"{search}\"",
+    "navigate": "↑↓ Navigate",
+    "select": "↵ Select",
+    "close": "ESC Close",
+    "tagline": "Younggeun Jun • Dev Spotlight"
+  }
+}

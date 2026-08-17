@@ -1,12 +1,13 @@
 'use client';
 
 import React from 'react';
+import { useLanguage } from '@/hooks/useLanguage';
 
 interface MarioControlsProps {
   isActive: boolean;
   score: number;
   stage: number;
-  isEnglish: boolean;
+  isEnglish?: boolean;
   onActivate: () => void;
   onDeactivate: () => void;
 }
@@ -15,10 +16,11 @@ export default function MarioControls({
   isActive,
   score,
   stage,
-  isEnglish,
   onActivate,
   onDeactivate,
 }: MarioControlsProps) {
+  const { t } = useLanguage();
+
   if (!isActive) {
     return (
       <button
@@ -48,19 +50,13 @@ export default function MarioControls({
           transition-colors
         "
       >
-        🎮 {isEnglish ? 'Summon (Mario ON)' : '소환하기 (Mario ON)'}
+        {t.mario.summon}
       </button>
     );
   }
 
-  const stageLabels: Record<number, string> = {
-    1: isEnglish ? 'STAGE 1/6 (IDLE)' : '1/6단계 (대기)',
-    2: isEnglish ? 'STAGE 2/6 (WALK)' : '2/6단계 (바닥)',
-    3: isEnglish ? 'STAGE 3/6 (2D ROAM)' : '3/6단계 (전체화면)',
-    4: isEnglish ? 'STAGE 4/6 (FIRE DASH)' : '4/6단계 (파이어)',
-    5: isEnglish ? 'STAGE 5/6 (CAPE GLIDE)' : '5/6단계 (공중비행)',
-    6: isEnglish ? 'STAGE 6/6 (ULTRA STAR)' : '6/6단계 (초광속)',
-  };
+  const stageKey = `stage${stage}` as keyof typeof t.mario;
+  const stageLabel = t.mario[stageKey] || `STAGE ${stage}/6`;
 
   return (
     <div
@@ -90,9 +86,9 @@ export default function MarioControls({
       "
     >
       <span className="text-[10px] bg-black dark:bg-white text-white dark:text-black px-1.5 py-0.5 font-bold">
-        {stageLabels[stage] || `STAGE ${stage}/6`}
+        {stageLabel}
       </span>
-      <span>🪙 {score}/500 PTS</span>
+      <span>🪙 {score}/500 {t.mario.scoreUnit}</span>
       <button
         type="button"
         onClick={onDeactivate}
@@ -113,9 +109,9 @@ export default function MarioControls({
           uppercase
           cursor-pointer
         "
-        title={isEnglish ? 'Hide Character' : '캐릭터 숨기기'}
+        title={t.mario.hideTooltip}
       >
-        {isEnglish ? 'HIDE' : '숨기기'}
+        {t.mario.hide}
       </button>
     </div>
   );

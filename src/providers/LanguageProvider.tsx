@@ -2,12 +2,14 @@
 
 import React, { createContext, useContext, useState } from 'react';
 import { COOKIE_NAME, LanguageType } from '@/constants/language';
+import { translations, TranslationsType } from '@/constants/translations';
 
-export { COOKIE_NAME, type LanguageType };
+export { COOKIE_NAME, type LanguageType, type TranslationsType };
 
 interface LanguageContextType {
   language: LanguageType;
   isEnglish: boolean;
+  t: TranslationsType;
   setLanguage: (lang: LanguageType) => void;
   toggleLanguage: () => void;
 }
@@ -50,11 +52,15 @@ export function LanguageProvider({
     setLanguage(nextLang);
   };
 
+  const isEnglish = language === 'ENGLISH';
+  const t = isEnglish ? translations.en : translations.kr;
+
   return (
     <LanguageContext.Provider
       value={{
         language,
-        isEnglish: language === 'ENGLISH',
+        isEnglish,
+        t,
         setLanguage,
         toggleLanguage,
       }}
@@ -70,6 +76,7 @@ export function useLanguage() {
     return {
       language: 'KOREAN' as LanguageType,
       isEnglish: false,
+      t: translations.kr,
       setLanguage: () => {},
       toggleLanguage: () => {},
     };

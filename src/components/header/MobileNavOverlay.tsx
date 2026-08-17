@@ -8,6 +8,8 @@ import { NAV_LIST } from './navData';
 import { useTheme } from '@/providers/ThemeProvider';
 import { SunIcon, MoonIcon } from '@/components/icons';
 
+import { useLanguage } from '@/hooks/useLanguage';
+
 interface MobileNavOverlayProps {
   isOpen: boolean;
   profileName: string;
@@ -25,6 +27,7 @@ export default function MobileNavOverlay({
 }: MobileNavOverlayProps) {
   const pathname = usePathname();
   const { isDark, toggleTheme } = useTheme();
+  const { t } = useLanguage();
 
   return (
     <AnimatePresence>
@@ -74,7 +77,7 @@ export default function MobileNavOverlay({
                 {profileName}
               </span>
               <span className="text-[10px] font-extrabold uppercase tracking-wider text-neutral-600 dark:text-neutral-400 font-mono">
-                NAVIGATION DIRECTORY
+                {t.nav.navDirectory}
               </span>
             </div>
 

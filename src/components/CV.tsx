@@ -12,7 +12,7 @@ interface CvProps {
 }
 
 export default function Cv({ initialCv, initialExperiences }: CvProps) {
-  const { isEnglish } = useLanguage();
+  const { isEnglish, t } = useLanguage();
 
   const activeCvData = initialCv || {};
   const cv = isEnglish
@@ -32,7 +32,7 @@ export default function Cv({ initialCv, initialExperiences }: CvProps) {
   };
 
   return (
-    <PageWrap title="CV">
+    <PageWrap title={t.cv.title}>
       <div className="flex flex-col gap-6 w-full">
         {/* Print / Download Button */}
         <div className="flex justify-between items-center flex-wrap gap-3 w-full">
@@ -67,7 +67,7 @@ export default function Cv({ initialCv, initialExperiences }: CvProps) {
                 shadow-[2px_2px_0px_#000000]
               "
             >
-              📄 {isEnglish ? 'Download PDF Resume ↗' : 'PDF 이력서 다운로드 ↗'}
+              {t.cv.downloadPdf}
             </a>
           ) : (
             <div />
@@ -100,7 +100,7 @@ export default function Cv({ initialCv, initialExperiences }: CvProps) {
               shadow-[2px_2px_0px_#000000]
             "
           >
-            🖨 {isEnglish ? 'Print / Save as PDF' : '이력서 인쇄 / PDF 저장'}
+            {t.cv.printPdf}
           </button>
         </div>
 
@@ -145,7 +145,7 @@ export default function Cv({ initialCv, initialExperiences }: CvProps) {
           {/* 01. Summary */}
           <div className="flex flex-col gap-3">
             <h3 className="text-sm sm:text-base font-black border-b-2 border-black dark:border-[#272a34] pb-2 uppercase text-black dark:text-[#f3f4f6]">
-              {isEnglish ? '01. About & Summary' : '01. 소개'}
+              {t.cv.aboutSummary}
             </h3>
             <p className="text-xs sm:text-sm font-medium leading-relaxed m-0 text-neutral-800 dark:text-[#d1d5db]">
               {summary}
@@ -155,7 +155,7 @@ export default function Cv({ initialCv, initialExperiences }: CvProps) {
           {/* 02. Skills */}
           <div className="flex flex-col gap-4">
             <h3 className="text-sm sm:text-base font-black border-b-2 border-black dark:border-[#272a34] pb-2 uppercase text-black dark:text-[#f3f4f6]">
-              {isEnglish ? '02. Skills & Competencies' : '02. 기술 스택'}
+              {t.cv.skillsCompetencies}
             </h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5">
               {skillCategories.map((cat, idx) => (
@@ -184,7 +184,7 @@ export default function Cv({ initialCv, initialExperiences }: CvProps) {
           {/* 03. Experience */}
           <div className="flex flex-col gap-5">
             <h3 className="text-sm sm:text-base font-black border-b-2 border-black dark:border-[#272a34] pb-2 uppercase text-black dark:text-[#f3f4f6]">
-              {isEnglish ? '03. Work History' : '03. 주요 경력'}
+              {t.cv.workHistory}
             </h3>
             <div className="flex flex-col gap-5">
               {experiences.map((item, idx) => {
@@ -218,7 +218,7 @@ export default function Cv({ initialCv, initialExperiences }: CvProps) {
           {/* 04. Education */}
           <div className="border-t-2 border-black dark:border-[#272a34] pt-5 flex flex-col gap-3">
             <h3 className="text-sm sm:text-base font-black uppercase m-0 text-black dark:text-[#f3f4f6]">
-              {isEnglish ? '04. Education' : '04. 학력'}
+              {t.cv.education}
             </h3>
             {cv.education?.map((edu: any, idx: number) => (
               <div

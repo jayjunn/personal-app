@@ -13,17 +13,10 @@ import ChatInput from './chatbot/ChatInput';
 export default function Chatbot() {
   const [isOpen, setIsOpen] = useAtom(isChatOpenAtom);
   const [input, setInput] = useState('');
-  const { isEnglish } = useLanguage();
+  const { isEnglish, t } = useLanguage();
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
-  const [messages, setMessages] = useState<ChatMessage[]>([
-    {
-      role: 'gemini',
-      text: isEnglish
-        ? 'Hi! Ask me anything about Younggeun.'
-        : '안녕하세요! 영근님에 대해 무엇이든 물어보세요.',
-    },
-  ]);
+  const [messages, setMessages] = useState<ChatMessage[]>([]);
 
   const mutation = useMutation({
     mutationFn: fetchGeminiResponse,
@@ -32,11 +25,7 @@ export default function Chatbot() {
         ...prev,
         {
           role: 'gemini',
-          text:
-            data ||
-            (isEnglish
-              ? 'I could not get a response.'
-              : '응답을 받지 못했습니다.'),
+          text: data || t.chatbot.noResponse,
         },
       ]);
     },
@@ -45,9 +34,7 @@ export default function Chatbot() {
         ...prev,
         {
           role: 'gemini',
-          text: isEnglish
-            ? 'Something went wrong. Please try again.'
-            : '오류가 발생했습니다. 다시 시도해 주세요.',
+          text: t.chatbot.error,
         },
       ]);
     },
@@ -61,25 +48,30 @@ export default function Chatbot() {
     });
   }, [messages, mutation.isPending, isOpen]);
 
+  const sendQuery = (text: string) => {
+    if (!text.trim() || mutation.isPending) return;
+
+    setMessages((prev) => [
+      ...prev,
+      {
+        role: 'user',
+        text: text.trim(),
+      },
+    ]);
+
+    mutation.mutate({
+      prompt: text.trim(),
+      language: isEnglish ? 'English' : 'Korean',
+    });
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!input.trim() || mutation.isPending) return;
 
     const userMessage = input.trim();
     setInput('');
-
-    setMessages((prev) => [
-      ...prev,
-      {
-        role: 'user',
-        text: userMessage,
-      },
-    ]);
-
-    mutation.mutate({
-      prompt: userMessage,
-      language: isEnglish ? 'English' : 'Korean',
-    });
+    sendQuery(userMessage);
   };
 
   return (
@@ -143,7 +135,7 @@ export default function Chatbot() {
                 "
               />
               <span className="font-black text-sm uppercase tracking-wider text-white dark:text-[#f3f4f6]">
-                AI Assistant
+                {t.chatbot.title}
               </span>
             </div>
 
@@ -160,15 +152,14 @@ export default function Chatbot() {
           <ChatMessageList
             messages={messages}
             isPending={mutation.isPending}
-            isEnglish={isEnglish}
             messagesEndRef={messagesEndRef}
+            onSelectPrompt={sendQuery}
           />
 
           {/* Input & Submit */}
           <ChatInput
             input={input}
             isPending={mutation.isPending}
-            isEnglish={isEnglish}
             onChange={setInput}
             onSubmit={handleSubmit}
           />

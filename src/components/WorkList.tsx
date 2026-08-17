@@ -28,7 +28,7 @@ const WorkList = ({
   useSlider = false,
   initialWorks,
 }: WorkListProps) => {
-  const { isEnglish } = useLanguage();
+  const { isEnglish, t } = useLanguage();
   const [selectedStack, setSelectedStack] = useState<string>('ALL');
 
   const works = initialWorks || defaultWorkData;
@@ -67,9 +67,9 @@ const WorkList = ({
 
   return (
     <PageWrap
-      title="Works"
+      title={t.works.title}
       moreLink={showMoreLink ? '/works' : undefined}
-      moreText={isEnglish ? 'VIEW ALL WORKS ➔' : '전체 프로젝트 보기 ➔'}
+      moreText={t.works.viewAll}
     >
       <div className="w-full flex flex-col gap-5">
         {/* Interactive Tech Stack Filter Bar */}
@@ -153,9 +153,7 @@ const WorkList = ({
         {filteredWorks.length === 0 && (
           <div className="w-full py-12 text-center border-2 border-dashed border-black dark:border-[#e7e2d0] p-6">
             <p className="font-mono font-bold text-sm text-neutral-600 dark:text-neutral-400">
-              {isEnglish
-                ? `No projects found matching "${selectedStack}".`
-                : `"${selectedStack}" 스택에 해당하는 프로젝트가 없습니다.`}
+              {t.works.noProjects.replace('{stack}', selectedStack)}
             </p>
           </div>
         )}

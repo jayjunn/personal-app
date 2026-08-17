@@ -185,7 +185,15 @@ export default function DesktopNav({
               text-black
               dark:text-[#f3f4f6]
             "
-            title={isDark ? '라이트 모드로 전환' : '다크 모드로 전환'}
+            title={
+              isDark
+                ? language === 'ENGLISH'
+                  ? 'Switch to Light Mode'
+                  : '라이트 모드로 전환'
+                : language === 'ENGLISH'
+                ? 'Switch to Dark Mode'
+                : '다크 모드로 전환'
+            }
           >
             {isDark ? (
               <SunIcon className="w-4 h-4 text-white" />
