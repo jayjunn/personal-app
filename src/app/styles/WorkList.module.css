@@ -19,7 +19,12 @@
   margin-top: 24px;
   width: 100%;
   position: relative;
-  padding-bottom: 40px;
+}
+
+/* Give Swiper bottom padding so slides never overlap the pagination indicator */
+.sliderContainer :global(.swiper) {
+  padding-bottom: 48px !important;
+  position: relative;
 }
 
 .sliderContainer :global(.swiper-slide) {
@@ -30,6 +35,11 @@
 
 .sliderContainer :global(.swiper-pagination) {
   bottom: 0px !important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+  z-index: 10;
 }
 
 .sliderContainer :global(.swiper-pagination-bullet) {
@@ -38,7 +48,9 @@
   background-color: black;
   opacity: 0.3;
   border-radius: 2px;
+  margin: 0 !important;
   transition: all 0.2s ease;
+  cursor: pointer;
 }
 
 .sliderContainer :global(.swiper-pagination-bullet-active) {
@@ -52,10 +64,12 @@
   color: black;
   width: 36px;
   height: 36px;
+  top: 45% !important;
   background-color: #e7e2d0;
   border: 2px solid black;
   box-shadow: 2px 2px 0px black;
   transition: all 0.2s ease;
+  z-index: 20;
 }
 
 .sliderContainer :global(.swiper-button-prev):hover,
