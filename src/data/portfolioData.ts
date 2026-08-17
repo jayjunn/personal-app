@@ -137,7 +137,7 @@ export const workData: Project[] = [
   {
     id: 7,
     name: 'eBay',
-    company: 'eBay',
+    company: 'Company',
     category: 'enterprise',
     period: '2023 - Present',
     featured: true,
@@ -153,7 +153,7 @@ export const workData: Project[] = [
   {
     id: 4,
     name: 'COS',
-    company: 'COS',
+    company: 'Company',
     category: 'enterprise',
     period: '2019 - 2021',
     featured: true,
@@ -169,7 +169,7 @@ export const workData: Project[] = [
   {
     id: 5,
     name: 'Blocko',
-    company: 'Blocko Inc.',
+    company: 'Company',
     category: 'web3',
     period: '2022 - 2023',
     featured: true,
@@ -217,7 +217,7 @@ export const workData: Project[] = [
   {
     id: 1,
     name: 'Glue',
-    company: 'Venture Project',
+    company: 'Company',
     category: 'web',
     period: '2021 - 2022',
     featured: false,

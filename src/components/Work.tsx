@@ -17,6 +17,15 @@ type WorkProps = {
 const Work = (props: WorkProps) => {
   const { name, img, description, stacks, link, company, priority = false } = props;
 
+  const badgeText = (() => {
+    if (!company) return null;
+    const lower = company.trim().toLowerCase();
+    if (lower.includes('toy') || lower.includes('personal') || lower.includes('side')) {
+      return 'TOY PROJECT';
+    }
+    return 'COMPANY';
+  })();
+
   return (
     <TiltCard className="w-full h-full flex flex-col">
       <div
@@ -40,7 +49,7 @@ const Work = (props: WorkProps) => {
           hover:shadow-[7px_7px_0px_#000000]
           box-border
         "
-        id={company ? company.toLowerCase().replace(/\s+/g, '-') : name.toLowerCase().replace(/\s+/g, '-')}
+        id={name.toLowerCase().replace(/\s+/g, '-')}
       >
         {/* Card Header */}
         <div
@@ -64,10 +73,11 @@ const Work = (props: WorkProps) => {
             uppercase
             tracking-tight
             shrink-0
+            min-h-[52px]
           "
         >
-          <span>{name}</span>
-          {company && (
+          <span>{badgeText === 'COMPANY' ? '' : name}</span>
+          {badgeText && (
             <span
               className="
                 text-[11px]
@@ -84,7 +94,7 @@ const Work = (props: WorkProps) => {
                 dark:border-[#2f3340]
               "
             >
-              {company}
+              {badgeText}
             </span>
           )}
         </div>
