@@ -1,10 +1,16 @@
 import { NextResponse } from "next/server";
 import { GoogleGenAI } from "@google/genai";
+import {
+  profileData,
+  experienceData,
+  workData,
+  cvData,
+  skillCategories,
+} from "@/data/portfolioData";
 
 export async function POST(req: Request) {
   try {
-    // 1. 챗봇에서 사용자가 입력한 질문
-    const { prompt } = await req.json();
+    const { prompt, language } = await req.json();
 
     if (!prompt) {
       return NextResponse.json(
@@ -13,91 +19,133 @@ export async function POST(req: Request) {
       );
     }
 
-    // 2. Gemini API Key
     const apiKey = process.env.NEXT_PUBLIC_GEMINI_API_KEY;
 
     if (!apiKey) {
       console.error("Gemini API Key is missing!");
-
       return NextResponse.json(
         { error: "API Key is missing" },
         { status: 500 }
       );
     }
 
-    // 3. Gemini 초기화
     const ai = new GoogleGenAI({
       apiKey,
     });
 
-    // 4. 배포된 웹사이트 주소
-    const baseUrl =
-      process.env.NEXT_PUBLIC_SITE_URL ||
-      "http://localhost:3000";
+    const portfolioContext = `
+========================================
+YOUNGGEUN JUN PORTFOLIO & CV DATA
+========================================
 
-    // 5. CV 페이지 하나만 가져오기
-    const cvRes = await fetch(`${baseUrl}/cv`, {
-      cache: "no-store",
-    });
+[PROFILE - ENGLISH]
+Name: ${profileData.en.name}
+Role: ${profileData.en.role}
+Headline: ${profileData.en.headLine}
+About: ${profileData.en.about}
+Location: ${profileData.en.location}
+Availability: ${profileData.en.availability}
+Taglines: ${profileData.en.taglines.join(", ")}
 
-    if (!cvRes.ok) {
-      throw new Error(
-        `Failed to fetch CV page: ${cvRes.status}`
-      );
-    }
+[PROFILE - KOREAN]
+이름: ${profileData.kr.name}
+역할: ${profileData.kr.role}
+헤드라인: ${profileData.kr.headLine}
+소개: ${profileData.kr.about}
+위치: ${profileData.kr.location}
+상태: ${profileData.kr.availability}
+태그라인: ${profileData.kr.taglines.join(", ")}
 
-    const cvHtml = await cvRes.text();
+[SKILLS & TECH STACK]
+${skillCategories
+        .map(
+          (cat) =>
+            `- ${cat.title.en} (${cat.title.kr}): ${cat.skills.map((s) => s.name).join(", ")}`
+        )
+        .join("\n")}
 
-    // 디버깅
-    console.log("CV page:", cvRes.status);
+[EXPERIENCES]
+${experienceData
+        .map(
+          (exp, idx) => `
+${idx + 1}. Company: ${exp.company}
+   Role: ${exp.role} (${exp.period}) - ${exp.location}
+   Highlights: ${exp.highlights.join(", ")}
+   Tech Stacks: ${exp.stacks.join(", ")}
+   Description (EN): ${exp.description.en.join(" ")}
+   Description (KR): ${exp.description.kr.join(" ")}
+`
+        )
+        .join("\n")}
 
-    // 6. Gemini에게 전달할 프롬프트
-    const fullPrompt = `
-You are an AI assistant for Younggeun Jun's personal portfolio website.
+[PROJECTS / WORKS]
+${workData
+        .map(
+          (work, idx) => `
+${idx + 1}. Name: ${work.name} ${work.company ? `(${work.company})` : ""}
+   Tech Stacks: ${work.stacks.join(", ")}
+   Description (EN): ${work.description.en}
+   Description (KR): ${work.description.kr}
+   Link: ${work.link}
+`
+        )
+        .join("\n")}
 
-Your job is to answer questions about Younggeun Jun using ONLY
-the information contained in the CV page provided below.
+[CV SUMMARY]
+Summary (EN): ${cvData.en.summary}
+Summary (KR): ${cvData.kr.summary}
+Education: ${cvData.en.education.map((e) => `${e.institution} - ${e.degree} (${e.period})`).join(", ")}
+Languages: ${cvData.en.languages.map((l) => `${l.language} (${l.proficiency})`).join(", ")}
+`;
 
-IMPORTANT RULES:
+    const systemPrompt = `
+You are the dedicated AI portfolio assistant for frontend developer Younggeun Jun (전영근).
+Your mission is to represent Younggeun Jun professionally, guide visitors through his portfolio, projects, tech stack, work experience, and development career.
 
-1. Use ONLY the information from the CV content below.
-2. Do NOT use outside knowledge.
-3. Do NOT make up, guess, or infer information that is not explicitly
-   provided in the CV.
-4. You may summarize and explain the information from the CV.
-5. If the answer cannot be found in the CV, say:
-   "I don't have that information on this website."
-6. Keep your answers clear and concise.
-7. Answer in the same language as the user's question.
-8. If the user asks for a summary, summarize only information
-   contained in the CV.
-9. Do not pretend to know anything about Younggeun Jun that is not
-   provided in the CV.
+========================================
+CRITICAL GUARDRAIL & BEHAVIOR RULES:
+========================================
 
-========================
-CV PAGE CONTENT
-========================
+1. DEFLECT UNRELATED QUESTIONS (비관련 질문 우회):
+   - If the user asks about topics completely unrelated to Younggeun Jun, frontend development, coding, or this portfolio (e.g., general trivia, math homework, weather, celebrity gossip, recipes, stock trading, jokes, politics, etc.):
+   - DO NOT answer the unrelated question directly.
+   - Politely, wittily, and tactfully steer the conversation back to Younggeun Jun.
+   - Example (Korean): "저는 프론트엔드 개발자 전영근님의 포트폴리오를 안내해 드리는 AI 비서입니다! 🤖 영근님의 프로젝트, 기술 스택, 경력 사항에 대해 물어봐 주시면 성심껏 답변해 드릴게요!"
+   - Example (English): "I am the AI assistant for Younggeun Jun's portfolio! 🤖 I'm specialized in answering questions about Younggeun's projects, tech stack, and experience. How can I help you learn more about his work?"
 
-${cvHtml}
+2. PROTECT PERSONAL & SENSITIVE INFORMATION (개인정보 및 사생활 보호):
+   - If the user asks for private or confidential information NOT disclosed in the portfolio (e.g., resident registration number, private home address, personal phone number, private dating/relationship status, personal finances, salary history, family details, passwords, private contacts):
+   - NEVER disclose, invent, or guess private personal information.
+   - Respond with a polite, tactful, and safe deflection advising them to reach out directly via the Contact page.
+   - Example (Korean): "영근님의 상세한 개인정보나 사생활에 관한 정보는 안내해 드릴 수 없습니다. 🔒 프로젝트 제안이나 채용 관련 문의는 웹사이트의 Contact 페이지를 통해 직접 메시지를 남겨주시면 영근님이 확인 후 연락드릴 거예요! ✉️"
+   - Example (English): "I cannot share personal or private details about Younggeun Jun. 🔒 For job opportunities or collaboration inquiries, please leave a message through the Contact page!"
 
-========================
-USER QUESTION
-========================
+3. ACCURACY & SCOPE (포트폴리오 정보 활용):
+   - Answer professional questions accurately based on the portfolio data provided below.
+   - Highlight Younggeun's strengths in React, Next.js, TypeScript, frontend architecture, build speed optimization (e.g. Rspack), and interactive UX.
+   - Do not invent experience or companies that are not in the portfolio data.
 
+4. TONE AND MANNER:
+   - Professional, courteous, friendly, witty, and helpful.
+   - Keep answers clear, engaging, and concise without being overly verbose.
+   - Match the user's language (${language || "Korean or English based on user query"}).
+
+${portfolioContext}
+
+========================================
+USER QUESTION:
+========================================
 ${prompt}
 `;
 
-    // 7. Gemini 호출
     const response = await ai.models.generateContent({
-      model: "gemini-3-flash-preview",
-      contents: fullPrompt,
+      model: "gemini-2.5-flash",
+      contents: systemPrompt,
     });
 
-    // 8. Gemini 답변 반환
     return NextResponse.json({
       text: response.text,
     });
-
   } catch (error) {
     console.error("Detailed Gemini API Error:", error);
 

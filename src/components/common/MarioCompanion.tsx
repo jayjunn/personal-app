@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useLanguage } from '@/hooks/useLanguage';
 import PixelMario from './mario/PixelMario';
 import MarioControls from './mario/MarioControls';
+import MarioCelebrationModal from './mario/MarioCelebrationModal';
 
 interface Particle {
   id: number;
@@ -22,6 +23,7 @@ export default function MarioCompanion() {
   const [particles, setParticles] = useState<Particle[]>([]);
   const [score, setScore] = useState(0);
   const [isActive, setIsActive] = useState(true);
+  const [isCelebrating, setIsCelebrating] = useState(false);
 
   const containerRef = useRef<HTMLDivElement>(null);
   const targetRef = useRef<{ x: number; y: number }>({ x: 120, y: 300 });
@@ -180,22 +182,36 @@ export default function MarioCompanion() {
   const handleClick = (e: React.MouseEvent | React.TouchEvent) => {
     e.stopPropagation();
     stateRef.current = 'CLICKED';
-    setScore((s) => s + 100);
     setIsJumping(true);
 
-    const cheers = isEnglish
-      ? ['WAHOO! 🍄', 'LET’S GO! ⭐', '1-UP! 🍄', '+100 PTS! 🪙', 'YAHOO! ✨']
-      : ['점프! 🍄', '코인 획득! 🪙', '1-UP! ⭐', '+100점! 🚀', '만나서 반가워요! ✨'];
+    const nextScore = score + 100;
 
-    const randomCheer = cheers[Math.floor(Math.random() * cheers.length)];
-    showSpeech(randomCheer);
-    spawnParticle(posRef.current.x + 15, posRef.current.y - 30, '🪙 +100');
+    if (nextScore >= 500) {
+      setScore(500);
+      setIsCelebrating(true);
+      showSpeech('CONGRATULATIONS! 🌟 STAGE CLEAR!', 4000);
+      spawnParticle(posRef.current.x + 15, posRef.current.y - 30, '🌟 500 PTS!');
+    } else {
+      setScore(nextScore);
+      const cheers = isEnglish
+        ? ['WAHOO! 🍄', 'LET’S GO! ⭐', '1-UP! 🍄', '+100 PTS! 🪙', 'YAHOO! ✨']
+        : ['점프! 🍄', '코인 획득! 🪙', '1-UP! ⭐', '+100점! 🚀', '만나서 반가워요! ✨'];
+
+      const randomCheer = cheers[Math.floor(Math.random() * cheers.length)];
+      showSpeech(randomCheer);
+      spawnParticle(posRef.current.x + 15, posRef.current.y - 30, '🪙 +100');
+    }
 
     posRef.current.vy = -8;
     setTimeout(() => {
       setIsJumping(false);
       stateRef.current = isChasing ? 'CHASING' : 'ROAMING';
     }, 450);
+  };
+
+  const handleCelebrationClose = () => {
+    setIsCelebrating(false);
+    setScore(0);
   };
 
   const handleMouseEnter = () => {
@@ -215,6 +231,12 @@ export default function MarioCompanion() {
         isEnglish={isEnglish}
         onActivate={() => setIsActive(true)}
         onDeactivate={() => setIsActive(false)}
+      />
+
+      {/* 500 Points Fireworks & Celebration Modal */}
+      <MarioCelebrationModal
+        isOpen={isCelebrating}
+        onClose={handleCelebrationClose}
       />
 
       {isActive && (
