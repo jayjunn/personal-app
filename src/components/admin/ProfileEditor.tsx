@@ -147,7 +147,7 @@ export default function ProfileEditor() {
           </div>
         ) : (
           <div className="flex flex-col gap-5">
-            <div className="flex flex-col gap-1.5">
+            <div className="flex flex-col gap-2">
               <label className="text-xs font-black uppercase text-neutral-800">
                 이름 (Name) - [{activeLang.toUpperCase()}]
               </label>
@@ -160,7 +160,7 @@ export default function ProfileEditor() {
               />
             </div>
 
-            <div className="flex flex-col gap-1.5">
+            <div className="flex flex-col gap-2">
               <label className="text-xs font-black uppercase text-neutral-800">
                 헤드라인 문구 (Headline) - [{activeLang.toUpperCase()}]
               </label>
@@ -173,7 +173,7 @@ export default function ProfileEditor() {
               />
             </div>
 
-            <div className="flex flex-col gap-1.5">
+            <div className="flex flex-col gap-2">
               <label className="text-xs font-black uppercase text-neutral-800">
                 소개글 (About Text) - [{activeLang.toUpperCase()}]
               </label>
@@ -187,7 +187,7 @@ export default function ProfileEditor() {
             </div>
 
             {/* Skills Tag Management */}
-            <div className="flex flex-col gap-1.5">
+            <div className="flex flex-col gap-2">
               <div className="flex justify-between items-center">
                 <label className="text-xs font-black uppercase text-neutral-800">
                   기술 스택 태그 (Skills) - [{activeLang.toUpperCase()}]
@@ -219,7 +219,7 @@ export default function ProfileEditor() {
                   current.skills.map((skill, sIdx) => (
                     <span
                       key={`admin-skill-${skill}-${sIdx}`}
-                      className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-white border border-black text-xs font-black uppercase shadow-[1px_1px_0px_#000000]">
+                      className="inline-flex items-center gap-2 px-2.5 py-1 bg-white border border-black text-xs font-black uppercase shadow-[1px_1px_0px_#000000]">
                       <span>{skill}</span>
                       <button
                         type="button"

@@ -1,79 +1,82 @@
 @import "tailwindcss";
 
-html,
-body {
-  padding: 0;
-  margin: 0;
-  font-family: Arial, Helvetica, sans-serif;
-  font-weight: 600;
-  background-color: #e7e2d0;
-  color: #000000;
-  box-sizing: border-box;
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  min-height: 100vh;
-  width: 100%;
-  max-width: 100vw;
-  overflow-x: hidden;
-}
-
-a {
-  color: #000000;
-  text-decoration: none;
-}
-
-p {
-  margin: 0;
-  color: #000000;
-}
-
-* {
-  box-sizing: border-box;
-}
-
-h1 {
-  font-family: Arial, Helvetica, sans-serif;
-  font-weight: 600;
-  font-size: 36px;
-  margin: 0px;
-}
-
-h2, h3, h4, h5 {
-  font-family: Arial, Helvetica, sans-serif;
-  font-weight: 600;
-  margin: 0px;
-}
-
-@media screen and (max-width: 767px) {
+/* 1. 기본 태그 스타일 (Tailwind의 base 레이어와 병합) */
+@layer base {
+  html,
   body {
-    font-size: 16px;
+    padding: 0;
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: 600;
+    background-color: #e7e2d0;
+    color: #000000;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
+    width: 100%;
+    max-width: 100vw;
+    overflow-x: hidden;
+  }
+
+  a {
+    color: #000000;
+    text-decoration: none;
+  }
+
+  p {
+    margin: 0;
+    color: #000000;
+  }
+
+  * {
+    box-sizing: border-box;
   }
 
   h1 {
-    font-size: 20px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: 600;
+    font-size: 36px;
+    margin: 0px;
+  }
+
+  h2, h3, h4, h5 {
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: 600;
+    margin: 0px;
+  }
+
+  @media screen and (max-width: 767px) {
+    body {
+      font-size: 16px;
+    }
+
+    h1 {
+      font-size: 20px;
+    }
+  }
+
+  button {
+    all: unset;
+    cursor: pointer;
+  }
+
+  ul,
+  ol,
+  li {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  ::selection {
+    background-color: #000000;
+    color: #e7e2d0;
   }
 }
 
-button {
-  all: unset;
-  cursor: pointer;
-}
-
-ul,
-ol,
-li {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-
-::selection {
-  background-color: #000000;
-  color: #e7e2d0;
-}
-
-/* Brutalist UI Utilities */
+/* 2. 커스텀 유틸리티/컴포넌트 클래스 (Tailwind 유틸리티보다 우선권을 갖거나 조화되도록 설정) */
 .brutal-card {
   border: 2px solid #000000;
   box-shadow: 4px 4px 0px #000000;
@@ -147,4 +150,3 @@ li {
   transform: translate(2px, 2px);
   box-shadow: 1px 1px 0px #000000;
 }
-

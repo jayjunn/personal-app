@@ -258,7 +258,7 @@ export default function ExperienceEditor() {
 
               {/* Stacks tags preview */}
               {exp.stacks && exp.stacks.length > 0 && (
-                <div className="flex flex-wrap gap-1.5 mt-1 pt-2 border-t border-black/10">
+                <div className="flex flex-wrap gap-2 mt-1 pt-2 border-t border-black/10">
                   {exp.stacks.map((stk, sIdx) => (
                     <span key={`preview-stack-${stk}-${sIdx}`} className="text-[11px] font-bold border border-black px-2 py-0.5 bg-[#f5f0df]">
                       {stk}
@@ -306,7 +306,7 @@ export default function ExperienceEditor() {
 
             <div className="flex flex-col gap-4">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                <div className="flex flex-col gap-1">
+                <div className="flex flex-col gap-2">
                   <label className="text-xs font-black uppercase">회사명 (Company)</label>
                   <input
                     type="text"
@@ -316,7 +316,7 @@ export default function ExperienceEditor() {
                     className="w-full p-2.5 bg-white border-2 border-black text-sm font-semibold outline-none"
                   />
                 </div>
-                <div className="flex flex-col gap-1">
+                <div className="flex flex-col gap-2">
                   <label className="text-xs font-black uppercase">직책 / 역할 (Role / Position)</label>
                   <input
                     type="text"
@@ -329,7 +329,7 @@ export default function ExperienceEditor() {
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                <div className="flex flex-col gap-1">
+                <div className="flex flex-col gap-2">
                   <label className="text-xs font-black uppercase">근무 기간 (Period)</label>
                   <input
                     type="text"
@@ -339,7 +339,7 @@ export default function ExperienceEditor() {
                     className="w-full p-2.5 bg-white border-2 border-black text-sm font-semibold outline-none"
                   />
                 </div>
-                <div className="flex flex-col gap-1">
+                <div className="flex flex-col gap-2">
                   <label className="text-xs font-black uppercase">근무지 (Location)</label>
                   <input
                     type="text"

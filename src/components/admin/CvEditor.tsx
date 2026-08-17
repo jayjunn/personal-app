@@ -120,7 +120,7 @@ export default function CvEditor() {
         ) : (
           <div className="flex flex-col gap-6">
             {/* PDF File URL / Upload */}
-            <div className="flex flex-col gap-1.5">
+            <div className="flex flex-col gap-2">
               <label className="text-xs font-black uppercase text-neutral-800">
                 📄 PDF 이력서 링크 (Resume PDF URL)
               </label>
@@ -172,7 +172,7 @@ export default function CvEditor() {
             </div>
 
             {/* English Summary */}
-            <div className="flex flex-col gap-1.5">
+            <div className="flex flex-col gap-2">
               <label className="text-xs font-black uppercase text-neutral-800">
                 🇬🇧 영문 이력서 소개 요약 (English CV Summary)
               </label>
@@ -188,7 +188,7 @@ export default function CvEditor() {
             </div>
 
             {/* Korean Summary */}
-            <div className="flex flex-col gap-1.5">
+            <div className="flex flex-col gap-2">
               <label className="text-xs font-black uppercase text-neutral-800">
                 🇰🇷 국문 이력서 소개 요약 (Korean CV Summary)
               </label>

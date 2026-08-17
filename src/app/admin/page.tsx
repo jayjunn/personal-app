@@ -144,7 +144,7 @@ export default function AdminDashboardPage() {
   // Authenticated Dashboard View
   return (
     <PageWrap title="ADMIN CONSOLE">
-      <div className="mt-6 flex flex-col gap-6 w-full">
+      <div className="flex flex-col gap-6 w-full">
         {/* Top Header Card */}
         <div className="border-[3px] border-black bg-white p-5 sm:p-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 shadow-[4px_4px_0px_#000000]">
           <div className="flex flex-col gap-1.5">
@@ -201,7 +201,7 @@ export default function AdminDashboardPage() {
         )}
 
         {/* Tabs Navigation Bar */}
-        <div className="flex flex-col gap-0 w-full">
+        <div className="flex flex-col gap-4 w-full">
           <div className="flex border-b-[3px] border-black flex-wrap bg-[#ded8c4]">
             <button
               type="button"
@@ -253,7 +253,7 @@ export default function AdminDashboardPage() {
           </div>
 
           {/* Tab Content Box */}
-          <div className="border-[3px] border-t-0 border-black bg-[#e7e2d0] p-4 sm:p-6 shadow-[4px_4px_0px_#000000]">
+          <div className="border-[3px] border-t-0 border-black bg-[#e7e2d0] p-5 sm:p-7 shadow-[4px_4px_0px_#000000]">
             {activeTab === 'profile' && <ProfileEditor />}
             {activeTab === 'experience' && <ExperienceEditor />}
             {activeTab === 'works' && <WorksEditor />}

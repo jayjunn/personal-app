@@ -7,7 +7,7 @@ import envelope from '../../public/image/envelope.svg';
 
 export default function ContactList() {
   return (
-    <section className="w-full flex items-center justify-between px-4 sm:px-8 py-5 border-b-[3px] border-black flex-wrap gap-3 box-border">
+    <section className="w-full flex items-center justify-between px-4 sm:px-6 md:px-8 py-6 sm:py-8 border-b-[3px] border-black flex-wrap gap-4 box-border">
       <div className="flex items-center">
         <span className="text-base sm:text-lg font-black uppercase tracking-tight">FIND ME</span>
       </div>

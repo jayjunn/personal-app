@@ -40,12 +40,12 @@ const Profile = ({ initialProfile }: ProfileProps) => {
   return (
     <section className="w-full flex flex-col md:flex-row items-stretch border-b-[3px] border-black box-border">
       {/* Left Column: Headline & About */}
-      <div className="flex-1 py-5 flex flex-col border-b-[3px] md:border-b-0 md:border-r-[3px] border-black group">
-        <p className="p-5 sm:p-7 md:p-8 uppercase text-lg sm:text-xl font-black leading-snug m-0 text-black">
+      <div className="flex-1 py-6 sm:py-8 flex flex-col border-b-[3px] md:border-b-0 md:border-r-[3px] border-black group">
+        <p className="px-5 sm:px-8 py-6 sm:py-8 uppercase text-lg sm:text-xl font-black leading-snug m-0 text-black">
           {profile.headLine}
         </p>
         <div className="border-t-[3px] border-black flex-grow flex flex-col">
-          <div className="border-b-[3px] border-black px-5 sm:px-8 py-4 sm:py-6 flex items-center gap-2.5">
+          <div className="border-b-[3px] border-black px-5 sm:px-8 py-5 sm:py-6 flex items-center gap-3">
             <Image
               className="w-6 h-6 transition-transform duration-300 group-hover:rotate-90"
               src={anglesRight}
@@ -55,17 +55,17 @@ const Profile = ({ initialProfile }: ProfileProps) => {
             />
             <span className="font-extrabold tracking-tight text-lg uppercase text-black">ABOUT</span>
           </div>
-          <div className="text-sm sm:text-base leading-relaxed font-medium p-5 sm:p-8 text-black">
+          <div className="text-sm sm:text-base leading-relaxed font-medium px-5 sm:px-8 py-6 sm:py-8 text-black">
             {profile.about}
           </div>
         </div>
       </div>
 
       {/* Right Column: Skills & Scroll Arrow */}
-      <div className="flex-1 py-5 flex flex-col justify-between">
+      <div className="flex-1 py-6 sm:py-8 flex flex-col justify-between">
         <div className="group">
-          <div className="px-4 sm:px-8">
-            <div className="bg-black text-[#e7e2d0] flex items-center h-14 sm:h-16 gap-3 px-4 sm:px-6">
+          <div className="px-5 sm:px-8">
+            <div className="bg-black text-[#e7e2d0] flex items-center h-14 sm:h-16 gap-3 px-5 sm:px-6">
               <Image
                 className="w-5 h-5 invert-[93%] sepia-[8%] saturate-[339%] hue-rotate-[10deg] brightness-[98%] contrast-[90%] transition-transform duration-300 group-hover:rotate-90"
                 src={anglesRight}
@@ -79,8 +79,8 @@ const Profile = ({ initialProfile }: ProfileProps) => {
             </div>
           </div>
 
-          <div className="px-4 sm:px-8 border-b-[3px] border-black">
-            <div className="py-5 sm:py-7 flex flex-wrap gap-2 sm:gap-3">
+          <div className="px-5 sm:px-8 border-b-[3px] border-black">
+            <div className="py-6 sm:py-8 flex flex-wrap gap-2.5 sm:gap-3">
               {skills.map((skill, index) => (
                 <motion.span
                   key={`profile-skill-${skill}-${index}`}
@@ -95,7 +95,7 @@ const Profile = ({ initialProfile }: ProfileProps) => {
         </div>
 
         {/* Scroll Down Button */}
-        <div className="py-6 flex justify-center items-center">
+        <div className="py-8 flex justify-center items-center">
           <button
             onClick={handleScrollDown}
             className="cursor-pointer rotate-90 hover:scale-125 transition-transform"

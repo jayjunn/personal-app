@@ -66,7 +66,7 @@ const Header = () => {
   return (
     <header className="w-full relative">
       {/* Top Brand Banner */}
-      <section className="w-full flex justify-between items-center px-4 sm:px-8 pt-5 pb-1">
+      <section className="w-full flex justify-between items-center px-4 sm:px-8 pt-5 sm:pt-6 pb-3 sm:pb-4">
         <Link href="/" onClick={() => { setSelectOn(false); setIsMobileMenuOpen(false); }} className="cursor-pointer group">
           <h1 className="text-2xl sm:text-3xl md:text-4xl font-black uppercase tracking-tight text-black m-0 group-hover:opacity-85 transition-opacity">
             {profile.name}
@@ -94,8 +94,8 @@ const Header = () => {
       </section>
 
       {/* Desktop Navigation Bar */}
-      <nav className="hidden md:block w-full mt-3 px-4 sm:px-8">
-        <ul className="w-full bg-[#e7e2d0] border-[3px] border-black px-4 sm:px-8 py-2.5 flex items-center justify-between gap-2 box-border">
+      <nav className="hidden md:block w-full mt-4 sm:mt-5 px-4 sm:px-8 pb-2">
+        <ul className="w-full bg-[#e7e2d0] border-[3px] border-black px-4 sm:px-6 py-3.5 flex items-center justify-between gap-3 box-border">
           {navList.map((item, index) => {
             const isActive = !item.isExternal && pathname === item.link;
             return (
@@ -107,7 +107,7 @@ const Header = () => {
                       target="_blank"
                       rel="noopener noreferrer"
                       onClick={() => setSelectOn(false)}
-                      className="px-2.5 py-1 font-black text-xs lg:text-sm uppercase tracking-wider text-black hover:bg-black hover:text-white transition-colors flex items-center gap-1">
+                      className="px-3 py-1.5 font-black text-xs lg:text-sm uppercase tracking-wider text-black hover:bg-black hover:text-white transition-colors flex items-center gap-1.5">
                       <span>{item.title}</span>
                       <span className="text-[10px]">↗</span>
                     </a>
@@ -115,7 +115,7 @@ const Header = () => {
                     <Link
                       href={item.link}
                       onClick={() => setSelectOn(false)}
-                      className={`px-2.5 py-1 font-black text-xs lg:text-sm uppercase tracking-wider transition-all ${
+                      className={`px-3 py-1.5 font-black text-xs lg:text-sm uppercase tracking-wider transition-all ${
                         isActive
                           ? 'bg-black text-white'
                           : 'text-black hover:bg-black hover:text-white'
@@ -136,7 +136,7 @@ const Header = () => {
             <button
               onClick={handleLanguageButton}
               aria-label="Toggle Language"
-              className="flex items-center gap-1.5 px-2.5 py-1 bg-[#e7e2d0] border-[1.5px] border-black cursor-pointer hover:bg-black hover:text-[#e7e2d0] transition-colors shadow-[1px_1px_0px_#000000] text-black">
+              className="flex items-center gap-2 px-3 py-1.5 bg-[#e7e2d0] border-[1.5px] border-black cursor-pointer hover:bg-black hover:text-[#e7e2d0] transition-colors shadow-[1px_1px_0px_#000000] text-black">
               <Image
                 src={Language}
                 alt="language"

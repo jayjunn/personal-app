@@ -15,9 +15,9 @@ export default function Contact() {
 
   return (
     <PageWrap title="Contact">
-      <div className="mt-6 flex flex-col gap-7 w-full">
+      <div className="flex flex-col gap-6 sm:gap-8 w-full">
         {/* Social Links Row */}
-        <div className="flex justify-between items-center border-b-[3px] border-black pb-6 flex-wrap gap-4 w-full">
+        <div className="flex justify-between items-center border-b-[3px] border-black pb-6 sm:pb-8 flex-wrap gap-5 w-full">
           <div className="flex items-center gap-3">
             <span className="text-lg font-black uppercase">FIND ME</span>
             <span className="hidden md:inline font-mono font-black tracking-widest">{`>>>>>>>>>>>>>>>>`}</span>
@@ -43,8 +43,8 @@ export default function Contact() {
 
         {/* Email Form */}
         <div className="w-full">
-          <div className="mb-5">
-            <h3 className="text-lg sm:text-xl font-black uppercase m-0 mb-1.5">
+          <div className="mb-6">
+            <h3 className="text-lg sm:text-xl font-black uppercase m-0 mb-2">
               {isEnglish ? 'Send a Message' : '직접 메시지 보내기'}
             </h3>
             <p className="text-xs sm:text-sm text-neutral-600 m-0 font-semibold">

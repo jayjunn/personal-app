@@ -31,7 +31,7 @@ const WorkList = ({ limit, showMoreLink = false, useSlider = false, initialWorks
       title="Works"
       moreLink={showMoreLink ? '/works' : undefined}
       moreText={isEnglish ? 'VIEW ALL WORKS ➔' : '전체 프로젝트 보기 ➔'}>
-      <div className="w-full mt-6">
+      <div className="w-full">
         {useSlider ? (
           <div className="w-full relative pb-4 [&_.swiper]:!pb-12 [&_.swiper-pagination-bullet]:!bg-black [&_.swiper-pagination-bullet-active]:!w-6 [&_.swiper-pagination-bullet-active]:!rounded-sm [&_.swiper-button-next]:!text-black [&_.swiper-button-prev]:!text-black [&_.swiper-button-next]:after:!text-lg [&_.swiper-button-prev]:after:!text-lg">
             <Swiper

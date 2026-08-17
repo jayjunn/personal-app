@@ -255,7 +255,7 @@ export default function WorksEditor() {
                   {work.description?.kr || work.description?.en || '설명 없음'}
                 </p>
 
-                <div className="flex flex-wrap gap-1.5">
+                <div className="flex flex-wrap gap-2">
                   {work.stacks?.map((stack, sIdx) => (
                     <span
                       key={`admin-work-stack-${work.name}-${stack}-${sIdx}`}
@@ -340,7 +340,7 @@ export default function WorksEditor() {
 
             <div className="flex flex-col gap-4">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                <div className="flex flex-col gap-1">
+                <div className="flex flex-col gap-2">
                   <label className="text-xs font-black uppercase">프로젝트명 (Project Name)</label>
                   <input
                     type="text"
@@ -350,7 +350,7 @@ export default function WorksEditor() {
                     className="w-full p-2.5 bg-white border-2 border-black text-sm font-semibold outline-none"
                   />
                 </div>
-                <div className="flex flex-col gap-1">
+                <div className="flex flex-col gap-2">
                   <label className="text-xs font-black uppercase">구분 / 소속 (Company / Tag)</label>
                   <input
                     type="text"
@@ -363,7 +363,7 @@ export default function WorksEditor() {
               </div>
 
               {/* Image URL & Upload */}
-              <div className="flex flex-col gap-1">
+              <div className="flex flex-col gap-2">
                 <label className="text-xs font-black uppercase">이미지 (Image URL / Upload)</label>
                 <div className="flex flex-col sm:flex-row gap-2">
                   <input
@@ -396,7 +396,7 @@ export default function WorksEditor() {
               </div>
 
               {/* Link */}
-              <div className="flex flex-col gap-1">
+              <div className="flex flex-col gap-2">
                 <label className="text-xs font-black uppercase">배포 / 깃허브 링크 (Link URL)</label>
                 <input
                   type="text"
@@ -409,7 +409,7 @@ export default function WorksEditor() {
 
               {/* Descriptions */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                <div className="flex flex-col gap-1">
+                <div className="flex flex-col gap-2">
                   <label className="text-xs font-black uppercase">영문 설명 (EN Description)</label>
                   <textarea
                     rows={3}
@@ -424,7 +424,7 @@ export default function WorksEditor() {
                     className="w-full p-2.5 bg-white border-2 border-black text-sm font-semibold outline-none resize-y"
                   />
                 </div>
-                <div className="flex flex-col gap-1">
+                <div className="flex flex-col gap-2">
                   <label className="text-xs font-black uppercase">국문 설명 (KR Description)</label>
                   <textarea
                     rows={3}
@@ -442,7 +442,7 @@ export default function WorksEditor() {
               </div>
 
               {/* Stacks Tags */}
-              <div className="flex flex-col gap-1">
+              <div className="flex flex-col gap-2">
                 <label className="text-xs font-black uppercase">기술 태그 (Stacks)</label>
                 <div className="flex gap-2">
                   <input
@@ -464,7 +464,7 @@ export default function WorksEditor() {
                   {editItem.stacks?.map((stack, sIdx) => (
                     <span
                       key={`admin-edit-stack-${stack}-${sIdx}`}
-                      className="inline-flex items-center gap-1.5 px-2.5 py-0.5 bg-[#e7e2d0] border border-black text-xs font-black uppercase">
+                      className="inline-flex items-center gap-2 px-2.5 py-0.5 bg-[#e7e2d0] border border-black text-xs font-black uppercase">
                       <span>{stack}</span>
                       <button
                         type="button"

@@ -33,7 +33,7 @@ export default function Cv({ initialCv, initialExperiences }: CvProps) {
 
   return (
     <PageWrap title="CV">
-      <div className="mt-6 flex flex-col gap-6 w-full">
+      <div className="flex flex-col gap-6 w-full">
         {/* Print / Download Button */}
         <div className="flex justify-between items-center flex-wrap gap-3 w-full">
           {activeCvData.pdfUrl ? (
@@ -57,9 +57,9 @@ export default function Cv({ initialCv, initialExperiences }: CvProps) {
         </div>
 
         {/* CV Main Box */}
-        <div className="border-[3px] border-black bg-[#e7e2d0] p-4 sm:p-6 md:p-8 flex flex-col gap-6 w-full box-border shadow-[4px_4px_0px_#000000]">
+        <div className="border-[3px] border-black bg-[#e7e2d0] p-5 sm:p-7 md:p-8 flex flex-col gap-7 sm:gap-8 w-full box-border shadow-[4px_4px_0px_#000000]">
           {/* Header */}
-          <div className="border-b-[3px] border-black pb-4 flex justify-between items-start flex-wrap gap-3.5">
+          <div className="border-b-[3px] border-black pb-5 flex justify-between items-start flex-wrap gap-4">
             <div>
               <h1 className="text-2xl sm:text-3xl font-black uppercase m-0 tracking-tight">{cv.name}</h1>
               <p className="text-xs sm:text-sm font-bold uppercase mt-1 text-neutral-800">{cv.role}</p>
@@ -73,27 +73,27 @@ export default function Cv({ initialCv, initialExperiences }: CvProps) {
           </div>
 
           {/* 01. Summary */}
-          <div className="flex flex-col gap-2.5">
-            <h3 className="text-sm sm:text-base font-black border-b-2 border-black pb-1.5 uppercase">
+          <div className="flex flex-col gap-3">
+            <h3 className="text-sm sm:text-base font-black border-b-2 border-black pb-2 uppercase">
               {isEnglish ? '01. About & Summary' : '01. 소개'}
             </h3>
             <p className="text-xs sm:text-sm font-medium leading-relaxed m-0 text-neutral-800">{summary}</p>
           </div>
 
           {/* 02. Skills */}
-          <div className="flex flex-col gap-3">
-            <h3 className="text-sm sm:text-base font-black border-b-2 border-black pb-1.5 uppercase">
+          <div className="flex flex-col gap-4">
+            <h3 className="text-sm sm:text-base font-black border-b-2 border-black pb-2 uppercase">
               {isEnglish ? '02. Skills & Competencies' : '02. 기술 스택'}
             </h3>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5">
               {skillCategories.map((cat, idx) => (
-                <div key={`cv-cat-${cat.title?.en || idx}-${idx}`} className="border-2 border-black p-4 bg-[#e7e2d0] shadow-[2px_2px_0px_#000000]">
-                  <h4 className="text-xs font-black uppercase mb-2.5 border-b border-black pb-1">
+                <div key={`cv-cat-${cat.title?.en || idx}-${idx}`} className="border-2 border-black p-5 bg-[#e7e2d0] shadow-[2px_2px_0px_#000000]">
+                  <h4 className="text-xs font-black uppercase mb-3 border-b border-black pb-1.5">
                     {isEnglish ? cat.title.en : cat.title.kr}
                   </h4>
-                  <div className="flex flex-wrap gap-1.5">
+                  <div className="flex flex-wrap gap-2">
                     {cat.skills.map((skill, sIdx) => (
-                      <span key={`cv-skill-${skill.name}-${sIdx}`} className="text-[11px] border border-black px-2 py-0.5 font-bold bg-[#e7e2d0] shadow-[1px_1px_0px_#000000]">
+                      <span key={`cv-skill-${skill.name}-${sIdx}`} className="text-[11px] border border-black px-2.5 py-1 font-bold bg-[#e7e2d0] shadow-[1px_1px_0px_#000000]">
                         {skill.name}
                       </span>
                     ))}
@@ -104,18 +104,18 @@ export default function Cv({ initialCv, initialExperiences }: CvProps) {
           </div>
 
           {/* 03. Experience */}
-          <div className="flex flex-col gap-4">
-            <h3 className="text-sm sm:text-base font-black border-b-2 border-black pb-1.5 uppercase">
+          <div className="flex flex-col gap-5">
+            <h3 className="text-sm sm:text-base font-black border-b-2 border-black pb-2 uppercase">
               {isEnglish ? '03. Work History' : '03. 주요 경력'}
             </h3>
-            <div className="flex flex-col gap-4">
+            <div className="flex flex-col gap-5">
               {experiences.map((item, idx) => {
                 const descriptions = isEnglish
                   ? item.description?.en || []
                   : item.description?.kr || [];
                 return (
-                  <div key={`cv-exp-${item.company}-${item.id || idx}`} className="border-2 border-black p-4 sm:p-5 bg-[#e7e2d0] flex flex-col gap-2.5 shadow-[2px_2px_0px_#000000]">
-                    <div className="flex justify-between items-center border-b border-black pb-2 flex-wrap gap-2">
+                  <div key={`cv-exp-${item.company}-${item.id || idx}`} className="border-2 border-black p-5 sm:p-6 bg-[#e7e2d0] flex flex-col gap-3 shadow-[2px_2px_0px_#000000]">
+                    <div className="flex justify-between items-center border-b border-black pb-3 flex-wrap gap-2">
                       <div className="font-extrabold text-sm sm:text-base">
                         {item.role}, {item.company}
                       </div>
@@ -123,7 +123,7 @@ export default function Cv({ initialCv, initialExperiences }: CvProps) {
                         {item.period} | {item.location}
                       </div>
                     </div>
-                    <ul className="flex flex-col gap-1.5 text-xs sm:text-sm leading-relaxed m-0 pl-0 list-none text-neutral-800">
+                    <ul className="flex flex-col gap-2 text-xs sm:text-sm leading-relaxed m-0 pl-0 list-none text-neutral-800">
                       {descriptions.map((desc, dIdx) => (
                         <li key={`cv-desc-${item.company}-${dIdx}`}>- {desc}</li>
                       ))}
@@ -135,7 +135,7 @@ export default function Cv({ initialCv, initialExperiences }: CvProps) {
           </div>
 
           {/* 04. Education */}
-          <div className="border-t-2 border-black pt-4 flex flex-col gap-2.5">
+          <div className="border-t-2 border-black pt-5 flex flex-col gap-3">
             <h3 className="text-sm sm:text-base font-black uppercase m-0">
               {isEnglish ? '04. Education' : '04. 학력'}
             </h3>
