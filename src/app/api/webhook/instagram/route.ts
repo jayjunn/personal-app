@@ -73,8 +73,8 @@ async function handleKeywordComment(commentId: string, commenter: string) {
     return;
   }
 
-  const dmMessage = `안녕하세요 @${commenter}님! 요청하신 정보 안내드립니다. 😊\n\n👉 링크 및 상세 정보: https://younggeun-jun.vercel.app`;
-  const replyMessage = `@${commenter} DM으로 요청하신 정보 보내드렸습니다! 수신함(또는 메시지 요청함)을 확인해 주세요. ✉️`;
+  const dmMessage = `안녕하세요 @${commenter}님! 댓글 남겨주신 울란지 MA38 제품 정보 보내드려요! ✨\n\n👉 울란지 MA38 보러가기:\nhttps://www.coupang.com/vp/products/9095139498?utm_source=chatgpt.com\n\n맥세이프 + 미니 삼각대 + 후크 + 카라비너로 활용할 수 있어서 촬영할 때 꽤 유용해요 😊`;
+  const replyMessage = `@${commenter} DM으로 울란지 MA38 제품 정보 보내드렸습니다! 수신함(또는 메시지 요청함)을 확인해 주세요 ✉️`;
 
   try {
     // 1. Private Reply (비공개 답장 / DM 전송)
