@@ -9,7 +9,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "knou": "node scripts/knou_auto_player.mjs",
+    "insta": "caffeinate -dimsu node scripts/insta_comment_liker.mjs"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^7.3.1",
@@ -23,8 +25,10 @@
     "firebase": "^12.17.1",
     "framer-motion": "^13.1.0",
     "jotai": "^2.20.2",
+    "marked": "^18.0.14",
     "next": "^16.3.1",
     "nodemailer": "^9.0.5",
+    "puppeteer-core": "^25.12.0",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
     "swiper": "^14.1.0",
@@ -41,6 +45,7 @@
     "autoprefixer": "^10.5.4",
     "eslint": "^9.21.0",
     "eslint-config-next": "^16.3.1",
+    "playwright-core": "^1.62.1",
     "postcss": "^8.5.26",
     "tailwindcss": "^4.3.3",
     "typescript": "^5.8.2"

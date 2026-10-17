@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 450 160" width="450" height="160">
+  <defs>
+    <linearGradient id="ld-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FF6B00" />
+      <stop offset="100%" stop-color="#FF1A00" />
+    </linearGradient>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#000000" flood-opacity="0.3"/>
+    </filter>
+  </defs>
+  
+  <!-- Outer Card Plate (High contrast in both light cream and dark mode) -->
+  <rect x="15" y="15" width="420" height="130" rx="20" fill="#0c0d12" stroke="rgba(255, 255, 255, 0.12)" stroke-width="2" filter="url(#shadow)"/>
+  
+  <g transform="translate(35, 32)">
+    <!-- Slot / Pass Icon -->
+    <rect x="0" y="0" width="96" height="96" rx="22" fill="#181920" stroke="rgba(255, 107, 0, 0.3)" stroke-width="2"/>
+    <path d="M26 26h44v10H26zM26 43h44v10H26zM26 60h30v10H26z" fill="url(#ld-grad)"/>
+    <circle cx="68" cy="65" r="6" fill="#FF6B00"/>
+    
+    <!-- Wordmark -->
+    <text x="114" y="44" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif" font-weight="900" font-size="34" fill="#FFFFFF" letter-spacing="-0.5">LUCKY<tspan fill="#FF6B00"> DRAW</tspan></text>
+    <text x="116" y="70" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif" font-weight="700" font-size="12" fill="#FF8833" letter-spacing="3.5">REAL-TIME LOTTERY</text>
+    <rect x="116" y="80" width="160" height="4" rx="2" fill="url(#ld-grad)" opacity="0.8"/>
+  </g>
+</svg>

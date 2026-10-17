@@ -45,3 +45,18 @@ yarn-error.log*
 
 #gitattributes
 /.gitattributes
+
+# knou profile
+.knou_chrome_profile
+.insta_chrome_profile
+
+# local scripts & homework artifacts
+capture_*.mjs
+convert_*.mjs
+render_*.mjs
+run_*.mjs
+inspect_*.mjs
+find_btn.mjs
+방송대과제물/
+.agents/
+scripts/*.json

@@ -135,6 +135,22 @@ export const skillCategories: SkillCategory[] = [
 
 export const workData: Project[] = [
   {
+    id: 8,
+    name: 'Lucky Draw',
+    company: 'Toy Project',
+    category: 'web',
+    period: '2024',
+    featured: true,
+    img: '/logos/luckydraw.svg',
+    description: {
+      en: 'Real-time interactive lucky draw platform for live events. Features mobile-first digital pass (QR code), 16:9 stage display, and instant WebSocket lottery synchronization.',
+      kr: '현장 이벤트 및 파티를 위한 실시간 인터랙티브 럭키드로우 플랫폼. 모바일 QR 티켓 발급, 16:9 대형 전광판, WebSocket 기반 실시간 추첨 및 즉시 재추첨 시스템 구축.',
+    },
+    stacks: ['Next.js', 'React', 'TypeScript', 'Socket.io', 'Tailwind CSS', 'Framer Motion', 'Firebase'],
+    link: 'https://github.com/jayjunn/lucky-draw',
+    github: 'https://github.com/jayjunn/lucky-draw',
+  },
+  {
     id: 7,
     name: 'eBay',
     company: 'Company',
