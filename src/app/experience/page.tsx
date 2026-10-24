@@ -8,7 +8,7 @@ export const dynamic = 'force-dynamic';
 export const metadata: Metadata = {
   title: 'Experience',
   description:
-    'Work experience and career timeline of Younggeun Jun (eBay Japan, Blocko, COS).',
+    'Work experience and career timeline of Younggeun Jun (eBay Japan, Blocko, Germanier, COS).',
 };
 
 export default async function ExperiencePage() {

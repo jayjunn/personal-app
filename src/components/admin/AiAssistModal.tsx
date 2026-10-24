@@ -31,8 +31,18 @@ export default function AiAssistModal({
   const [extractedStacks, setExtractedStacks] = useState<string[]>([]);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
+  const [prevModalState, setPrevModalState] = useState({
+    isOpen: false,
+    initialText: '',
+    defaultMode: 'polish' as AiPolishMode,
+  });
 
-  useEffect(() => {
+  if (
+    isOpen !== prevModalState.isOpen ||
+    initialText !== prevModalState.initialText ||
+    defaultMode !== prevModalState.defaultMode
+  ) {
+    setPrevModalState({ isOpen, initialText, defaultMode });
     if (isOpen) {
       setInputText(initialText || '');
       setSelectedMode(defaultMode);
@@ -40,13 +50,43 @@ export default function AiAssistModal({
       setExtractedStacks([]);
       setErrorMessage(null);
       setCopied(false);
-
-      // Automatically trigger generation if initial text exists
-      if (initialText && initialText.trim().length > 0) {
-        handleGenerate(initialText, defaultMode);
-      }
     }
-  }, [isOpen, initialText, defaultMode]);
+  }
+
+  useEffect(() => {
+    if (!isOpen || !initialText || !initialText.trim()) return;
+    let cancelled = false;
+    fetch('/api/ai-polish', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        text: initialText,
+        mode: defaultMode,
+        contextType,
+        fieldLabel,
+      }),
+    })
+      .then(async (res) => {
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error || 'AI 요청 중 오류가 발생했습니다.');
+        if (!cancelled) {
+          setResultText(data.result || '');
+          if (data.stacks && Array.isArray(data.stacks)) {
+            setExtractedStacks(data.stacks);
+          }
+        }
+      })
+      .catch((err) => {
+        if (!cancelled) setErrorMessage(err.message || 'AI 처리 실패');
+      })
+      .finally(() => {
+        if (!cancelled) setLoading(false);
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [isOpen, initialText, defaultMode, contextType, fieldLabel]);
 
   if (!isOpen) return null;
 

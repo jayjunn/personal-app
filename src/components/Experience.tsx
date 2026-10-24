@@ -34,7 +34,7 @@ export default function Experience({
       moreText={t.experience.viewAll}
     >
       <ul className="w-full grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 list-none p-0">
-        {displayedExperiences.map(({ role, company, description, stacks, id }, index) => (
+        {displayedExperiences.map(({ role, company, period, description, stacks, id }, index) => (
           <li
             className="
               flex
@@ -56,11 +56,18 @@ export default function Experience({
             key={`exp-${id || company}-${index}`}
             id={company.toLowerCase().replace(/\s+/g, '-')}
           >
-            <div className="w-full flex items-baseline justify-start flex-wrap gap-2 border-b border-black dark:border-white/10 pb-3">
-              <span className="font-extrabold text-sm sm:text-base text-black dark:text-[#f3f4f6]">{role},</span>
-              <span className="font-black text-sm sm:text-base underline underline-offset-4 text-black dark:text-white">
-                {company}
-              </span>
+            <div className="w-full flex items-baseline justify-between flex-wrap gap-2 border-b border-black dark:border-white/10 pb-3">
+              <div className="flex items-baseline flex-wrap gap-2">
+                <span className="font-extrabold text-sm sm:text-base text-black dark:text-[#f3f4f6]">{role},</span>
+                <span className="font-black text-sm sm:text-base underline underline-offset-4 text-black dark:text-white">
+                  {company}
+                </span>
+              </div>
+              {period && (
+                <span className="text-xs font-bold font-mono text-neutral-600 dark:text-neutral-400">
+                  {period}
+                </span>
+              )}
             </div>
             <ul className="flex flex-col gap-2.5 text-xs sm:text-sm leading-relaxed font-medium text-black dark:text-[#d1d5db] w-full list-none p-0 m-0">
               {languageSelector(description).map((item, dIndex) => (

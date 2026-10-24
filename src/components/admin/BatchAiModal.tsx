@@ -28,10 +28,34 @@ export default function BatchAiModal({
       : '💼 전체 경력 사항 일괄 AI 다듬기 & 번역';
 
   useEffect(() => {
-    if (isOpen && originalItems.length > 0) {
-      handleStartBatch(originalItems);
-    }
-  }, [isOpen]);
+    if (!isOpen || originalItems.length === 0) return;
+    let cancelled = false;
+    fetch('/api/ai-batch-polish', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        type,
+        items: originalItems,
+      }),
+    })
+      .then(async (res) => {
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error || '일괄 처리 중 오류가 발생했습니다.');
+        if (!cancelled) {
+          setProcessedItems(data.items || []);
+        }
+      })
+      .catch((err) => {
+        if (!cancelled) setErrorMessage(err.message || '일괄 처리 실패');
+      })
+      .finally(() => {
+        if (!cancelled) setLoading(false);
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [isOpen, originalItems, type]);
 
   if (!isOpen) return null;
 

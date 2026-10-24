@@ -157,7 +157,7 @@ export default function Cv({ initialCv, initialExperiences }: CvProps) {
             <h3 className="text-sm sm:text-base font-black border-b-2 border-black dark:border-[#272a34] pb-2 uppercase text-black dark:text-[#f3f4f6]">
               {t.cv.skillsCompetencies}
             </h3>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
               {skillCategories.map((cat, idx) => (
                 <div
                   key={`cv-cat-${cat.title?.en || idx}-${idx}`}

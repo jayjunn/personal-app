@@ -22,17 +22,19 @@ const Profile = ({ initialProfile }: ProfileProps) => {
   const profile = isEnglish ? activeData.en : activeData.kr;
 
   const defaultSkills = [
+    'TYPESCRIPT',
+    'JAVASCRIPT (ES6+)',
     'REACT',
     'NEXT.JS',
-    'TYPESCRIPT',
-    'JAVASCRIPT',
-    'TAILWINDCSS',
-    'NODE.JS',
-    'GIT',
-    'HTML5 / CSS3',
-    'RSPACK',
-    'GRAPHQL',
+    'REDUX',
+    'REACT QUERY',
     'REACT NATIVE',
+    'TAILWIND CSS',
+    'PASSKEYS (WEBAUTHN)',
+    'OAUTH 2.0',
+    'WEBVIEW BRIDGE',
+    'PLAYWRIGHT / CYPRESS',
+    'NODE.JS / EXPRESS',
   ];
 
   const skills = profile.skills && profile.skills.length > 0 ? profile.skills : defaultSkills;

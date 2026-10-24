@@ -14,14 +14,14 @@ function getSmartFallbackResponse(prompt: string, isEn: boolean): string {
 
   if (q.includes('skill') || q.includes('스택') || q.includes('기술') || q.includes('react') || q.includes('next')) {
     return isEn
-      ? "Younggeun's core skills include React, Next.js, TypeScript, JavaScript, TailwindCSS, Rspack, Node.js, GraphQL, and Web3 integrations. He specializes in high-performance frontend architecture and interactive web applications! 🚀"
-      : "영근님의 핵심 기술 스택은 React, Next.js, TypeScript, JavaScript, TailwindCSS, Rspack, Node.js, GraphQL 등입니다! 고성능 프론트엔드 아키텍처와 인터랙티브 웹 개발에 강점을 가지고 있습니다. 🚀";
+      ? "Younggeun's core skills include TypeScript, JavaScript (ES6+), React, Next.js, Redux, React Query, React Native, Tailwind CSS, Passkeys (WebAuthn / FIDO2), OAuth 2.0, WebView Native Bridges, and CI/CD Test Parallelization (Playwright, Cypress, Jest)! 🚀"
+      : "영근님의 핵심 기술 스택은 TypeScript, JavaScript(ES6+), React, Next.js, Redux, React Query, React Native, Tailwind CSS, 그리고 Passkeys(WebAuthn/FIDO2), OAuth 2.0, WebView 네이티브 브릿지, CI/CD 테스트 병렬화(Playwright, Cypress, Jest)입니다! 🚀";
   }
 
   if (q.includes('experience') || q.includes('경력') || q.includes('회사') || q.includes('company') || q.includes('career') || q.includes('ebay')) {
     return isEn
-      ? 'Younggeun has over 6 years of frontend engineering experience across companies including eBay Japan, COS, Glue, and Blocko. He has led large-scale e-commerce web applications, web3 platforms, and complex design system migrations!'
-      : '영근님은 eBay Japan, COS, Glue, Blocko 등에서 6년 이상의 프론트엔드 엔지니어링 경력을 보유하고 있습니다. 대규모 글로벌 이커머스 서비스 및 Web3 플랫폼 구축을 주도했습니다!';
+      ? 'Younggeun has 6+ years of frontend engineering experience across eBay Japan, Blocko, Germanier, and COS (H&M Group). He has led 100% Auth & Member domain migrations to Next.js, Passkeys/OAuth 2.0 onboarding, iOS/Android WebView bridges, and 42%+ CI test runtime reductions!'
+      : '영근님은 eBay Japan, Blocko, Germanier, COS(H&M Group) 등에서 6년 이상의 프론트엔드 엔지니어링 경력을 보유하고 있습니다. 회원·인증 도메인 Next.js 100% 모던화, 패스키(Passkeys) 및 OAuth 2.0 도입, WebView 네이티브 브릿지, CI 테스트 실행 시간 42%+ 단축 등을 주도했습니다!';
   }
 
   if (q.includes('project') || q.includes('work') || q.includes('프로젝트') || q.includes('작품')) {
