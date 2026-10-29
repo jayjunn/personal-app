@@ -20,8 +20,8 @@ function getSmartFallbackResponse(prompt: string, isEn: boolean): string {
 
   if (q.includes('experience') || q.includes('경력') || q.includes('회사') || q.includes('company') || q.includes('career') || q.includes('ebay')) {
     return isEn
-      ? 'Younggeun has 6+ years of frontend engineering experience across eBay Japan, Blocko, Germanier, and COS (H&M Group). He has led 100% Auth & Member domain migrations to Next.js, Passkeys/OAuth 2.0 onboarding, iOS/Android WebView bridges, and 42%+ CI test runtime reductions!'
-      : '영근님은 eBay Japan, Blocko, Germanier, COS(H&M Group) 등에서 6년 이상의 프론트엔드 엔지니어링 경력을 보유하고 있습니다. 회원·인증 도메인 Next.js 100% 모던화, 패스키(Passkeys) 및 OAuth 2.0 도입, WebView 네이티브 브릿지, CI 테스트 실행 시간 42%+ 단축 등을 주도했습니다!';
+      ? 'Younggeun currently works as a Front-End Software Engineer at eBay Japan, and brings 6+ years of engineering experience across companies including Blocko, Germanier, and COS (H&M Group).'
+      : '영근님은 현재 eBay Japan(이베이 재팬)에서 프론트엔드 소프트웨어 엔지니어로 재직 중이며, Blocko, Germanier, COS(H&M Group) 등에서 6년 이상의 프론트엔드 엔지니어링 경력을 쌓아왔습니다!';
   }
 
   if (q.includes('project') || q.includes('work') || q.includes('프로젝트') || q.includes('작품')) {
